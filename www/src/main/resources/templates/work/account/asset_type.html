@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrag.net/nz/thymeleaf/layout"
+      layout:decorate="~{layouts/work}">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${headerTitle}">Title</title>
+</head>
+<body>
+<div layout:fragment="create">
+    <tr>
+        <td class="table-active w-25 text-center"><label for="superCode">자산코드</label></td>
+        <td class="table-active w-25 text-center"><label for="type">자산분류</label></td>
+        <td class="table-active w-25 text-center"><label for="usefulYear">내용연수</label></td>
+        <td class="table-active w-25 text-center"><label for="depreciationMethod">상각 방법</label></td>
+    </tr>
+    <tr>
+        <td class="w-25">
+            <input type="text" id="superCode" class="inner-width form-control" name="superCode">
+        </td>
+        <td class="w-25">
+            <input type="text" id="type" class="inner-width form-control" name="type">
+        </td>
+        <td class="w-25">
+            <input type="text" id="usefulYear" class="inner-width form-control" name="usefulYear">
+        </td>
+        <td class="w-25">
+            <input type="text" id="depreciationMethod" class="inner-width form-control" name="depreciationMethod">
+        </td>
+    </tr>
+</div>
+
+<div layout:fragment="view-update">
+    <div th:if="${isUpdate}">
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uSuperCode">자산코드</label></td>
+            <td class="table-active w-25 text-center"><label for="uType">자산분류</label></td>
+            <td class="table-active w-25 text-center"><label for="uUsefulYear">내용연수</label></td>
+            <td class="table-active w-25 text-center"><label for="uDepreciationMethod">상각 방법</label></td>
+        </tr>
+        <tr>
+            <td class="w-25">
+                <input type="text" id="uSuperCode" class="inner-width form-control" name="superCode" th:value="${assetType.superCode}">
+            </td>
+            <td class="w-25">
+                <input type="text" id="uType" class="inner-width form-control" name="type" th:value="${assetType.type}">
+            </td>
+            <td class="w-25">
+                <input type="text" id="uUsefulYear" class="inner-width form-control" name="usefulYear" th:value="${assetType.usefulYear}">
+            </td>
+            <td class="w-25">
+                <input type="text" id="uDepreciationMethod" class="inner-width form-control" name="depreciationMethod" th:value="${assetType.depreciationMethod}">
+            </td>
+        </tr>
+    </div>
+    <div th:unless="${isUpdate}">
+        <tr>
+            <td class="table-active w-25 text-center">자산코드</td>
+            <td class="table-active w-25 text-center">자산분류</td>
+            <td class="table-active w-25 text-center">내용연수</td>
+            <td class="table-active w-25 text-center">상각 방법</td>
+        </tr>
+        <tr>
+            <td class="w-25" th:text="${assetType.superCode}"></td>
+            <td class="w-25" th:text="${assetType.type}"></td>
+            <td class="w-25" th:text="${assetType.usefulYear}"></td>
+            <td class="w-25" th:text="${assetType.depreciationMethod}"></td>
+        </tr>
+    </div>
+</div>
+
+<div layout:fragment="input-hidden-data">
+    <input type="hidden" name="draftStaff" th:value="${draftStaff.staffName}">
+</div>
+</body>
+</html>

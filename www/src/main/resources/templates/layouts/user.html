@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title></title>
+    <link rel="stylesheet" th:href="@{/fragments/middle.css}">
+    <link rel="stylesheet" th:href="@{/css/width.css}">
+    <link rel="stylesheet" th:href="@{/css/board.css}">
+    <link rel="stylesheet" th:href="@{/css/button.css}">
+</head>
+<body>
+<div class="container">
+    <div id="top" th:replace="~{fragments/header}"></div>
+    <div id="middle">
+        <div id="left" th:replace="~{fragments/aside}"></div>
+        <div id="right">
+            <div class="alert alert-light alert-dismissible fade show alert-design" role="alert" th:if="${alertData}">
+                <div th:text="${alertData}"></div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <div class="board-header">
+                <div class="header-title" th:text="${headerTitle}">휴가</div>
+                <hr>
+                <div class="empty-block"></div>
+                <div class="card">
+                    <div class="card-header" th:text="${name}">
+                        사원 이름
+                    </div>
+                    <div class="card-body">
+                        <div class="card-group">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">직위</h5>
+                                    <p class="card-text" th:text="${position}">과장</p>
+                                    <!--p class="card-text"><small class="text-body-secondary">임명 날짜</small></p-->
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">직책</h5>
+                                    <div><p class="card-text" th:text="${role}">개발자</p></div>
+                                    <!--p class="card-text"><small class="text-body-secondary">임명 날짜</small></p-->
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">기능</h5>
+                                    <a th:href="@{${workLink}}" class="btn btn-secondary btn-margin">업무</a>
+                                    <a th:href="@{/mail}" class="btn btn-secondary btn-margin">메일</a>
+                                    <a th:href="@{/memo}" class="btn btn-secondary btn-margin">메모</a>
+                                    <a th:href="@{/commute}" class="btn btn-secondary btn-margin">출퇴근 기록</a>
+                                    <a th:href="@{/holiday}" class="btn btn-secondary btn-margin">휴가</a>
+                                </div>
+                            </div>
+                        </div>
+                        <a th:href="@{/staff_info}" class="btn btn-secondary btn-margin">사원 정보 수정</a>
+                        <a th:href="@{/logout}" class="btn btn-secondary btn-margin">로그아웃</a>
+                        <a th:href="@{${link}}" class="btn btn-secondary btn-margin" th:text="${linkName}"
+                           th:if="${isRequest}"></a>
+                        <a th:href="@{${backLink}}" class="btn btn-secondary btn-margin btn-right">뒤로 가기</a>
+                        <a th:href="@{${writeLink}}" class="btn btn-secondary btn-margin btn-right"
+                           th:if="${isNotice}" sec:authorize="hasRole('최종결재권자') || hasRole('게시판 관리자')">글쓰기</a>
+                        <a th:href="@{${writeLink}}" class="btn btn-secondary btn-margin btn-right"
+                           th:if="${isPost}">글쓰기</a>
+                    </div>
+                </div>
+            </div>
+            <div layout:fragment="content" class="board-container"></div>
+        </div>
+    </div>
+    <div class="clear-area"></div>
+    <div id="bottom" th:replace="~{fragments/footer}"></div>
+</div>
+</body>
+</html>

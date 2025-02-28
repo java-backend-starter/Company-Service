@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrag.net/nz/thymeleaf/layout"
+      layout:decorate="~{layouts/user}">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${headerTitle}">Title</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="search">
+        <form class="search-form" th:action="@{${searchLink}}" method="post">
+            <table class="table table-light">
+                <tbody>
+                <tr>
+                    <td class="width-33"><label for="start">시작일</label></td>
+                    <td class="width-33"><label for="end">종료일</label></td>
+                    <td class="width-33"><label for="type">유형</label></td>
+                </tr>
+                <tr>
+                    <td class="width-33"><input id="start" type="date" class="inner-width form-control" name="start"></td>
+                    <td class="width-33"><input id="end" type="date" class="inner-width form-control" name="end"></td>
+                    <td class="width-33"><input id="type" type="text" class="inner-width form-control" name="type"></td>
+                </tr>
+                </tbody>
+            </table>
+            <button type="submit" class="btn btn-secondary btn-right">검색</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

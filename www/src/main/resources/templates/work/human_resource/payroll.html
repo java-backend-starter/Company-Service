@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrag.net/nz/thymeleaf/layout"
+      layout:decorate="~{layouts/work}">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${headerTitle}">Title</title>
+</head>
+<body>
+<div layout:fragment="create">
+
+</div>
+
+<div layout:fragment="view-update">
+    <div th:if="${isUpdate}">
+        <tr th:if="${isHuman}">
+            <td class="table-active w-25 text-center">인사부 확인자</td>
+            <td class="w-25" th:text="${requestStaff.staffInfo.staffName}"></td>
+            <td class="table-active w-25 text-center"><label for="check">확인여부</label></td>
+            <td class="w-25">
+                <input type="text" id="check" th:value="${payroll.check}">
+            </td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">직원명</td>
+            <td class="table-active w-25 text-center">직원아이디</td>
+            <td class="table-active w-25 text-center">부서</td>
+            <td class="table-active w-25 text-center">직위</td>
+        </tr>
+        <tr>
+            <td class="w-25" th:text="${payroll.staff.staffInfo.staffName}"></td>
+            <td class="w-25" th:text="${payroll.staff.userId}"></td>
+            <td class="w-25" th:text="${payroll.staff.staffWorkInfo.department.departmentName}"></td>
+            <td class="w-25" th:text="${payroll.staff.staffWorkInfo.position.positionName}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">기준월</td>
+            <td class="w-25" th:text="${payroll.period}"></td>
+            <td class="table-active w-25 text-center">지급일</td>
+            <td class="w-25" th:text="${payroll.date}"></td>
+        </tr>
+        <tr>
+            <th class="table-active w-50" colspan="2">지급항목</th>
+            <th class="table-active w-50" colspan="2">공제항목</th>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">기본급</td>
+            <td class="w-25" th:text="${payroll.pay.payInfo.base}"></td>
+            <td class="table-active w-25 text-center">소득세</td>
+            <td class="w-25" th:text="${payroll.incomeTax}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">야간근무</td>
+            <td class="w-25" th:text="${payroll.pay.additionalNight}"></td>
+            <td class="table-active w-25 text-center">지방세</td>
+            <td class="w-25" th:text="${payroll.localIncomeTax}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">연장근무</td>
+            <td class="w-25" th:text="${payroll.pay.additionalOvertime}"></td>
+            <td class="table-active w-25 text-center">국민연금</td>
+            <td class="w-25" th:text="${payroll.nationalPension}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">휴일근무</td>
+            <td class="w-25" th:text="${payroll.pay.additionalWeekend}"></td>
+            <td class="table-active w-25 text-center">국민건강보험</td>
+            <td class="w-25" th:text="${payroll.nationalHealthInsurance}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">주휴수당</td>
+            <td class="w-25" th:text="${payroll.pay.additionalHoliday}"></td>
+            <td class="table-active w-25 text-center">고용보험</td>
+            <td class="w-25" th:text="${payroll.employmentInsurance}"></td>
+        </tr>
+        <tr>
+            <td class="w-50" colspan="2"></td>
+            <td class="table-active w-25 text-center">노인장기요양보험</td>
+            <td class="w-25" th:text="${payroll.longTermCareInsurance}"></td>
+        </tr>
+        <tr th:if="${isHuman}">
+            <td class="table-active w-100" colspan="4">기업 부담</td>
+        </tr>
+        <tr th:if="${isHuman}">
+            <td class="table-active w-25 text-center">고용보험(기업)</td>
+            <td class="w-25" th:text="${payroll.corporateEmploymentInsurance}"></td>
+            <td class="table-active w-25 text-center">산업재해보상보험</td>
+            <td class="w-25" th:text="${payroll.industrialAccidentCompensationInsurance}"></td>
+        </tr>
+    </div>
+    <div th:unless="${isUpdate}">
+        <tr th:if="${isHuman}">
+            <td class="table-active w-25 text-center">인사부 확인자</td>
+            <td class="w-25" th:text="${payroll.checkStaff.staffInfo.staffName}"></td>
+            <td class="table-active w-25 text-center">확인여부</td>
+            <td class="w-25" th:text="${payroll.check}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">직원명</td>
+            <td class="table-active w-25 text-center">직원아이디</td>
+            <td class="table-active w-25 text-center">부서</td>
+            <td class="table-active w-25 text-center">직위</td>
+        </tr>
+        <tr>
+            <td class="w-25" th:text="${payroll.staff.staffInfo.staffName}"></td>
+            <td class="w-25" th:text="${payroll.staff.userId}"></td>
+            <td class="w-25" th:text="${payroll.staff.staffWorkInfo.department.departmentName}"></td>
+            <td class="w-25" th:text="${payroll.staff.staffWorkInfo.position.positionName}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">지급 기준월</td>
+            <td class="w-25" th:text="${payroll.pay.period}"></td>
+            <td class="table-active w-25 text-center">지급일</td>
+            <td class="w-25" th:text="${payroll.date}"></td>
+        </tr>
+        <tr>
+            <th class="table-active w-50" colspan="2">지급항목</th>
+            <th class="table-active w-50" colspan="2">공제항목</th>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">기본급</td>
+            <td class="w-25" th:text="${payroll.pay.payInfo.base}"></td>
+            <td class="table-active w-25 text-center">소득세</td>
+            <td class="w-25" th:text="${payroll.incomeTax}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">야간근무</td>
+            <td class="w-25" th:text="${payroll.pay.additionalNight}"></td>
+            <td class="table-active w-25 text-center">지방세</td>
+            <td class="w-25" th:text="${payroll.localIncomeTax}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">연장근무</td>
+            <td class="w-25" th:text="${payroll.pay.additionalOvertime}"></td>
+            <td class="table-active w-25 text-center">국민연금</td>
+            <td class="w-25" th:text="${payroll.nationalPension}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">휴일근무</td>
+            <td class="w-25" th:text="${payroll.pay.additionalWeekend}"></td>
+            <td class="table-active w-25 text-center">국민건강보험</td>
+            <td class="w-25" th:text="${payroll.nationalHealthInsurance}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">주휴수당</td>
+            <td class="w-25" th:text="${payroll.pay.additionalHoliday}"></td>
+            <td class="table-active w-25 text-center">고용보험</td>
+            <td class="w-25" th:text="${payroll.employmentInsurance}"></td>
+        </tr>
+        <tr>
+            <td class="w-50" colspan="2"></td>
+            <td class="table-active w-25 text-center">노인장기요양보험</td>
+            <td class="w-25" th:text="${payroll.longTermCareInsurance}"></td>
+        </tr>
+        <tr th:if="${isHuman}">
+            <td class="table-active w-100" colspan="4">기업 부담</td>
+        </tr>
+        <tr th:if="${isHuman}">
+            <td class="table-active w-25 text-center">고용보험(기업)</td>
+            <td class="w-25" th:text="${payroll.corporateEmploymentInsurance}"></td>
+            <td class="table-active w-25 text-center">산업재해보상보험</td>
+            <td class="w-25" th:text="${payroll.industrialAccidentCompensationInsurance}"></td>
+        </tr>
+    </div>
+</div>
+</body>
+</html>

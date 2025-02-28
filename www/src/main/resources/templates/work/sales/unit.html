@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrag.net/nz/thymeleaf/layout"
+      layout:decorate="~{layouts/work}">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${headerTitle}">Title</title>
+</head>
+<body>
+<div layout:fragment="create">
+    <tr>
+        <td class="table-active width-16 text-center"><label for="item">이름</label></td>
+        <td class="width-16">
+            <input type="text" id="item" class="inner-width form-control" name="item">
+        </td>
+        <td class="table-active width-16 text-center"><label for="type">유형</label></td>
+        <td class="width-16">
+            <input type="text" id="type" class="inner-width form-control" name="type">
+        </td>
+        <td class="table-active width-16 text-center"><label for="grade">등급</label></td>
+        <td class="width-16">
+            <input type="text" id="grade" class="inner-width form-control" name="grade">
+        </td>
+    </tr>
+    <tr>
+        <td class="table-active width-16 text-center"><label for="quantity">수량</label></td>
+        <td class="width-16">
+            <input type="text" id="quantity" class="inner-width form-control" name="quantity">
+        </td>
+        <td class="table-active width-16 text-center"><label for="period">기준기간</label></td>
+        <td class="width-16">
+            <input type="text" id="period" name="period">
+        </td>
+        <td class="table-active width-33" colspan="2"></td>
+    </tr>
+    <tr>
+        <td class="table-active width-16 text-center"><label for="statement">비고</label></td>
+        <td class="w-83" colspan="5">
+            <textarea id="statement" class="inner-width form-control" name="statement"></textarea>
+        </td>
+    </tr>
+</div>
+
+<div layout:fragment="view-update">
+    <div th:if="${isUpdate}">
+        <tr>
+            <td class="table-active width-16 text-center">이름</td>
+            <td class="width-16" th:text="${unit.standardCost.item}"></td>
+            <td class="table-active width-16 text-center">유형</td>
+            <td class="width-16" th:text="${unit.standardCost.type}"></td>
+            <td class="table-active width-16 text-center">등급</td>
+            <td class="width-16" th:text="${unit.standardCost.grade}"></td>
+        </tr>
+        <tr>
+            <td class="table-active width-16 text-center"><label for="uQuantity">수량</label></td>
+            <td class="width-16">
+                <input type="text" id="uQuantity" class="inner-width form-control" name="quantity" th:value="${unit.quantity}">
+            </td>
+            <td class="table-active width-16 text-center">총 가격</td>
+            <td class="width-16" th:text="${unit.totalCost}"></td>
+            <td class="table-active width-16 text-center"><label for="uPeriod">기준기간</label></td>
+            <td class="width-16" th:text="${unit.standardCost.period}">
+                <input type="text" id="uPeriod" class="inner-width form-control" name="period" th:value="${unit.standardCost.period}">
+            </td>
+        </tr>
+        <tr>
+            <td class="table-active width-16 text-center"><label for="uStatement">비고</label></td>
+            <td class="w-83" colspan="5">
+                <textarea id="uStatement" class="inner-width form-control" name="statement" th:text="${unit.statement}"></textarea>
+            </td>
+        </tr>
+    </div>
+    <div th:unless="${isUpdate}">
+        <tr>
+            <td class="table-active width-16 text-center">이름</td>
+            <td class="width-16" th:text="${unit.standardCost.item}"></td>
+            <td class="table-active width-16 text-center">유형</td>
+            <td class="width-16" th:text="${unit.standardCost.type}"></td>
+            <td class="table-active width-16 text-center">등급</td>
+            <td class="width-16" th:text="${unit.standardCost.grade}"></td>
+        </tr>
+        <tr>
+            <td class="table-active width-16 text-center">수량</td>
+            <td class="width-16" th:text="${unit.quantity}"></td>
+            <td class="table-active width-16 text-center">총 가격</td>
+            <td class="width-16" th:text="${unit.totalCost}"></td>
+            <td class="table-active width-16 text-center">기준기간</td>
+            <td class="width-16" th:text="${unit.period}"></td>
+        </tr>
+        <tr>
+            <td class="table-active width-16 text-center">비고</td>
+            <td class="w-83" colspan="5" th:text="${unit.statement}"></td>
+        </tr>
+    </div>
+</div>
+
+<div layout:fragment="input-hidden-data">
+    <input type="hidden" name="draftStaff" th:value="${draftStaff.staffName}">
+</div>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrag.net/nz/thymeleaf/layout"
+      layout:decorate="~{layouts/user}">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${headerTitle}">Title</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="header-search">
+        <form class="d-flex" role="search">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+    </div>
+    <div class="empty-block"></div>
+    <div class="list-group board-container">
+        <div th:each="staff, status:${paging}" th:if="${isStaff}">
+            <a class="list-group-item list-group-item-action text-center work-title"
+               th:href="@{${detailedWorkLink} + ${staff.staffId}}"
+               th:text="${staff.staffInfo.staffName} + '(' + ${staff.staffInfo.birthday} + '/' + ${staff.staffInfo.gender} + ')'">부서 1</a>
+        </div>
+        <div th:each="work, status:${paging}" th:if="${isWork}">
+            <a class="list-group-item list-group-item-action text-center work-title"
+               th:href="@{${detailedWorkLink} + ${work.workId}}"
+               th:text="${work.workType.workName} + '(' + ${work.requestStaff.staffInfo.staffName} + ', ' + ${work.requestDate} + ')'">부서 1</a>
+        </div>
+        <div th:each="type, status:${type}" th:if="${isType}">
+            <a class="list-group-item list-group-item-action text-center work-title"
+               th:href="@{${detailedWorkLink} + ${type.key}}"
+               th:text="${type.value}">부서 1</a>
+        </div>
+    </div>
+    <nav aria-label="Page navigation example" th:if="${paging} and ${!paging.isEmpty()}" style="margin-top: 0.5em;">
+        <ul class="pagination justify-content-center">
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Previous" th:classappend="${!paging.hasPrevious} ? 'disabled'"
+                   th:href="@{|?page=${paging.number-1}|}"><span aria-hidden="true">&laquo;</span></a>
+            </li>
+            <li class="page-item" th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}">
+                <a class="page-link" th:text="${page+1}" th:href="@{|?page=${page}|}"
+                   th:if="${page >= paging.number-5 and page <= paging.number+5}"
+                   th:classappend="${page == paging.number} ? 'active'">1</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Next"
+                   th:classappend="${!paging.hasNext} ? 'disabled'"
+                   th:href="@{|?page=${paging.number+1}|}">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>
+</body>
+</html>

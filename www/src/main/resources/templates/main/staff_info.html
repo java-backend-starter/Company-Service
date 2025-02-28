@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}">
+<head>
+    <meta charset="UTF-8">
+    <title>회원가입</title>
+    <link rel="stylesheet" th:href="@{/css/button.css}">
+    <link rel="stylesheet" th:href="@{/css/staff.css}">
+</head>
+<body>
+<div layout:fragment="content" class="staff-info-container">
+    <form class="row g-3" th:action="@{/staff_info}" method="post">
+        <div class="row">
+            <div class="col-12">
+                <label for="userId" class="form-label">아이디</label>
+                <input type="text" class="staff-input form-control" th:value="${staff.userId}" name="userId"
+                       id="userId" disabled>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <label for="password" class="form-label">비밀번호</label>
+                <input type="password" class="staff-input form-control" name="password"
+                       id="password" placeholder="비밀번호를 입력하세요">
+            </div>
+            <div class="col-md-6">
+                <label for="password-confirm" class="form-label">비밀번호 확인</label>
+                <input type="password" class="staff-input form-control" name="password_confirm"
+                       id="password-confirm" placeholder="비밀번호를 입력하세요">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <label for="email" class="form-label">이메일</label>
+                <input type="text" class="staff-input form-control" th:value="${staff.email}" name="email"
+                       id="email" placeholder="이메일을 입력하세요">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <label for="userName" class="form-label">이름</label>
+                <input type="text" class="staff-input form-control" th:value="${staff.staffName}" name="userName"
+                       id="userName" disabled>
+            </div>
+            <div class="col-md-4">
+                <label for="gender" class="form-label">성별</label>
+                <input type="text" class="staff-input form-control" th:value="${staff.gender}" name="gender"
+                       id="gender" disabled>
+            </div>
+            <div class="col-md-4">
+                <label for="birthday" class="form-label">생일</label>
+                <input type="date" class="staff-input form-control" th:value="${staff.birthday}" name="birthday"
+                       id="birthday" disabled>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <button type="submit" class="btn btn-secondary btn-margin btn-right">정보 수정</button>
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>

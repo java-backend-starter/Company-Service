@@ -1,0 +1,30 @@
+.work-container{
+    width: 100%;
+    margin: 10px 0 10px 0;
+}
+.work-header{
+
+}
+.header-title{
+    font-size: 2em;
+    fort-weight: bolder;
+    text-align: center;
+}
+.middle{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+textarea{
+    width: 75%;
+    height: 275px;
+    resize: none;
+}
+.statement{
+    width: 100%;
+    padding: 1.25em;
+    white-space: pre;
+}
+th {
+    font-size : 1em;
+}

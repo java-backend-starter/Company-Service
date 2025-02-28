@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrag.net/nz/thymeleaf/layout"
+      layout:decorate="~{layouts/work}">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${headerTitle}">Title</title>
+</head>
+<body>
+<div layout:fragment="create">
+    <tr>
+        <td class="table-active w-25 text-center"><label for="applicant">지원자 이름</label></td>
+        <td class="w-25">
+            <input type="text" id="applicant" class="inner-width form-control" name="name">
+        </td>
+        <td class="table-active w-25 text-center"><label for="recruit">지원 공고</label></td>
+        <td class="w-25">
+            <input type="text" id="recruit" class="inner-width form-control" name="recruit">
+        </td>
+    </tr>
+    <tr>
+        <td class="table-active w-25 text-center"><label for="birthday">생일</label></td>
+        <td class="w-25">
+            <input type="text" id="birthday" class="inner-width form-control" name="birthday">
+        </td>
+        <td class="table-active w-25 text-center"><label for="gender">성별</label></td>
+        <td class="w-25">
+            <input type="text" id="gender" class="inner-width form-control" name="gender">
+        </td>
+    </tr>
+    <tr>
+        <td class="table-active w-25 text-center"><label for="role">지원 분야</label></td>
+        <td class="w-25">
+            <input type="text" id="role" class="inner-width form-control" name="role">
+        </td>
+        <td class="table-active w-25 text-center"><label for="career">경력</label></td>
+        <td class="w-25">
+            <input type="text" id="career" class="inner-width form-control" name="career">
+        </td>
+    </tr>
+    <tr>
+        <td class="table-active w-25 text-center"><label for="specification">기술 사항</label></td>
+        <td class="w-75" colspan="3">
+            <textarea id="specification" class="inner-width form-control" name="specification"></textarea>
+        </td>
+    </tr>
+</div>
+
+<div layout:fragment="view-update">
+    <div th:if="${isUpdate}">
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uApplicant"> 지원자 이름</label></td>
+            <td class="w-25">
+                <input type="text" id="uApplicant" class="inner-width form-control" name="name" th:value="${applicant.name}">
+            </td>
+            <td class="table-active w-25 text-center"><label for="uRecruit">지원 공고</label></td>
+            <td class="w-25">
+                <input type="text" id="uRecruit" class="inner-width form-control" th:value="${applicant.recruit.recruitName}" name="recruit">
+            </td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uBirthday">생일</label></td>
+            <td class="w-25">
+                <input type="text" id="uBirthday" class="inner-width form-control" name="birthday" th:value="${applicant.birthday}">
+            </td>
+            <td class="table-active w-25 text-center"><label for="uGender">성별</label></td>
+            <td class="w-25">
+                <input type="text" id="uGender" class="inner-width form-control" name="gender" th:value="${gender}">
+            </td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uRole">지원 분야</label></td>
+            <td class="w-25">
+                <input type="text" id="uRole" class="inner-width form-control" name="role" th:value="${applicant.role.roleName}">
+            </td>
+            <td class="table-active w-25 text-center"><label for="uCareer">경력</label></td>
+            <td class="w-25">
+                <input type="text" id="uCareer" class="inner-width form-control" name="career" th:value="${applicant?.career}">
+            </td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uSpecification">기술 사항</label></td>
+            <td class="w-75" colspan="3">
+                <textarea id="uSpecification" class="inner-width form-control" name="specification" th:text="${applicant?.specification}"></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">(중간) 결과</td>
+            <td class="w-25" th:text="${applicant?.qualify}"></td>
+            <td class="table-active w-50" colspan="2"></td>
+        </tr>
+    </div>
+    <div th:unless="${isUpdate}">
+        <tr>
+            <td class="table-active w-25 text-center">지원자 이름</td>
+            <td class="w-25" th:text="${applicant.name}"></td>
+            <td class="table-active w-25 text-center">지원 공고</td>
+            <td class="w-25" th:text="${applicant.recruit.recruitName}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">생일</td>
+            <td class="w-25" th:text="${applicant.birthday}"></td>
+            <td class="table-active w-25 text-center">성별</td>
+            <td class="w-25" th:text="${applicant.gender}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">지원 분야</td>
+            <td class="w-25" th:text="${applicant.role.roleName}"></td>
+            <td class="table-active w-25 text-center">경력</td>
+            <td class="w-25" th:text="${applicant?.career}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">기술 사항</td>
+            <td class="w-75" colspan="3" th:text="${applicant?.specification}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center"><label for="cQualify">(중간) 결과</label></td>
+            <td class="w-25" th:if="${isConsider}">
+                <input type="text" id="cQualify" class="inner-width form-control" th:value="${applicant?.qualify}" name="qualify">
+            </td>
+            <td class="w-25" th:text="${applicant?.qualify}" th:unless="${isConsider}"></td>
+            <td class="table-active w-50" colspan="2"></td>
+        </tr>
+    </div>
+</div>
+
+<div layout:fragment="input-hidden-data">
+    <input type="hidden" name="draftStaff" th:value="${draftStaff.staffName}">
+</div>
+
+</body>
+</html>

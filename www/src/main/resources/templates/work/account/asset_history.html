@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrag.net/nz/thymeleaf/layout"
+      layout:decorate="~{layouts/work_v6}">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${headerTitle}">Title</title>
+</head>
+<body>
+<div layout:fragment="create">
+    <tr>
+        <td class="table-active w-25 text-center"><label for="superCode">자산코드(대)</label></td>
+        <td class="w-25">
+            <input type="text" id="superCode" class="inner-width form-control" name="superCode">
+        </td>
+        <td class="table-active w-25 text-center"><label for="subCode">자산코드(소)</label></td>
+        <td class="w-25">
+            <input type="text" id="subCode" class="inner-width form-control" name="subCode">
+        </td>
+    </tr>
+    <tr>
+        <td class="table-active w-25 text-center"><label for="date">감가상각 일시</label></td>
+        <td class="w-25">
+            <input type="date" id="date" class="inner-width form-control" name="date">
+        </td>
+        <td class="table-active w-25 text-center"><label for="month">상각월수</label></td>
+        <td class="w-25">
+            <input type="text" id="month" class="inner-width form-control" name="month">
+        </td>
+    </tr>
+</div>
+
+<div layout:fragment="view-update">
+    <div th:if="${isUpdate}">
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uSuperCode">자산코드(대)</label></td>
+            <td class="w-25 text-center">
+                <input type="text" id="uSuperCode" class="inner-width form-control" name="superCode" th:value="${assetHistory.asset.assetType.superCode}">
+            </td>
+            <td class="table-active w-25 text-center"><label for="uSubCode">자산코드(소)</label></td>
+            <td class="w-25 text-center">
+                <input type="text" id="uSubCode" class="inner-width form-control" name="subCode" th:value="${assetHistory.asset.subCode}">
+            </td>
+        </tr>
+        <tr>
+            <td class="table-active w-25">자산 분류</td>
+            <td class="table-active w-25">자산 이름</td>
+            <td class="table-active w-25"></td>
+            <td class="table-active w-25"></td>
+        </tr>
+        <tr>
+            <td class="table-active width-12 text-center">고정자산명</td>
+            <td class="table-active width-12 text-center">코드</td>
+            <td class="table-active width-12 text-center"><label for="uInitialQuantity">기존 수량</label></td>
+            <td class="table-active width-12 text-center"><label for="uIncreaseQuantity">구입 수량</label></td>
+            <td class="table-active width-12 text-center"><label for="uDecreaseQuantity">처분 수량</label></td>
+            <td class="table-active width-12 text-center"><label for="uInitialPrice">기존 금액</label></td>
+            <td class="table-active width-12 text-center"><label for="uIncreasePrice">구입 금액</label></td>
+            <td class="table-active width-12 text-center"><label for="uDecreasePrice">처분 금액</label></td>
+        </tr>
+        <tr>
+            <td class="width-12" th:text="${assetHistory.assetType.name}"></td>
+            <td class="width-12" th:text="${assetHistory.assetType.code}"></td>
+            <td class="width-12">
+                <input type="text" id="uInitialQuantity" class="inner-width form-control" name="initialQuantity" th:value="${assetHistory.initialQuantity}">
+            </td>
+            <td class="width-12">
+                <input type="text" id="uIncreaseQuantity" class="inner-width form-control" name="increaseQuantity" th:value="${assetHistory.increaseQuantity}">
+            </td>
+            <td class="width-12">
+                <input type="text" id="uDecreaseQuantity" class="inner-width form-control" name="decreaseQuantity" th:value="${assetHistory.decreaseQuantity}">
+            </td>
+            <td class="width-12">
+                <input type="text" id="uInitialPrice" class="inner-width form-control" name="initialPrice" th:value="${assetHistory.initialPrice}">
+            </td>
+            <td class="width-12">
+                <input type="text" id="uIncreasePrice" class="inner-width form-control" name="increasePrice" th:value="${assetHistory.increasePrice}">
+            </td>
+            <td class="width-12">
+                <input type="text" id="uDecreasePrice" class="inner-width form-control" name="decreasePrice" th:value="${assetHistory.decreasePrice}">
+            </td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uStatement">비고</label></td>
+            <td class="w-75" colspan="3">
+                <textarea id="uStatement" class="inner-width form-control" name="statement" th:text="${assetHistory.statement}"></textarea>
+            </td>
+        </tr>
+    </div>
+    <div th:unless="${isUpdate}">
+        <tr>
+            <td class="table-active w-25 text-center" colspan="2">일시</td>
+            <td class="w-75 text-center" colspan="6" th:text="${assetHistory.date}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center" colspan="2">고정자산명</td>
+            <td class="table-active w-25 text-center" colspan="2">유형</td>
+            <td class="table-active w-25 text-center" colspan="2">코드</td>
+            <td class="table-active w-25 text-center" colspan="2">사용부서</td>
+        </tr>
+        <tr>
+            <td class="w-25" colspan="2" th:text="${assetHistory.assetType.name}"></td>
+            <td class="w-25" colspan="2" th:text="${assetHistory.assetType.type}"></td>
+            <td class="w-25" colspan="2" th:text="${assetHistory.assetType.code}"></td>
+            <td class="w-25" colspan="2" th:text="${assetHistory.assetType.department.departmentName}"></td>
+        </tr>
+        <tr>
+            <td class="table-active width-12 text-center">기존 수량</td>
+            <td class="table-active width-12 text-center">구입 수량</td>
+            <td class="table-active width-12 text-center">처분 수량</td>
+            <td class="table-active width-12 text-center">현재 수량</td>
+            <td class="table-active width-12 text-center">기존 금액</td>
+            <td class="table-active width-12 text-center">구입 금액</td>
+            <td class="table-active width-12 text-center">처분 금액</td>
+            <td class="table-active width-12 text-center">현재 금액</td>
+        </tr>
+        <tr>
+            <td class="width-12" th:text="${assetHistory.initialQuantity}"></td>
+            <td class="width-12" th:text="${assetHistory.increaseQuantity}"></td>
+            <td class="width-12" th:text="${assetHistory.decreaseQuantity}"></td>
+            <td class="width-12" th:text="${assetHistory.currentQuantity()}"></td>
+            <td class="width-12" th:text="${assetHistory.initialPrice}"></td>
+            <td class="width-12" th:text="${assetHistory.increasePrice}"></td>
+            <td class="width-12" th:text="${assetHistory.decreasePrice}"></td>
+            <td class="width-12" th:text="${assetHistory.currentPrice()}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center" colspan="2">비고</td>
+            <td class="w-75" colspan="6" th:text="${assetHistory.statement}"></td>
+        </tr>
+    </div>
+</div>
+
+<div layout:fragment="input-hidden-data">
+    <input type="hidden" name="draftStaff" th:value="${draftStaff.staffName}">
+</div>
+</body>
+</html>

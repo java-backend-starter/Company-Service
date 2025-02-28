@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrag.net/nz/thymeleaf/layout"
+      layout:decorate="~{layouts/work}">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${headerTitle}">Title</title>
+</head>
+<body>
+
+<div layout:fragment="view-update">
+    <tr>
+        <td class="table-active w-25 text-center">거래처</td>
+        <td class="table-active w-25 text-center">연락처</td>
+        <td class="table-active w-25 text-center">거래일</td>
+        <td class="table-active w-25 text-center">만기일</td>
+    </tr>
+    <tr>
+        <td class="w-25" th:text="${debt.patron}"></td>
+        <td class="w-25" th:text="${debt.contact}"></td>
+        <td class="w-25" th:text="${debt.start}"></td>
+        <td class="w-25" th:text="${debt.expire}"></td>
+    </tr>
+    <tr>
+        <td class="table-active w-25 text-center">항목</td>
+        <td class="table-active w-25 text-center">분류</td>
+        <td class="table-active w-25 text-center">총액</td>
+        <td class="table-active w-25 text-center">잔액</td>
+    </tr>
+    <tr>
+        <td class="w-25" th:text="${debt.item}"></td>
+        <td class="w-25" th:text="${debt.type}"></td>
+        <td class="w-25" th:text="${debt.total}"></td>
+        <td class="w-25" th:text="${rest}"></td>
+    </tr>
+    <tr>
+        <td class="table-active w-25 text-center">납부일</td>
+        <td class="table-active w-25 text-center">금액</td>
+        <td class="table-active w-25 text-center">납부상태</td>
+        <td class="table-active w-25 text-center">비고</td>
+    </tr>
+    <tr th:each="debtHistory, status:${debt.debtHistory}">
+        <td class="w-25" th:text="${debtHistory.date}"></td>
+        <td class="w-25" th:text="${debtHistory.amount}"></td>
+        <td class="w-25" th:text="${debtHistory.status}"></td>
+        <td class="w-25" th:text="${debtHistory.statement}"></td>
+    </tr>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrag.net/nz/thymeleaf/layout"
+      layout:decorate="~{layouts/work}">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${headerTitle}">Title</title>
+</head>
+<body>
+<div layout:fragment="create">
+    <tr>
+        <td class="table-active w-25 text-center" colspan="2"><label for="startDate">결산시작일</label></td>
+        <td class="w-25" colspan="2">
+            <input type="date" id="startDate" class="inner-width form-control" name="startDate" th:value="${equityChangeStatement?.startDate}">
+        </td>
+        <td class="table-active w-25 text-center" colspan="2"><label for="endDate">결산종료일</label></td>
+        <td class="w-25" colspan="2">
+            <input type="date" id="endDate" class="inner-width form-control" name="endDate" th:value="${equityChangeStatement?.endDate}">
+        </td>
+    </tr>
+    <tr>
+        <th class="table-active width-12 text-center">구분</th>
+        <th class="table-active width-12 text-center">자본금</th>
+        <th class="table-active width-12 text-center">자본잉여금</th>
+        <th class="table-active width-12 text-center">자본조정</th>
+        <th class="table-active width-12 text-center">미처분이익잉여금</th>
+        <th class="table-active width-12 text-center">기타포괄손익누계액</th>
+        <th class="table-active w-25" colspan="2">
+            <button type="button" class="btn btn-secondary inner-width" onclick="insertMenuEvent(0, 1)">행 추가</button>
+        </th>
+    </tr>
+</div>
+
+<div layout:fragment="view-update">
+    <div th:if="${isUpdate}">
+        <tr>
+            <td class="table-active width-25 text-center" colspan="2"><label for="uStartDate">시작일</label></td>
+            <td class="width-25" colspan="2">
+                <input type="text" id="uStartDate" class="inner-width form-control" name="startDate" th:value="${equityChangeStatement.startDate}">
+            </td>
+            <td class="table-active width-25 text-center" colspan="2"><label for="uEndDate">종료일</label></td>
+            <td class="width-25" colspan="2">
+                <input type="text" id="uEndDate" class="inner-width form-control" name="endDate" th:value="${equityChangeStatement.endDate}">
+            </td>
+        </tr>
+        <tr>
+            <th class="table-active width-12 text-center">구분</th>
+            <th class="table-active width-12 text-center">자본금</th>
+            <th class="table-active width-12 text-center">자본잉여금</th>
+            <th class="table-active width-12 text-center">자본조정</th>
+            <th class="table-active width-12 text-center">미처분이익잉여금</th>
+            <th class="table-active width-12 text-center">기타포괄손익누계액</th>
+            <th class="table-active width-12 text-center">총계</th>
+            <th class="table-active width-12 text-center">
+                <button type="button" class="btn btn-secondary inner-width" onclick="insertMenuEvent(0, 0)">행 추가</button>
+            </th>
+        </tr>
+        <tr th:each="equityChange, status : ${equityChangeStatement.equityChange}">
+            <td class="table-active width-12">
+                <input type="text" class="inner-width form-control" name="type" th:value="${equityChange.type}">
+            </td>
+            <td class="width-12">
+                <input type="text" class="inner-width form-control" name="capital" th:value="${equityChange.capital}">
+            </td>
+            <td class="width-12">
+                <input type="text" class="inner-width form-control" name="surplus" th:value="${equityChange.surplus}">
+            </td>
+            <td class="width-12">
+                <input type="text" class="inner-width form-control" name="adjustment" th:value="${equityChange.adjustment}">
+            </td>
+            <td class="width-12">
+                <input type="text" class="inner-width form-control" name="unappropriated" th:value="${equityChange.unappropriated}">
+            </td>
+            <td class="width-12">
+                <input type="text" class="inner-width form-control" name="comprehensive" th:value="${equityChange.comprehensive}">
+            </td>
+            <td class="width-12" th:text="${equityChange.total}"></td>
+            <td class="width-12"></td>
+        </tr>
+    </div>
+    <div th:unless="${isUpdate}">
+        <tr>
+            <td class="table-active w-25 text-center" colspan="2">시작일</td>
+            <td class="w-25" colspan="2" th:text="${equityChangeStatement.startDate}"></td>
+            <td class="table-active w-25 text-center" colspan="2">종료일</td>
+            <td class="w-25" colspan="2" th:text="${equityChangeStatement.endDate}"></td>
+        </tr>
+        <tr>
+            <th class="table-active width-12 text-center">구분</th>
+            <th class="table-active width-12 text-center">자본금</th>
+            <th class="table-active width-12 text-center">자본잉여금</th>
+            <th class="table-active width-12 text-center">자본조정</th>
+            <th class="table-active width-12 text-center">미처분이익잉여금</th>
+            <th class="table-active width-12 text-center">기타포괄손익누계액</th>
+            <th class="table-active width-12 text-center">총계</th>
+            <th class="table-active width-12">
+                <button type="button" class="btn btn-secondary inner-width" onclick="deleteMenuToggle()">삭제</button>
+            </th>
+        </tr>
+        <tr th:each="equityChange, status : ${equityChangeStatement.equityChange}">
+            <td class="table-active width-12 text-center" th:text="${equityChange.type}"></td>
+            <td class="width-12 text-center" th:text="${equityChange.capital}"></td>
+            <td class="width-12 text-center" th:text="${equityChange.surplus}"></td>
+            <td class="width-12 text-center" th:text="${equityChange.adjustment}"></td>
+            <td class="width-12 text-center" th:text="${equityChange.unappropriated}"></td>
+            <td class="width-12 text-center" th:text="${equityChange.comprehensive}"></td>
+            <td class="width-12 text-center" th:text="${equityChange.total}"></td>
+            <td class="width-12">
+                <a class="inner-width form-control" th:href="@{${dataDeleteLink} + ${equityChange.equityChangeId}}">삭제</a>
+            </td>
+        </tr>
+    </div>
+</div>
+
+<div layout:fragment="input-hidden-data">
+    <input type="hidden" name="draftStaff" th:value="${draftStaff.staffName}">
+</div>
+</body>
+</html>

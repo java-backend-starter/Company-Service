@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrag.net/nz/thymeleaf/layout"
+      layout:decorate="~{layouts/mail}">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${headerTitle}">Title</title>
+    <link rel="stylesheet" th:href="@{/css/content.css}">
+    <link rel="stylesheet" th:href="@{/css/button.css}">
+</head>
+<body>
+    <div layout:fragment="content" class="content-container">
+        <div class="content-nav">
+            <a th:href="@{/mail}" class="btn btn-secondary btn-margin btn-right">뒤로 가기</a>
+        </div>
+        <div class="content-header">
+            <div class="content-title" th:text="${mail.title}">제목</div>
+            <div class="content-info">
+                <div class="content-writer" th:text="${mail.sendStaff.staffInfo.staffName}">보낸 사람</div>
+                <div class="content-role" th:text="${mail.sendStaff.staffWorkInfo.role.roleName}">소속</div>
+                <div class="content-writer" th:text="${mail.receiveStaff.staffInfo.staffName}">받은 사람</div>
+                <div class="content-role" th:text="${mail.receiveStaff.staffWorkInfo.role.roleName}">소속</div>
+                <div class="content-date" th:text="${mail.send}">작성 날짜</div>
+            </div>
+            <div class="content-data"> 파일 입출력 공간</div>
+        </div>
+        <div class="content" th:text="${mail.content}">내용</div>
+    </div>
+</body>
+</html>

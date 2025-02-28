@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrag.net/nz/thymeleaf/layout"
+      layout:decorate="~{layouts/work}">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${headerTitle}">Title</title>
+</head>
+<body>
+<div layout:fragment="create">
+    <tr>
+        <td class="table-active w-25 text-center"><label for="name">거래처</label></td>
+        <td class="table-active w-25 text-center"><label for="type">업종</label></td>
+        <td class="table-active w-25 text-center"><label for="location">위치</label></td>
+        <td class="table-active w-25 text-center"><label for="contact">연락처</label></td>
+    </tr>
+    <tr>
+        <td class="w-25">
+            <input type="text" id="name" class="inner-width form-control" name="name">
+        </td>
+        <td class="w-25">
+            <input type="text" id="type" class="inner-width form-control" name="type">
+        </td>
+        <td class="w-25">
+            <input type="text" id="location" class="inner-width form-control" name="location">
+        </td>
+        <td class="w-25">
+            <input type="text" id="contact" class="inner-width form-control" name="contact">
+        </td>
+    </tr>
+    <tr>
+        <td class="table-active w-25 text-center"><label for="grade">신용등급</label></td>
+        <td class="w-25">
+            <input type="text" id="grade" class="inner-width form-control" name="grade">
+        </td>
+        <td class="table-active w-25 text-center"><label for="score">신용점수</label></td>
+        <td class="w-25">
+            <input type="text" id="score" class="inner-width form-control" name="score">
+        </td>
+    </tr>
+
+</div>
+
+<div layout:fragment="view-update">
+    <div th:if="${isUpdate}">
+        <tr>
+            <td class="table-active w-25 text-center">거래처</td>
+            <td class="table-active w-25 text-center">업종</td>
+            <td class="table-active w-25 text-center">위치</td>
+            <td class="table-active w-25 text-center">연락처</td>
+        </tr>
+        <tr>
+            <td class="w-25 text-center" th:text="${credit.patron.name}"></td>
+            <td class="w-25 text-center" th:text="${credit.patron.type}"></td>
+            <td class="w-25 text-center" th:text="${credit.patron.location}"></td>
+            <td class="w-25 text-center" th:text="${credit.patron.contact}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uGrade">신용등급</label></td>
+            <td class="w-25">
+                <input type="text" id="uGrade" class="inner-width form-control" name="grade" th:value="${credit.grade}">
+            </td>
+            <td class="table-active w-25 text-center"><label for="uScore">신용점수</label></td>
+            <td class="w-25">
+                <input type="text" id="uScore" class="inner-width form-control" name="score" th:value="${credit.score}">
+            </td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">총 채권 금액</td>
+            <td class="table-active w-25 text-center">상환 금액</td>
+            <td class="table-active w-25 text-center">총 채무 금액</td>
+            <td class="table-active w-25 text-center">납부 금액</td>
+        </tr>
+        <tr>
+
+            <td class="w-25 text-center" th:text="${credit.totalReceivable}"></td>
+            <td class="w-25 text-center" th:text="${credit.received}"></td>
+            <td class="w-25 text-center" th:text="${credit.totalPayable}"></td>
+            <td class="w-25 text-center" th:text="${credit.paid}"></td>
+        </tr>
+    </div>
+    <div th:unless="${isUpdate}">
+        <tr>
+            <td class="table-active w-25 text-center">거래처</td>
+            <td class="table-active w-25 text-center">업종</td>
+            <td class="table-active w-25 text-center">위치</td>
+            <td class="table-active w-25 text-center">연락처</td>
+        </tr>
+        <tr>
+            <td class="w-25 text-center" th:text="${credit.patron.name}"></td>
+            <td class="w-25 text-center" th:text="${credit.patron.type}"></td>
+            <td class="w-25 text-center" th:text="${credit.patron.location}"></td>
+            <td class="w-25 text-center" th:text="${credit.patron.contact}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">신용등급</td>
+            <td class="w-25 text-center" th:text="${credit.grade}"></td>
+            <td class="table-active w-25 text-center">신용점수</td>
+            <td class="w-25 text-center" th:text="${credit.score}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">총 채권 금액</td>
+            <td class="table-active w-25 text-center">상환 금액</td>
+            <td class="table-active w-25 text-center">총 채무 금액</td>
+            <td class="table-active w-25 text-center">납부 금액</td>
+        </tr>
+        <tr>
+
+            <td class="w-25 text-center" th:text="${credit.totalReceivable}"></td>
+            <td class="w-25 text-center" th:text="${credit.received}"></td>
+            <td class="w-25 text-center" th:text="${credit.totalPayable}"></td>
+            <td class="w-25 text-center" th:text="${credit.paid}"></td>
+        </tr>
+    </div>
+</div>
+
+<div layout:fragment="input-hidden-data">
+    <input type="hidden" name="draftStaff" th:value="${draftStaff.staffName}">
+</div>
+</body>
+</html>

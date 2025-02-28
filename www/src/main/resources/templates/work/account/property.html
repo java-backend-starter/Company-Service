@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrag.net/nz/thymeleaf/layout"
+      layout:decorate="~{layouts/work}">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${headerTitle}">Title</title>
+</head>
+<body>
+<div layout:fragment="create">
+    <tr>
+        <td class="table-active w-25 text-center"><label for="closingStart">결산 시작일</label></td>
+        <td class="w-25">
+            <input type="date" id="closingStart" class="inner-width form-control" name="closingStart">
+        </td>
+        <td class="table-active w-25 text-center"><label for="closingEnd">결산 종료일</label></td>
+        <td class="w-25">
+            <input type="date" id="closingEnd" class="inner-width form-control" name="closingEnd">
+        </td>
+    </tr>
+    <tr>
+        <td class="table-active w-25 text-center"><label for="name">이름</label></td>
+        <td class="table-active w-25 text-center"><label for="type">유형</label></td>
+        <td class="table-active w-25 text-center"><label for="detailedType">세부유형</label></td>
+        <td class="table-active w-25 text-center"><label for="amount">금액</label></td>
+    </tr>
+    <tr>
+        <td class="w-25">
+            <input type="text" id="name" class="inner-width form-control" name="name">
+        </td>
+        <td class="w-25">
+            <select id="type" class="inner-width form-control" name="type">
+                <option th:each="type, status:${types}" th:value="${type}" th:text="${type}"></option>
+            </select>
+        </td>
+        <td class="w-25">
+            <select id="detailedType" class="inner-width form-control" name="detailedType">
+                <option th:each="detailedType, status:${detailedTypes}" th:value="${detailedType}" th:text="${detailedType}"></option>
+            </select>
+        </td>
+        <td class="w-25">
+            <input type="text" id="amount" class="inner-width form-control" name="amount">
+        </td>
+    </tr>
+    <tr>
+        <td class="table-active w-25 text-center"><label for="statement">비고</label></td>
+        <td class="w-75" colspan="3">
+            <textarea id="statement" class="inner-width form-control" name="statement"></textarea>
+        </td>
+    </tr>
+</div>
+
+<div layout:fragment="view-update">
+    <div th:if="${isUpdate}">
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uClosingStart">결산 시작일</label></td>
+            <td class="w-25 text-center">
+                <input type="date" id="uClosingStart" class="inner-width form-control" name="closingStart" th:value="${property.closingStart}">
+            </td>
+            <td class="table-active w-25 text-center"><label for="uClosingEnd">결산 종료일</label></td>
+            <td class="w-25 text-center">
+                <input type="date" id="uClosingEnd" class="inner-width form-control" name="closingEnd" th:value="${property.closingEnd}">
+            </td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uName">이름</label></td>
+            <td class="table-active w-25 text-center"><label for="uType">유형</label></td>
+            <td class="table-active w-25 text-center"><label for="uDetailedType">세부유형</label></td>
+            <td class="table-active w-25 text-center"><label for="uAmount">금액</label></td>
+        </tr>
+        <tr>
+            <td class="w-25 text-center">
+                <input type="text" id="uName" class="inner-width form-control" name="name" th:value="${property.name}">
+            </td>
+            <td class="w-25 text-center">
+                <select id="uType" class="inner-width form-control" name="type" th:value="${property.type}">
+                    <option th:each="type, status:${types}" th:selected="${property.type}==${type}" th:value="${type}" th:text="${type}"></option>
+                </select>
+            </td>
+            <td class="w-25 text-center">
+                <select id="uDetailedType" class="inner-width form-control" name="detailedType" th:value="${property.detailedType}">
+                    <option th:each="detailedType, status:${detailedTypes}" th:selected="${property.detailedType}==${detailedType}" th:value="${detailedType}" th:text="${detailedType}"></option>
+                </select>
+            </td>
+            <td class="w-25 text-center">
+                <input type="text" id="uAmount" class="inner-width form-control" name="amount" th:value="${property.amount}">
+            </td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uStatement">비고</label></td>
+            <td class="w-75" colspan="3">
+                <textarea id="uStatement" class="inner-width form-control" name="statement" th:text="${property.statement}"></textarea>
+            </td>
+        </tr>
+    </div>
+    <div th:unless="${isUpdate}">
+        <tr>
+            <td class="table-active w-25 text-center">결산 시작일</td>
+            <td class="w-25 text-center" th:text="${property.closingStart}"></td>
+            <td class="table-active w-25 text-center">결산 종료일</td>
+            <td class="w-25 text-center" th:text="${property.closingEnd}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">이름</td>
+            <td class="table-active w-25 text-center">유형</td>
+            <td class="table-active w-25 text-center">세부유형</td>
+            <td class="table-active w-25 text-center">금액</td>
+        </tr>
+        <tr>
+            <td class="w-25 text-center" th:text="${property.name}"></td>
+            <td class="w-25 text-center" th:text="${property.type}"></td>
+            <td class="w-25 text-center" th:text="${property.detailedType}"></td>
+            <td class="w-25 text-center" th:text="${property.amount}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">비고</td>
+            <td class="w-75" colspan="3" th:text="${property.statement}"></td>
+        </tr>
+    </div>
+</div>
+
+<div layout:fragment="input-hidden-data">
+    <input type="hidden" name="draftStaff" th:value="${draftStaff.staffName}">
+</div>
+</body>
+</html>

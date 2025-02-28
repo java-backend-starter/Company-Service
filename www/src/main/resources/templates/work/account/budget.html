@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrag.net/nz/thymeleaf/layout"
+      layout:decorate="~{layouts/work}">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${headerTitle}">Title</title>
+</head>
+<body>
+<div layout:fragment="create">
+    <tr>
+        <td class="table-active w-25 text-center"><label for="department">부서</label></td>
+        <td class="table-active w-25 text-center"><label for="section">과</label></td>
+        <td class="table-active w-25 text-center"><label for="team">팀</label></td>
+        <td class="table-active w-25 text-center"><label for="initial">할당 예산</label></td>
+    </tr>
+    <tr>
+        <td class="w-25">
+            <input type="text" id="department" class="inner-width form-control" name="department">
+        </td>
+        <td class="w-25">
+            <input type="text" id="section" class="inner-width form-control" name="section">
+        </td>
+        <td class="w-25">
+            <input type="text" id="team" class="inner-width form-control" name="team">
+        </td>
+        <td class="w-25">
+            <input type="text" id="initial" class="inner-width form-control" name="initial">
+        </td>
+    </tr>
+    <tr>
+        <td class="table-active w-25 text-center"><label for="startDate">사용 시작일</label></td>
+        <td class="w-25">
+            <input type="date" id="startDate" class="inner-width form-control" name="startDate">
+        </td>
+        <td class="table-active w-25 text-center"><label for="endDate">사용 종료일</label></td>
+        <td class="w-25">
+            <input type="date" id="endDate" class="inner-width form-control" name="endDate">
+        </td>
+    </tr>
+    <tr>
+        <td class="table-active w-25 text-center"><label for="statement">비고</label></td>
+        <td class="w-75" colspan="3">
+            <textarea id="statement" class="inner-width form-control" name="statement"></textarea>
+        </td>
+    </tr>
+</div>
+
+<div layout:fragment="view-update">
+    <div th:if="${isUpdate}">
+        <tr>
+            <td class="table-active w-25 text-center">부서</td>
+            <td class="table-active w-25 text-center">과</td>
+            <td class="table-active w-25 text-center">팀</td>
+            <td class="table-active w-25">추경횟수</td>
+        </tr>
+        <tr>
+            <td class="w-25" th:text="${budget.department.departmentName}"></td>
+            <td class="w-25" th:text="${budget?.section?.sectionName}"></td>
+            <td class="w-25" th:text="${budget?.team?.teamName}"></td>
+            <td class="w-25" th:text="${count}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uStartDate">사용 시작일</label></td>
+            <td class="date">
+                <input type="text" id="uStartDate" class="inner-width form-control" name="startDate" th:value="${budget.startDate}">
+            </td>
+            <td class="table-active w-25 text-center"><label for="uEndDate">사용 종료일</label></td>
+            <td class="w-25">
+                <input type="date" id="uEndDate" class="inner-width form-control" name="endDate" th:value="${budget.endDate}">
+            </td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uInitial">할당 예산</label></td>
+            <td class="table-active w-25 text-center">추가 예산</td>
+            <td class="table-active w-25 text-center">잔액</td>
+            <th class="table-active w-25 text-center">사용량(%)</th>
+        </tr>
+        <tr>
+            <td class="w-25">
+                <input type="text" id="uInitial" class="inner-width form-control" name="initial" th:value="${budget.initial}">
+            </td>
+            <td class="w-25" th:text="${budget.additional}"></td>
+            <td class="w-25" th:text="${rest}"></td>
+            <td class="w-25" th:text="${percentage}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uStatement">비고</label></td>
+            <td class="w-75" colspan="3">
+                <textarea id="uStatement" class="inner-width form-control" name="statement" th:text="${budget.statement}"></textarea>
+            </td>
+        </tr>
+    </div>
+    <div th:unless="${isUpdate}">
+        <tr>
+            <th class="table-active w-25 text-center">부서</th>
+            <th class="table-active w-25 text-center">과</th>
+            <th class="table-active w-25 text-center">팀</th>
+            <th class="table-active w-25 text-center">추경횟수</th>
+        </tr>
+        <tr>
+            <td class="w-25" th:text="${budget.department.departmentName}"></td>
+            <td class="w-25" th:text="${budget?.section?.sectionName}"></td>
+            <td class="w-25" th:text="${budget?.team?.teamName}"></td>
+            <td class="w-25" th:text="${count}"></td>
+        </tr>
+        <tr>
+            <th class="table-active w-25 text-center">사용 시작일</th>
+            <td class="w-25" th:text="${budget.startDate}"></td>
+            <th class="table-active w-25 text-center">사용 종료일></th>
+            <td class="w-25" th:text="${budget.endDate}"></td>
+        </tr>
+        <tr>
+            <th class="table-active w-25 text-center">할당 예산</th>
+            <th class="table-active w-25 text-center">추가 예산</th>
+            <th class="table-active w-25 text-center">잔액</th>
+            <th class="table-active w-25 text-center">사용량(%)</th>
+        </tr>
+        <tr>
+            <td class="w-25" th:text="${budget.initial}"></td>
+            <td class="w-25" th:text="${budget.additional}"></td>
+            <td class="w-25" th:text="${rest}"></td>
+            <td class="w-25" th:text="${percentage}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">비고</td>
+            <td class="w-75" colspan="3" th:text="${budget.statement}"></td>
+        </tr>
+    </div>
+</div>
+
+<div layout:fragment="input-hidden-data">
+    <input type="hidden" name="draftStaff" th:value="${draftStaff.staffName}">
+</div>
+</body>
+</html>

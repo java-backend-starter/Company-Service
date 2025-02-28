@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrag.net/nz/thymeleaf/layout"
+      layout:decorate="~{layouts/work}">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${headerTitle}">Title</title>
+</head>
+<body>
+<div layout:fragment="create">
+    <tr>
+        <td class="table-active w-25 text-center"><label for="name">거래처</label></td>
+        <td class="table-active w-25 text-center"><label for="patronType">업종</label></td>
+        <td class="table-active w-25 text-center"><label for="location">위치</label></td>
+        <td class="table-active w-25 text-center"><label for="contact">연락처</label></td>
+    </tr>
+    <tr>
+        <td class="w-25">
+            <input type="text" id="name" class="inner-width form-control" name="name">
+        </td>
+        <td class="w-25">
+            <input type="text" id="patronType" class="inner-width form-control" name="patronType">
+        </td>
+        <td class="w-25">
+            <input type="text" id="location" class="inner-width form-control" name="location">
+        </td>
+        <td class="w-25">
+            <input type="text" id="contact" class="inner-width form-control" name="contact">
+        </td>
+    </tr>
+    <tr>
+        <td class="table-active w-25 text-center"><label for="start">거래일</label></td>
+        <td class="w-25">
+            <input type="date" id="start" class="inner-width form-control" name="start">
+        </td>
+        <td class="table-active w-25 text-center"><label for="expire">만기일</label></td>
+        <td class="w-25">
+            <input type="date" id="expire" class="inner-width form-control" name="expire">
+        </td>
+    </tr>
+    <tr>
+        <td class="table-active w-25 text-center"><label for="item">항목</label></td>
+        <td class="table-active w-25 text-center"><label for="type">분류</label></td>
+        <td class="table-active w-25 text-center"><label for="total">금액</label></td>
+        <td class="table-active w-25 text-center"><label for="prior">선수금/선급금</label></td>
+    </tr>
+    <tr>
+        <td class="w-25">
+            <input type="text" id="item" class="inner-width form-control" name="item">
+        </td>
+        <td class="w-25">
+            <input type="text" id="type" class="inner-width form-control" name="type">
+        </td>
+        <td class="w-25">
+            <input type="text" id="total" class="inner-width form-control" name="total">
+        </td>
+        <td class="w-25">
+            <input type="text" id="prior" class="inner-width form-control" name="prior">
+        </td>
+    </tr>
+    <tr>
+        <td class="table-active w-25"><label for="statement">비고</label></td>
+        <td class="w-75" colspan="3">
+            <textarea id="statement" class="inner-width form-control" name="statement"></textarea>
+        </td>
+    </tr>
+</div>
+
+<div layout:fragment="view-update">
+    <div th:if="${isUpdate}">
+        <tr>
+            <td class="table-active w-25 text-center">거래처</td>
+            <td class="table-active w-25 text-center">업종</td>
+            <td class="table-active w-25 text-center">위치</td>
+            <td class="table-active w-25 text-center">연락처</td>
+        </tr>
+        <tr>
+            <td class="w-25 text-center" th:text="${debt.patron.name}"></td>
+            <td class="w-25 text-center" th:text="${debt.patron.type}"></td>
+            <td class="w-25 text-center" th:text="${debt.patron.location}"></td>
+            <td class="w-25 text-center" th:text="${debt.patron.contact}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uStart">거래일</label></td>
+            <td class="w-25">
+                <input type="date" id="uStart" class="inner-width form-control" name="start" th:value="${debt.start}">
+            </td>
+            <td class="table-active w-25 text-center"><label for="uExpire">만기일</label></td>
+            <td class="w-25">
+                <input type="date" id="uExpire" class="inner-width form-control" name="expire" th:value="${debt.expire}">
+            </td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uItem">항목</label></td>
+            <td class="table-active w-25 text-center"><label for="uType">분류</label></td>
+            <td class="table-active w-25 text-center"><label for="uTotal">금액</label></td>
+            <td class="table-active w-25 text-center">잔액</td>
+        </tr>
+        <tr>
+            <td class="w-25">
+                <input type="text" id="uItem" class="inner-width form-control" name="item" th:value="${debt.item}">
+            </td>
+            <td class="w-25">
+                <input type="text" id="uType" class="inner-width form-control" name="type" th:value="${debt.type}">
+            </td>
+            <td class="w-25">
+                <input type="text" id="uTotal" class="inner-width form-control" name="total" th:value="${debt.total}">
+            </td>
+            <td class="w-25" th:text="${rest}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uStatement">비고</label></td>
+            <td class="w-75" colspan="3">
+                <textarea id="uStatement" class="inner-width form-control statement" name="statement" th:text="${debt.statement}"></textarea>
+            </td>
+        </tr>
+    </div>
+    <div th:unless="${isUpdate}">
+        <tr>
+            <td class="table-active w-25 text-center">거래처</td>
+            <td class="table-active w-25 text-center">업종</td>
+            <td class="table-active w-25 text-center">위치</td>
+            <td class="table-active w-25 text-center">연락처</td>
+        </tr>
+        <tr>
+            <td class="w-25 text-center" th:text="${credit.patron.name}"></td>
+            <td class="w-25 text-center" th:text="${credit.patron.type}"></td>
+            <td class="w-25 text-center" th:text="${credit.patron.location}"></td>
+            <td class="w-25 text-center" th:text="${credit.patron.contact}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">거래일</td>
+            <td class="w-25 text-center" th:text="${debt.start}"></td>
+            <td class="table-active w-25 text-center">만기일</td>
+            <td class="w-25 text-center" th:text="${debt.expire}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">항목</td>
+            <td class="table-active w-25 text-center">분류</td>
+            <td class="table-active w-25 text-center">금액</td>
+            <td class="table-active w-25 text-center">잔액</td>
+        </tr>
+        <tr>
+            <td class="w-25 text-center" th:text="${debt.item}"></td>
+            <td class="w-25 text-center" th:text="${debt.type}"></td>
+            <td class="w-25 text-center" th:text="${debt.total}"></td>
+            <td class="w-25 text-center" th:text="${rest}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">비고</td>
+            <td class="w-75 statement" colspan="3" th:text="${debt.statement}"></td>
+        </tr>
+    </div>
+</div>
+
+<div layout:fragment="input-hidden-data">
+    <input type="hidden" name="draftStaff" th:value="${draftStaff.staffName}">
+</div>
+</body>
+</html>

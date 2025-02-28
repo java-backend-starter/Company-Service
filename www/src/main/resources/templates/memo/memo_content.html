@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrag.net/nz/thymeleaf/layout"
+      layout:decorate="~{layouts/memo}">
+<head>
+  <meta charset="UTF-8">
+  <title th:text="${headerTitle}">Title</title>
+  <link rel="stylesheet" th:href="@{/css/content.css}">
+  <link rel="stylesheet" th:href="@{/css/button.css}">
+</head>
+<body>
+<div layout:fragment="content">
+  <div class="content-nav">
+    <a th:href="@{'/memo/delete/memoId=' + ${memoId}}" class="btn btn-secondary btn-margin btn-right">메모 삭제</a>
+    <a th:href="@{'/memo/update/memoId=' + ${memo.memoId}}" class="btn btn-secondary btn-margin btn-right">메모 수정</a>
+    <a th:href="@{/memo}" class="btn btn-secondary btn-margin btn-right">뒤로가기</a>
+  </div>
+  <div class="content-header">
+    <div class="content-title" th:text="${memo.title}">제목</div>
+    <div class="content-info">
+      <div class="content-status" th:text="${memo.memoStatus}">상태</div>
+      <div class="content-date" th:text="${memo.date}">작성 날짜</div>
+    </div>
+  </div>
+  <div class="content" th:text="${memo.content}">내용</div>
+</div>
+</body>
+</html>

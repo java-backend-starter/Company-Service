@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrag.net/nz/thymeleaf/layout"
+      layout:decorate="~{layouts/work}">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${headerTitle}">Title</title>
+</head>
+<body>
+<div layout:fragment="create">
+    <tr>
+        <td class="table-active w-25 text-center"><label for="project">프로젝트</label></td>
+        <td class="w-25">
+            <input type="time" id="project" class="inner-width form-control" name="project">
+        </td>
+        <td class="table-active w-25 text-center"><label for="phase">단계</label></td>
+        <td class="w-25">
+            <select id="phase" class="inner-width form-control" name="phase">
+                <option value="UI/UX 기획">UI/UX 기획</option>
+                <option value="UI/UX 분석">UI/UX 분석</option>
+                <option value="UI/UX 설계">UI/UX 설계</option>
+                <option value="UI/UX 작성">UI/UX 작성</option>
+                <option value="UI/UX 검증">UI/UX 검증</option>
+                <option value="UI/UX 결과물">UI/UX 결과물</option>
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td class="table-active w-25 text-center"><label for="subject">주제</label></td>
+        <td class="w-25">
+            <input type="text" id="subject" class="inner-width form-control" name="subject">
+        </td>
+        <td class="table-active w-25 text-center"><label for="status">상태</label></td>
+        <td class="w-25">
+            <select id="status" class="inner-width form-control" name="status">
+                <option value="시작">시작</option>
+                <option value="진행 중">진행 중</option>
+                <option value="완료">완료</option>
+                <option value="기간 초과">기간 초과</option>
+            </select>
+        </td>
+    </tr>
+    <!--tr>파일 입출력 관련</tr-->
+    <tr>
+        <td class="table-active w-25 text-center"><label for="complete">완료일</label></td>
+        <td class="w-25">
+            <input type="date" id="complete" class="inner-width form-control" name="complete">
+        </td>
+        <td class="table-active w-25 text-center"><label for="expire">완료 예정일</label></td>
+        <td class="w-25">
+            <input type="date" id="expire" class="inner-width form-control" name="expire">
+        </td>
+    </tr>
+    <tr>
+        <td class="table-active w-25 text-center"><label for="statement">비고</label></td>
+        <td class="w-75" colspan="3">
+            <textarea id="statement" class="inner-width form-control" name="statement"></textarea>
+        </td>
+    </tr>
+</div>
+
+<div layout:fragment="view-update">
+    <div th:if="${isUpdate}">
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uProject">프로젝트</label></td>
+            <td class="w-25">
+                <input type="time" id="uProject" class="inner-width form-control" name="project" th:value="${design.project}">
+            </td>
+            <td class="table-active w-25 text-center"><label for="uPhase">단계</label></td>
+            <td class="w-25">
+                <select id="uPhase" class="inner-width form-control" name="phase" th:value="${design.phase}">
+                    <option th:selected="${design.phase}=='UI/UX 기획'" value="UI/UX 기획">UI/UX 기획</option>
+                    <option th:selected="${design.phase}=='UI/UX 분석'" value="UI/UX 분석">UI/UX 분석</option>
+                    <option th:selected="${design.phase}=='UI/UX 설계'" value="UI/UX 설계">UI/UX 설계</option>
+                    <option th:selected="${design.phase}=='UI/UX 작성'" value="UI/UX 작성">UI/UX 작성</option>
+                    <option th:selected="${design.phase}=='UI/UX 검증'" value="UI/UX 검증">UI/UX 검증</option>
+                    <option th:selected="${design.phase}=='UI/UX 결과물'" value="UI/UX 결과물">UI/UX 결과물</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uSubject">주제</label></td>
+            <td class="w-25">
+                <input type="text" id="uSubject" class="inner-width form-control" name="subject" th:value="${design.subject}">
+            </td>
+            <td class="table-active w-25 text-center"><label for="uStatus">상태</label></td>
+            <td class="w-25">
+                <select id="uStatus" class="inner-width form-control" name="status" th:value="${design.status}">
+                    <option th:selected="${design.status}=='시작'" value="시작">시작</option>
+                    <option th:selected="${design.status}=='진행 중'" value="진행 중">진행 중</option>
+                    <option th:selected="${design.status}=='완료'" value="완료">완료</option>
+                    <option th:selected="${design.status}=='기간 초과'" value="기간 초과">기간 초과</option>
+                </select>
+            </td>
+        </tr>
+        <!--tr>파일 입출력 관련</tr-->
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uComplete">완료일</label></td>
+            <td class="w-25">
+                <input type="date" id="uComplete" class="inner-width form-control" name="complete" th:value="${design.complete}">
+            </td>
+            <td class="table-active w-25 text-center"><label for="uExpire">완료 예정일</label></td>
+            <td class="w-25">
+                <input type="date" id="uExpire" class="inner-width form-control" name="expire" th:value="${design.expire}">
+            </td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uStatement">비고</label></td>
+            <td class="w-75" colspan="3">
+                <textarea id="uStatement" class="inner-width form-control" name="statement" th:text=${design.statement}"></textarea>
+            </td>
+        </tr>
+        <tr th:if="${design.phase} == 'UI/UX 검증'">
+            <td class="table-active w-25 text-center">평가</td>
+            <td class="w-75" colspan="3" th:text="${design?.appraisal}"></td>
+        </tr>
+    </div>
+    <div th:unless="${isUpdate}">
+        <tr>
+            <td class="table-active w-25 text-center">프로젝트</td>
+            <td class="w-25" th:value="${design.project}"> </td>
+            <td class="table-active w-25 text-center">단계</td>
+            <td class="w-25" th:value="${design.phase}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">주제</td>
+            <td class="w-25" th:value="${design.subject}"></td>
+            <td class="table-active w-25 text-center">상태</td>
+            <td class="w-25" th:value="${design.status}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">완료일</td>
+            <td class="w-25" th:value="${design.complete}"></td>
+            <td class="table-active w-25 text-center">완료 예정일</td>
+            <td class="w-25" th:value="${design.expire}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">비고</td>
+            <td class="w-75" colspan="3" th:text=${design.statement}"></td>
+        </tr>
+        <tr th:if="${design.phase} == 'UI/UX 검증">
+            <td class="table-active w-25 text-center"><label for="appraisal">평가</label></td>
+            <td class="w-75" colspan="3" th:if="${isConsider}">
+                <textarea id="appraisal" class="inner-width form-control" name="appraisal" th:text="${design?.appraisal}"></textarea>
+            </td>
+            <td class="w-75" colspan="3" th:unless="${isConsider}" th:text="${design?.appraisal}"></td>
+        </tr>
+    </div>
+</div>
+
+<div layout:fragment="input-hidden-data">
+    <input type="hidden" name="draftStaff" th:value="${draftStaff.staffName}">
+</div>
+</body>
+</html>

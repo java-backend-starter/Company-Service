@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrag.net/nz/thymeleaf/layout"
+      layout:decorate="~{layouts/work}">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${headerTitle}">Title</title>
+</head>
+<body>
+<div layout:fragment="create">
+    <tr>
+        <td class="table-active w-25 text-center"><label for="staff">직원명</label></td>
+        <td class="w-25">
+            <input type="text" id="staff" class="inner-width form-control" name="staff">
+        </td>
+        <td class="table-active w-25 text-center"><label for="userId">직원아이디</label></td>
+        <td class="w-25">
+            <input type="text" id="userId" class="inner-width form-control" name="userId">
+        </td>
+    </tr>
+    <tr>
+        <td class="table-active w-25 text-center"><label for="night">야간근무시간</label></td>
+        <td class="table-active w-25 text-center"><label for="overtime">연장근무시간</label></td>
+        <td class="table-active w-25 text-center"><label for="weekend">주말근무시간</label></td>
+        <td class="table-active w-25 text-center"><label for="holiday">주휴수당</label></td>
+    </tr>
+    <tr>
+        <td class="w-25">
+            <input type="text" id="night" class="inner-width form-control" name="night">
+        </td>
+        <td class="w-25">
+            <input type="text" id="overtime" class="inner-width form-control" name="overtime">
+        </td>
+        <td class="w-25">
+            <input type="text" id="weekend" class="inner-width form-control" name="weekend">
+        </td>
+        <td class="w-25">
+            <input type="text" id="holiday" class="inner-width form-control" name="holiday">
+        </td>
+    </tr>
+    <tr>
+        <td class="table-active w-25 text-center"><label for="period">기준달</label></td>
+        <td class="w-25">
+            <input type="text" id="period" class="inner-width form-control" name="period">
+        </td>
+        <td class="table-active w-50" colspan="2"></td>
+    </tr>
+</div>
+
+<div layout:fragment="view-update">
+    <div th:if="${isUpdate}">
+        <tr>
+            <td class="table-active w-25 text-center">직원명</td>
+            <td class="table-active w-25 text-center">직원아이디</td>
+            <td class="table-active w-25 text-center">부서</td>
+            <td class="table-active w-25 text-center">직위</td>
+
+        </tr>
+        <tr>
+            <td class="w-25 text-center" th:text="${pay.staff.staffInfo.staffName}"></td>
+            <td class="w-25 text-center" th:text="${pay.staff.userId}"></td>
+            <td class="w-25 text-center" th:text="${pay.staff.staffWorkInfo.department.departmentName}"></td>
+            <td class="w-25 text-center" th:text="${pay.staff.staffWorkInfo.position.positionName}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uNight">야간근무시간</label></td>
+            <td class="table-active w-25 text-center"><label for="uOvertime">연장근무시간</label></td>
+            <td class="table-active w-25 text-center"><label for="uWeekend">주말근무시간</label></td>
+            <td class="table-active w-25 text-center"><label for="uHoliday">주휴수당</label></td>
+        </tr>
+        <tr>
+            <td class="w-25">
+                <input type="text" id="uNight" class="inner-width form-control" name="night" th:value="${pay.night}">
+            </td>
+            <td class="w-25">
+                <input type="text" id="uOvertime" class="inner-width form-control" name="overtime" th:value="${pay.overtime}">
+            </td>
+            <td class="w-25">
+                <input type="text" id="uWeekend" class="inner-width form-control" name="weekend" th:value="${pay.weekend}">
+            </td>
+            <td class="w-25">
+                <input type="text" id="uHoliday" class="inner-width form-control" name="holiday" th:value="${pay.holiday}">
+            </td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">지급일</td>
+            <td class="w-25" th:unless="${isConsider}" th:text="${pay?.payDate}"></td>
+            <td class="table-active w-25 text-center"><label for="uPeriod">기준달</label></td>
+            <td class="w-25">
+                <input type="text" id="uPeriod" class="inner-width form-control" name="period" th:value="${pay.period}">
+            </td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">비고</td>
+            <td class="w-75" colspan="3" th:text="${work?.statement}"></td>
+        </tr>
+    </div>
+    <div th:unless="${isUpdate}">
+        <tr>
+            <td class="table-active w-25 text-center">직원명</td>
+            <td class="table-active w-25 text-center">직원아이디</td>
+            <td class="table-active w-25 text-center">부서</td>
+            <td class="table-active w-25 text-center">직위</td>
+        </tr>
+        <tr>
+            <td class="w-25 text-center" th:text="${pay.staff.staffInfo.staffName}"></td>
+            <td class="w-25 text-center" th:text="${pay.staff.userId}"></td>
+            <td class="w-25 text-center" th:text="${pay.staff.staffWorkInfo.department.departmentName}"></td>
+            <td class="w-25 text-center" th:text="${pay.staff.staffWorkInfo.position.positionName}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">기본급</td>
+            <td class="w-25 text-center" th:text="${pay.payInfo.base}"></td>
+            <td class="table-active w-25 text-center">추가수당</td>
+            <td class="w-25 text-center" th:text="${pay.totalAdditional}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">야간근무시간</td>
+            <td class="table-active w-25 text-center">연장근무시간</td>
+            <td class="table-active w-25 text-center">주말근무시간</td>
+            <td class="table-active w-25 text-center">주휴수당 지급 횟수</td>
+        </tr>
+        <tr>
+            <td class="w-25 text-center" th:text="${pay.night}"></td>
+            <td class="w-25 text-center" th:text="${pay.overtime}"></td>
+            <td class="w-25 text-center" th:text="${pay.weekend}"></td>
+            <td class="w-25 text-center" th:text="${pay.holiday}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">야간근무수당</td>
+            <td class="table-active w-25 text-center">연장근무수당</td>
+            <td class="table-active w-25 text-center">주말근무수당</td>
+            <td class="table-active w-25 text-center">주휴수당</td>
+        </tr>
+        <tr>
+            <td class="w-25 text-center" th:text="${pay.additionalNight}"></td>
+            <td class="w-25 text-center" th:text="${pay.additionalOvertime}"></td>
+            <td class="w-25 text-center" th:text="${pay.additionalWeekend}"></td>
+            <td class="w-25 text-center" th:text="${pay.additionalHoliday}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center"><label for="payDate">지급일</label></td>
+            <td class="w-25" th:if="${isConsider}">
+                <input type="date" id="payDate" class="inner-width form-control" name="payDate" th:value="${pay?.payDate}">
+            </td>
+            <td class="w-25 text-center" th:unless="${isConsider}" th:text="${pay?.payDate}"></td>
+            <td class="table-active w-25 text-center">기준</td>
+            <td class="w-25 text-center" th:text="${pay.period}"></td>
+        </tr>
+        <tr th:if="${isConsider}">
+            <td class="table-active w-25 text-center"><label for="incomeTax">소득세</label></td>
+            <td class="w-25">
+                <input type="text" id="incomeTax" class="inner-width form-control" name="incomeTax">
+            </td>
+            <td class="w-50" colspan="2"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center"><label for="statement">비고</label></td>
+            <td class="w-75" colspan="3" th:if="${isConsider}">
+                <textarea id="statement" class="inner-width form-control" name="statement" th:text="${work?.statement}"></textarea>
+            </td>
+            <td class="w-75" colspan="3" th:unless="${isConsider}" th:text="${work?.statement}"></td>
+        </tr>
+    </div>
+</div>
+
+<div layout:fragment="input-hidden-data">
+    <input type="hidden" name="draftStaff" th:value="${draftStaff.staffName}">
+</div>
+</body>
+</html>

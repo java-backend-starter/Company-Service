@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrag.net/nz/thymeleaf/layout"
+      layout:decorate="~{layouts/user}">
+<head>
+  <meta charset="UTF-8">
+  <title th:text="${headerTitle}">공지사항</title>
+</head>
+<body>
+<div layout:fragment="content">
+  <table class="table w-100 table-striped table-light">
+    <thead>
+    <tr>
+      <th scope="col" class="board-info">번호</th>
+      <th scope="col" class="board-title">제목</th>
+      <th scope="col" class="board-info">작성자</th>
+      <th scope="col" class="board-info">직위</th>
+      <th scope="col" class="board-info">직책</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="post, status: ${paging}">
+      <th scope="row" class="board-info" th:text="${post.postId}"></th>
+      <td class="board-title"><a th:href="@{${postLink} + '/{id}'(id = ${post.postId})}" th:text="${post.title}"></a></td>
+      <td class="board-info" th:text="${post.staff.staffName} + '(' + ${post.staff.userId} + ')'">작성자</td>
+      <td class="board-info" th:text="${post.staff.position.positionName}"></td>
+      <td class="board-info" th:text="${post.staff.role.roleName}"></td>
+    </tr>
+    </tbody>
+  </table>
+  <nav aria-label="Page navigation example" th:if="${!paging.isEmpty()}">
+    <ul class="pagination justify-content-center">
+      <li class="page-item">
+        <a class="page-link" aria-label="Previous" th:classappend="${!paging.hasPrevious} ? 'disabled'"
+           th:href="@{|?page=${paging.number-1}|}">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+      <li class="page-item" th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}">
+        <a class="page-link" th:text="${page+1}" th:href="@{|?page=${page}|}"
+           th:if="${page >= paging.number-5 and page <= paging.number+5}"
+           th:classappend="${page == paging.number} ? 'active'">1</a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" aria-label="Next" th:classappend="${!paging.hasNext} ? 'disabled'"
+           th:href="@{|?page=${paging.number+1}|}">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</div>
+</body>
+</html>

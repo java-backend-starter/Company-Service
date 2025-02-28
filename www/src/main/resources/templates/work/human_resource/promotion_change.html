@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrag.net/nz/thymeleaf/layout"
+      layout:decorate="~{layouts/work}">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${headerTitle}">Title</title>
+</head>
+<body>
+<div layout:fragment="create">
+    <tr>
+        <td class="table-active w-25 text-center"><label for="staff">직원명</label></td>
+        <td class="w-25">
+            <input type="text" id="staff" class="inner-width form-control" name="staff">
+        </td>
+        <td class="table-active w-25 text-center"><label for="userId">직원 아이디</label></td>
+        <td class="w-25">
+            <input type="text" id="userId" class="inner-width form-control" name="userId">
+        </td>
+    </tr>
+    <tr>
+        <td class="table-active w-25 text-center"><label for="nextPosition">변경 예정 직무</label></td>
+        <td class="w-25">
+            <input type="text" id="nextPosition" class="inner-width form-control" name="nextPosition">
+        </td>
+        <td class="table-active w-25 text-center"><label for="nextRole">변경 예정 직책</label></td>
+        <td class="w-25">
+            <input type="text" id="nextRole" class="inner-width form-control" name="nextRole">
+        </td>
+    </tr>
+    <tr>
+        <td class="table-active w-25 text-center"><label for="reason">사유</label></td>
+        <td class="w-75" colspan="3">
+            <textarea id="reason" class="inner-width form-control" name="reason"></textarea>
+        </td>
+    </tr>
+    <tr>
+        <td class="table-active w-25 text-center"><label for="date">변경 날짜</label></td>
+        <td class="w-75" colspan="3">
+            <input type="date" id="date" class="inner-width form-control" name="date">
+        </td>
+    </tr>
+</div>
+
+<div layout:fragment="view-update">
+    <div th:if="${isUpdate}">
+        <tr>
+            <td class="table-active w-25 text-center">직원명<</td>
+            <td class="w-25" th:text="${promotionChange.staff.staffName}"></td>
+            <td class="table-active w-25 text-center">직원 아이디</td>
+            <td class="w-25" th:text="${promotionChange.staff.userId}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">변경 전 직무</td>
+            <td class="w-25" th:text="${promotionChange.currentPosition}"></td>
+            <td class="table-active w-25 text-center">변경 전 직책</td>
+            <td class="w-25" th:text="${promotionChange.currentRole}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uNextPosition">변경 예정 직무</label></td>
+            <td class="w-25">
+                <input type="text" id="uNextPosition" class="inner-width form-control" name="nextPosition" th:value="${promotionChange.nextPosition}">
+            </td>
+            <td class="table-active w-25 text-center"><label for="uNextRole">변경 예정 직책</label></td>
+            <td class="w-25">
+                <input type="text" id="uNextRole" class="inner-width form-control" name="nextRole" th:value="${promotionChange.nextRole}">
+            </td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uReason">사유</label></td>
+            <td class="w-75" colspan="3">
+                <textarea id="uReason" class="inner-width form-control" name="reason" th:text="${promotionChange.reason}"></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uDate">변경 날짜</label></td>
+            <td class="w-25">
+                <input type="text" id="uDate" class="inner-width form-control" name="date" th:value="${promotionChange.date}">
+            </td>
+        </tr>
+    </div>
+    <div th:unless="${isUpdate}">
+        <tr>
+            <td class="table-active w-25 text-center">직원명<</td>
+            <td class="w-25" th:text="${promotionChange.staff.staffName}"></td>
+            <td class="table-active w-25 text-center">직원 아이디</td>
+            <td class="w-25" th:text="${promotionChange.staff.userId}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">변경 전 직위</td>
+            <td class="w-25" th:text="${promotionChange.currentPosition}"></td>
+            <td class="table-active w-25 text-center">변경 전 직무</td>
+            <td class="w-25" th:text="${promotionChange.currentRole}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">변경 예정 직위</td>
+            <td class="w-25" th:text="${promotionChange.nextPosition}"></td>
+            <td class="table-active w-25 text-center">변경 예정 직무</td>
+            <td class="w-25" th:text="${promotionChange.nextRole}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">>사유</td>
+            <td class="w-75" colspan="3" th:text="${promotionChange.reason}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">변경 날짜</td>
+            <td class="w-25" th:text="${promotionChange.date}"></td>
+        </tr>
+    </div>
+</div>
+
+<div layout:fragment="input-hidden-data">
+    <input type="hidden" name="draftStaff" th:value="${draftStaff.staffName}">
+</div>
+</body>
+</html>

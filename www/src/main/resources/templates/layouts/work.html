@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title></title>
+    <link rel="stylesheet" th:href="@{/fragments/middle.css}">
+    <link rel="stylesheet" th:href="@{/css/width.css}">
+    <link rel="stylesheet" th:href="@{/css/button.css}">
+    <link rel="stylesheet" th:href="@{/css/work.css}">
+    <link rel="stylesheet" th:href="@{/css/write.css}">
+</head>
+<body>
+<div class="container">
+    <div id="top" th:replace="~{fragments/header}"></div>
+    <div id="middle">
+        <div class="alert alert-light alert-dismissible fade show alert-design" role="alert" th:if="${alertData}">
+            <div th:text="${alertData}"></div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <div class="work-container">
+            <div class="work-header">
+                <div class="header-title" th:text="${headerTitle}"></div>
+            </div>
+            <hr>
+            <form th:action="@{${link}}" method="post">
+                <div class="mb-3 write-space">
+                    <a th:href="@{${backLink}}" class="btn btn-secondary btn-margin btn-right">뒤로가기</a>
+                    <a th:href="@{${link}}" class="btn btn-secondary btn-margin btn-right" th:if="${isUpdatable}">수정</a>
+                    <button type="submit" class="btn btn-secondary btn-margin btn-right" th:if="${isUpdate}">수정</button>
+                    <button type="submit" class="btn btn-secondary btn-margin btn-right" th:if="${isConsider}">수정</button>
+                    <button type="submit" class="btn btn-secondary btn-margin btn-right" th:if="${isNew}">등록</button>
+                </div>
+
+                <!-- 결재 정보 -->
+                <table class="table table-light">
+                    <tbody th:if="${isNew}">
+                        <tr>
+                            <th class="table-active w-100 text-center" colspan="4">결재정보</th>
+                        </tr>
+                        <tr>
+                            <td class="table-active width-25 text-center"><label for="subject">제목</label></td>
+                            <td class="w-75" colspan="3">
+                                <input type="text" id="subject" class="inner-width form-control" name="subject">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="table-active w-25 text-center"><label for="retentionPeriod">보존년한</label></td>
+                            <td class="w-25 text-center">
+                                <select id="retentionPeriod" class="inner-width form-control" name="retentionPeriod">
+                                    <option th:value="선택">선택</option>
+                                    <option th:value="영구">영구</option>
+                                    <option th:value="30년">30년</option>
+                                    <option th:value="10년">10년</option>
+                                    <option th:value="5년">5년</option>
+                                    <option th:value="3년">3년</option>
+                                    <option th:value="1년">1년</option>
+                                </select>
+                            </td>
+                            <td class="table-active w-25 text-center"><label for="securityLevel">보안등급</label></td>
+                            <td class="w-25 text-center">
+                                <select id="securityLevel" class="inner-width form-control" name="securityLevel">
+                                    <option th:value="선택">선택</option>
+                                    <option th:value="1급">1급</option>
+                                    <option th:value="2급">2급</option>
+                                    <option th:value="3급">3급</option>
+                                    <option th:value="4급">4급</option>
+                                    <option th:value="5급">5급</option>
+                                </select>
+                            </td>
+                        </tr>
+                    <tr>
+
+                    </tr>
+                    </tbody>
+
+                    <tbody th:unless="${isNew}">
+                    <tr>
+                        <th class="table-active w-100 text-center" colspan="4">결재정보</th>
+                    </tr>
+                    <div th:if="${isUpdate}">
+                        <tr>
+                            <td class="table-active width-25 text-center"><label for="uSubject">제목</label></td>
+                            <td class="w-75" colspan="3">
+                                <textarea id="uSubject" class="inner-width form-control" name="subject" th:text="${work.subject}"></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="table-active w-25 text-center"><label for="uRetentionPeriod">보존년한</label></td>
+                            <td class="w-25 text-center">
+                                <select id="uRetentionPeriod" class="inner-width form-control" name="retentionPeriod" th:value="${work.retentionPeriod}">
+                                    <option th:selected="${work.retentionPeriod}=='영구'" th:value="영구">영구</option>
+                                    <option th:selected="${work.retentionPeriod}=='30년'" th:value="30년">30년</option>
+                                    <option th:selected="${work.retentionPeriod}=='10년'" th:value="10년">10년</option>
+                                    <option th:selected="${work.retentionPeriod}=='5년'" th:value="5년">5년</option>
+                                    <option th:selected="${work.retentionPeriod}=='3년'" th:value="3년">3년</option>
+                                    <option th:selected="${work.retentionPeriod}=='1년'" th:value="1년">1년</option>
+                                </select>
+                            </td>
+                            <td class="table-active w-25 text-center"><label for="uSecurityLevel">보안등급</label></td>
+                            <td class="w-25 text-center">
+                                <select id="uSecurityLevel" class="inner-width form-control" name="securityLevel" th:value="${work.securityLevel}">
+                                    <option th:selected="${work.securityLevel}=='1급'" th:value="1급">1급</option>
+                                    <option th:selected="${work.securityLevel}=='2급'" th:value="2급">2급</option>
+                                    <option th:selected="${work.securityLevel}=='3급'" th:value="3급">3급</option>
+                                    <option th:selected="${work.securityLevel}=='4급'" th:value="4급">4급</option>
+                                    <option th:selected="${work.securityLevel}=='5급'" th:value="5급">5급</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </div>
+                    <div th:unless="${isUpdate}">
+                        <tr>
+                            <td class="table-active width-25 text-center">제목</td>
+                            <td class="w-75" colspan="3" th:text="${work.subject}"></td>
+                        </tr>
+                        <tr>
+                            <td class="table-active w-25 text-center">보존년한</td>
+                            <td class="w-25 text-center" th:text="${work.retentionPeriod}"></td>
+                            <td class="table-active w-25 text-center">보안등급</td>
+                            <td class="w-25 text-center" th:text="${work.securityLevel}"></td>
+                        </tr>
+                    </div>
+                    </tbody>
+                </table>
+
+                <!-- 결재자 정보 -->
+                <table class="table table-light">
+                    <tbody th:if="${isNew}">
+                        <tr>
+                            <th class="w-100" colspan="6">결재자</th>
+                        </tr>
+                        <tr>
+                            <th class="width-16 text-center">구분</th>
+                            <th class="width-16 text-center">소속부서</th>
+                            <th class="width-16 text-center">직위</th>
+                            <th class="width-16 text-center">성명</th>
+                            <th class="width-16 text-center">결재일자</th>
+                            <th class="width-16 text-center">결재상태</th>
+                        </tr>
+                        <tr>
+                            <td class="table-active width-16 text-center">담당자</td>
+                            <td class="width-16 text-center" th:text="${draftStaff.department.departmentName}"></td>
+                            <td class="width-16 text-center" th:text="${draftStaff.position.positionName}"></td>
+                            <td class="width-16 text-center" th:text="${draftStaff.staffName}"></td>
+                            <td class="width-16"></td>
+                            <td class="width-16"></td>
+                        </tr>
+                    </tbody>
+                    <tbody th:unless="${isNew}">
+                    <tr>
+                        <th class="w-100" colspan="5">결재라인</th>
+                    </tr>
+                    <tr>
+                        <td class="table-active width-16 text-center">구분</td>
+                        <td class="table-active width-16 text-center">소속부서</td>
+                        <td class="table-active width-16 text-center">직위</td>
+                        <td class="table-active width-16 text-center">성명</td>
+                        <td class="table-active width-16 text-center">결재일자</td>
+                        <td class="table-active width-16 text-center">결재상태</td>
+                    </tr>
+                    <tr>
+                        <td class="table-active width-16 text-center">기안자</td>
+                        <td class="width-16 text-center" th:text="${work.draftStaff.department.departmentName}"></td>
+                        <td class="width-16 text-center" th:text="${work.draftStaff.position.positionName}"></td>
+                        <td class="width-16 text-center" th:text="${work.draftStaff.staffName}"></td>
+                        <td class="width-16 text-center" th:text="${work.draftDate}"></td>
+                        <td class="width-16 text-center" th:text="${work.draftState}"></td>
+                    </tr>
+                    <tr th:each="approver, status : ${work.approvers}">
+                        <td class="table-active width-16 text-center">결재자</td>
+                        <td class="width-16 text-center" th:text="${approver.department.departmentName}"></td>
+                        <td class="width-16 text-center" th:text="${approver.position.positionName}"></td>
+                        <td class="width-16 text-center" th:text="${approver.staffName}"></td>
+                        <td class="width-16 text-center" th:text="${approver.approvalDate}"></td>
+                        <td class="width-16 text-center" th:text="${approver.approvalState}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <!-- 작업 정보 -->
+                <table id="work-table" class="table table-light">
+                    <tbody th:if="${isNew}">
+                        <div layout:fragment="create">
+
+                        </div>
+                    </tbody>
+
+                    <tbody th:unless="${isNew}">
+                        <div layout:fragment="view-update">
+
+                        </div>
+                    </tbody>
+                </table>
+                <div layout:fragment="input-hidden-data" th:if="${isNew}">
+
+                </div>
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+            </form>
+        </div>
+    </div>
+    <div class="clear-area"></div>
+    <div id="bottom" th:replace="~{fragments/footer}"></div>
+</div>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    function insertMenuEvent(correction, rowCorrection){
+        const worktable = document.getElementById("work-table");
+        const index = worktable.rows.length - correction;
+        const newRow = worktable.insertRow(index);
+        const cellLength = /*[[${cellLength}]]*/;
+        const tags = /*[[${tags}]]*/
+
+        for(let i = 0; i < cellLength; i++){
+            const newCell = newRow.insertCell(i);
+            if(i === cellLength-1 && rowCorrection !== 0){
+                newCell.setAttribute('colspan', (table.rows[0].cells.length - cellLength + 1));
+            }
+            newCell.insertAdjacentHTML('afterbegin', tags[i]);
+        }
+     }
+
+    function deleteMenuEvent(btn) {
+        var tr = btn.closest("tr");
+        tr.remove();
+    }
+    /*]]>*/
+</script>
+</body>
+</html>

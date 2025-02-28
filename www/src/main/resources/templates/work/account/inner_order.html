@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrag.net/nz/thymeleaf/layout"
+      layout:decorate="~{layouts/work}">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${headerTitle}">Title</title>
+</head>
+<body>
+<div layout:fragment="create">
+    <tr>
+        <td class="table-active w-25 text-center"><label for="department">부서</label></td>
+        <td class="table-active w-25 text-center"><label for="section">과</label></td>
+        <td class="table-active w-25 text-center"><label for="team">팀</label></td>
+        <td class="table-active w-25"></td>
+    </tr>
+    <tr>
+        <td class="w-25">
+            <input type="text" id="department" class="inner-width form-control" name="department">
+        </td>
+        <td class="w-25">
+            <input type="text" id="section" class="inner-width form-control" name="department">
+        </td>
+        <td class="w-25">
+            <input type="text" id="team" class="inner-width form-control" name="department">
+        </td>
+        <td class="w-25"></td>
+    </tr>
+    <tr>
+        <td class="table-active w-25 text-center"><label for="item">항목</label></td>
+        <td class="table-active w-25 text-center"><label for="type">분류</label></td>
+        <td class="table-active w-25 text-center"><label for="cost">비용</label></td>
+        <td class="table-active w-25 text-center"><label for="date">일자</label></td>
+    </tr>
+    <tr>
+        <td class="w-25">
+            <input type="text" id="item" class="inner-width form-control" name="item">
+        </td>
+        <td class="w-25">
+            <input type="text" id="type" class="inner-width form-control" name="type">
+        </td>
+        <td class="w-25">
+            <input type="text" id="cost" class="inner-width form-control" name="cost">
+        </td>
+        <td class="w-25">
+            <input type="date" id="date" class="inner-width form-control" name="date">
+        </td>
+    </tr>
+    <tr>
+        <td class="table-active w-25 text-center"><label for="statement">비고</label></td>
+        <td class="w-75" colspan="3">
+            <textarea id="statement" class="inner-width form-control" name="statement"></textarea>
+        </td>
+    </tr>
+</div>
+
+<div layout:fragment="view-update">
+    <div th:if="${isUpdate}">
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uDepartment">부서</label></td>
+            <td class="table-active w-25 text-center"><label for="uSection">과</label></td>
+            <td class="table-active w-25 text-center"><label for="uTeam">팀</label></td>
+            <td class="table-active w-25"></td>
+        </tr>
+        <tr>
+            <td class="w-25">
+                <input type="text" id="uDepartment" class="inner-width form-control" name="department" th:value="${innerOrder.department.departmentName}">
+            </td>
+            <td class="w-25">
+                <input type="text" id="uSection" class="inner-width form-control" name="section" th:value="${innerOrder.section.sectionName}">
+            </td>
+            <td class="w-25">
+                <input type="text" id="uTeam" class="inner-width form-control" name="team" th:value="${innerOrder.team.teamName}">
+            </td>
+            <td class="w-25"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uItem">항목</label></td>
+            <td class="table-active w-25 text-center"><label for="uType">분류</label></td>
+            <td class="table-active w-25 text-center"><label for="uCost">비용</label></td>
+            <td class="table-active w-25 text-center"><label for="uDate">일자</label></td>
+        </tr>
+        <tr>
+            <td class="w-25">
+                <input type="text" id="uItem" class="inner-width form-control" name="item" th:value="${innerOrder.item}">
+            </td>
+            <td class="w-25">
+                <input type="text" id="uType" class="inner-width form-control" name="type" th:value="${innerOrder.type}">
+            </td>
+            <td class="w-25">
+                <input type="text" id="uCost" class="inner-width form-control" name="cost" th:value="${innerOrder.cost}">
+            </td>
+            <td class="w-25">
+                <input type="text" id="uDate" class="inner-width form-control" name="date" th:value="${innerOrder.date}">
+            </td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uStatement">비고</label></td>
+            <td class="w-75" colspan="3">
+                <textarea id="uStatement" class="inner-width form-control" name="statement" th:value="${innerOrder.statement}"></textarea>
+            </td>
+        </tr>
+    </div>
+    <div th:unless="${isUpdate}">
+        <tr>
+            <td class="table-active w-25 text-center">부서</td>
+            <td class="table-active w-25 text-center">과</td>
+            <td class="table-active w-25 text-center">팀</td>
+            <td class="table-active w-25 text-center"></td>
+        </tr>
+        <tr>
+            <td class="w-25 text-center" th:text="${innerOrder.department.departmentName}"></td>
+            <td class="w-25 text-center" th:text="${innerOrder.department.departmentName}"></td>
+            <td class="w-25 text-center" th:text="${innerOrder.department.departmentName}"></td>
+            <td class="w-25"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">항목</td>
+            <td class="table-active w-25 text-center">분류</td>
+            <td class="table-active w-25 text-center">비용</td>
+            <td class="table-active w-25 text-center">일자</td>
+        </tr>
+        <tr>
+            <td class="w-25 text-center" th:text="${innerOrder.item}"></td>
+            <td class="w-25 text-center" th:text="${innerOrder.type}"></td>
+            <td class="w-25 text-center" th:text="${innerOrder.cost}"></td>
+            <td class="w-25 text-center" th:text="${innerOrder.date}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">비고</td>
+            <td class="w-75 text-center statement" colspan="3" th:text="${innerOrder.statement}"></td>
+        </tr>
+    </div>
+</div>
+
+<div layout:fragment="input-hidden-data">
+    <input type="hidden" name="draftStaff" th:value="${draftStaff.staffName}">
+</div>
+</body>
+</html>

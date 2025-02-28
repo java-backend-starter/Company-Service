@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrag.net/nz/thymeleaf/layout"
+      layout:decorate="~{layouts/work}">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${headerTitle}">Title</title>
+</head>
+<body>
+<div layout:fragment="create">
+    <tr>
+        <td class="table-active w-25 text-center"><label for="softwareName">소프트웨어명</label></td>
+        <td class="table-active w-25 text-center"><label for="softwareType">종류</label></td>
+        <td class="table-active w-25 text-center"><label for="developDate">개발일자</label></td>
+        <td class="table-active w-25 text-center"><label for="price">가격</label></td>
+    </tr>
+    <tr>
+        <td class="w-25">
+            <input type="text" id="softwareName" class="inner-width form-control" name="softwareName">
+        </td>
+        <td class="w-25">
+            <input type="text" id="softwareType" class="inner-width form-control" name="softwareType">
+        </td>
+        <td class="w-25">
+            <input type="date" id="developDate" class="inner-width form-control" name="developDate">
+        </td>
+        <td class="w-25">
+            <input type="text" id="price" class="inner-width form-control" name="price">
+        </td>
+    </tr>
+    <!-- tr>파일 입출력</tr-->
+    <tr>
+        <td class="table-active w-25 text-center"><label for="mainFunction">주요기능</label></td>
+        <td class="w-75" colspan="3">
+            <textarea id="mainFunction" class="inner-width form-control" name="mainFunction"></textarea>
+        </td>
+    </tr>
+    <tr>
+        <td class="table-active w-25 text-center"><label for="statement">비고</label></td>
+        <td class="w-75" colspan="3">
+            <textarea id="statement" class="inner-width form-control" name="statement"></textarea>
+        </td>
+    </tr>
+</div>
+
+<div layout:fragment="view-update">
+    <div th:if="${isUpdate}">
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uSoftwareName">소프트웨어명</label></td>
+            <td class="table-active w-25 text-center"><label for="uSoftwareType">종류</label></td>
+            <td class="table-active w-25 text-center"><label for="uDevelopDate">개발일자</label></td>
+            <td class="table-active w-25 text-center"><label for="uPrice">가격</label></td>
+        </tr>
+        <tr>
+            <td class="w-25">
+                <input type="text" id="uSoftwareName" class="inner-width form-control" name="softwareName" th:value="${software.softwareName}">
+            </td>
+            <td class="w-25">
+                <input type="text" id="uSoftwareType" class="inner-width form-control" name="softwareType" th:value="${software.softwareType}">
+            </td>
+            <td class="w-25">
+                <input type="date" id="uDevelopDate" class="inner-width form-control" name="developDate" th:value="${software.developDate}">
+            </td>
+            <td class="w-25">
+                <input type="text" id="uPrice" class="inner-width form-control" name="price" th:value="${software.price}">
+            </td>
+        </tr>
+        <!-- tr>파일 입출력</tr-->
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uMainFunction">주요기능</label></td>
+            <td class="w-75" colspan="3">
+                <textarea id="uMainFunction" class="inner-width form-control" name="mainFunction" th:text="${software.mainFunction}"></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uStatement">비고</label></td>
+            <td class="w-75" colspan="3">
+                <textarea id="uStatement" class="inner-width form-control" name="statement" th:text="${software.statement}"></textarea>
+            </td>
+        </tr>
+    </div>
+    <div th:unless="${isUpdate}">
+        <tr>
+            <td class="table-active w-25 text-center">소프트웨어명</td>
+            <td class="table-active w-25 text-center">종류</td>
+            <td class="table-active w-25 text-center">개발일자</td>
+            <td class="table-active w-25 text-center">가격></td>
+        </tr>
+        <tr>
+            <td class="w-25 text-center" th:text="${software.softwareName}"></td>
+            <td class="w-25 text-center" th:text="${software.softwareType}"></td>
+            <td class="w-25 text-center" th:text="${software.developDate}"></td>
+            <td class="w-25 text-center" th:text="${software.price}"></td>
+        </tr>
+        <!-- tr>파일 입출력</tr-->
+        <tr>
+            <td class="table-active w-25 text-center">주요기능</td>
+            <td class="w-75 statement" colspan="3" th:text="${software.mainFunction}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">비고</td>
+            <td class="w-75 statement" colspan="3" th:text="${software.statement}"></td>
+        </tr>
+    </div>
+</div>
+
+<div layout:fragment="input-hidden-data">
+    <input type="hidden" name="draftStaff" th:value="${draftStaff.staffName}">
+</div>
+</body>
+</html>

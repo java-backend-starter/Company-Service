@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title></title>
+    <link rel="stylesheet" th:href="@{/fragments/middle.css}">
+    <link rel="stylesheet" th:href="@{/css/width.css}">
+</head>
+<body>
+<div class="container">
+    <div id="top" th:replace="~{fragments/header}"></div>
+    <div id="middle">
+        <div id="left" th:replace="~{fragments/aside}"></div>
+        <div id="right">
+            <div class="alert alert-light alert-dismissible fade show alert-design" role="alert" th:if="${alertData}">
+                <div th:text="${alertData}"></div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <div layout:fragment="content"></div>
+        </div>
+    </div>
+    <div class="clear-area"></div>
+    <div id="bottom" th:replace="~{fragments/footer}"></div>
+</div>
+</body>
+</html>

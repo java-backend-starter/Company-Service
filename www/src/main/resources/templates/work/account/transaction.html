@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrag.net/nz/thymeleaf/layout"
+      layout:decorate="~{layouts/work}">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${headerTitle}">Title</title>
+</head>
+<body>
+<div layout:fragment="create">
+    <tr>
+        <td class="table-active w-25 text-center"><label for="item">항목</label></td>
+        <td class="w-25">
+            <input type="text" id="item" class="inner-width form-control" name="item" th:value="${transaction?.item}">
+        </td>
+        <td class="table-active w-25 text-center"><label for="date">거래일</label></td>
+        <td class="w-25">
+            <input type="date" id="date" class="inner-width form-control" name="date" th:value="${transaction?.date}">
+        </td>
+    </tr>
+    <tr>
+        <td class="table-active w-25 text-center"><label for="debitType">차변</label></td>
+        <td class="w-25">
+            <input type="text" id="debitType" class="inner-width form-control" name="debitType" th:value="${transaction?.debitType}">
+        </td>
+        <td class="table-active w-25 text-center"><label for="debit">차변 금액</label></td>
+        <td class="w-25">
+            <input type="text" id="debit" class="inner-width form-control" name="debit" th:value="${transaction?.debit}">
+        </td>
+    </tr>
+    <tr>
+        <td class="table-active w-25 text-center"><label for="debitStatement">차변 설명</label></td>
+        <td class="w-75" colspan="3">
+            <textarea id="debitStatement" class="inner-width form-control" name="debitStatement" th:text="${transaction?.debitStatement}"></textarea>
+        </td>
+    </tr>
+    <tr>
+        <td class="table-active w-25 text-center"><label for="creditType">대변</label></td>
+        <td class="w-25">
+            <input type="text" id="creditType" class="inner-width form-control" name="creditType" th:value="${transaction?.creditType}">
+        </td>
+        <td class="table-active w-25 text-center"><label for="credit">대변 금액</label></td>
+        <td class="w-25">
+            <input type="text" id="credit" class="inner-width form-control" name="credit" th:value="${transaction?.credit}">
+        </td>
+    </tr>
+    <tr>
+        <td class="table-active w-25 text-center"><label for="creditStatement">대변 설명</label></td>
+        <td class="w-75" colspan="3">
+            <textarea id="creditStatement" class="inner-width form-control" name="creditStatement" th:text="${transaction?.creditStatement}"></textarea>
+        </td>
+    </tr>
+    <tr>
+        <td class="table-active w-25 text-center"><label for="statement">추가 기술</label></td>
+        <td class="w-75" colspan="3">
+            <textarea id="statement" class="inner-width form-control" name="statement" th:text="${transaction?.statement}"></textarea>
+        </td>
+    </tr>
+</div>
+
+<div layout:fragment="view-update">
+    <div th:if="${isUpdate}">
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uItem">항목</label></td>
+            <td class="w-25">
+                <input type="text" id="uItem" class="inner-width form-control" name="item" th:value="${transaction.item}">
+            </td>
+            <td class="table-active w-25 text-center"><label for="uDate">거래일</label></td>
+            <td class="w-25">
+                <input type="date" id="uDate" class="inner-width form-control" name="date" th:value="${transaction.date}">
+            </td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uDebitType">차변</label></td>
+            <td class="w-25">
+                <input type="text" id="uDebitType" class="inner-width form-control" name="debitType" th:value="${transaction.debitType}">
+            </td>
+            <td class="table-active w-25 text-center"><label for="uDebit">차변 금액</label></td>
+            <td class="w-25">
+                <input type="text" id="uDebit" class="inner-width form-control" name="debit" th:value="${transaction.debit}">
+            </td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uDebitStatement">차변 설명</label></td>
+            <td class="w-75" colspan="3">
+                <textarea id="uDebitStatement" class="inner-width form-control" name="debitStatement" th:text="${transaction.debitStatement}"></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uCreditType">대변</label></td>
+            <td class="w-25">
+                <input type="text" id="uCreditType" class="inner-width form-control" name="creditType" th:value="${transaction.creditType}">
+            </td>
+            <td class="table-active w-25 text-center"><label for="uCredit">대변 금액</label></td>
+            <td class="w-25">
+                <input type="text" id="uCredit" class="inner-width form-control" name="credit" th:value="${transaction.credit}">
+            </td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uCreditStatement">대변 설명</label></td>
+            <td class="w-75" colspan="3">
+                <textarea id="uCreditStatement" class="inner-width form-control" name="creditStatement" th:text="${transaction.creditStatement}"></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uStatement">추가 기술</label></td>
+            <td class="w-75" colspan="3">
+                <textarea id="uStatement" class="inner-width form-control" name="statement" th:text="${transaction.statement}"></textarea>
+            </td>
+        </tr>
+    </div>
+    <div th:unless="${isUpdate}">
+        <tr>
+            <td class="table-active w-25 text-center">항목</td>
+            <td class="w-25" th:text="${transaction.item}"></td>
+            <td class="table-active w-25 text-center">거래일</td>
+            <td class="w-25" th:text="${transaction.date}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uDebitType">차변</label></td>
+            <td class="w-25" th:text="${transaction.debitType}"></td>
+            <td class="table-active w-25 text-center">차변 금액</td>
+            <td class="w-25" th:text="${transaction.debit}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">차변 설명</td>
+            <td class="w-75" colspan="3" th:text="${transaction.debitStatement}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">대변</td>
+            <td class="w-25" th:text="${transaction.creditType}"></td>
+            <td class="table-active w-25">대변 금액</td>
+            <td class="w-25" th:text="${transaction.credit}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">대변 설명</td>
+            <td class="w-75" colspan="3" th:text="${transaction.creditStatement}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">추가 기술</td>
+            <td class="w-75" colspan="3" th:text="${transaction.statement}"></td>
+        </tr>
+    </div>
+</div>
+
+<div layout:fragment="input-hidden-data">
+    <input type="hidden" name="draftStaff" th:value="${draftStaff.staffName}">
+</div>
+</body>
+</html>

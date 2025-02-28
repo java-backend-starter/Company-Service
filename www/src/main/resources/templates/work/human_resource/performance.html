@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrag.net/nz/thymeleaf/layout"
+      layout:decorate="~{layouts/work}">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${headerTitle}">Title</title>
+</head>
+<body>
+<div layout:fragment="create">
+    <tr>
+        <td class="table-active w-25 text-center"><label for="staff">직원명</label></td>
+        <td class="w-25">
+            <input type="text" id="staff" class="inner-width form-control" name="staff">
+        </td>
+        <td class="table-active w-25 text-center"><label for="userId">직원아이디</label></td>
+        <td class="w-25">
+            <input type="text" id="userId" class="inner-width form-control" name="userId">
+        </td>
+    </tr>
+    <tr>
+        <td class="table-active w-25 text-center"><label for="type">업무</label></td>
+        <td class="w-25">
+            <input type="text" id="type" class="inner-width form-control" name="workType">
+        </td>
+        <td class="table-active w-25 text-center"><label for="name">실적</label></td>
+        <td class="w-25">
+            <input type="text" id="name" class="inner-width form-control" name="name">
+        </td>
+    </tr>
+    <tr>
+        <td class="table-active w-25 text-center"><label for="plan">계획</label></td>
+        <td class="w-75" colspan="3">
+            <textarea id="plan" class="inner-width form-control" name="plan"></textarea>
+        </td>
+    </tr>
+    <tr>
+        <td class="table-active w-25 text-center"><label for="archive">수준</label></td>
+        <td class="w-25">
+            <input type="text" id="archive" class="inner-width form-control" name="archive">
+        </td>
+        <td class="table-active w-25 text-center"><label for="ratio">성취율</label></td>
+        <td class="w-25">
+            <input type="text" id="ratio" class="inner-width form-control" name="ratio">
+        </td>
+    </tr>
+    <tr>
+        <td class="table-active w-25 text-center"><label for="performanceStatement">성취 내용</label></td>
+        <td class="w-75" colspan="3">
+            <textarea id="performanceStatement" class="inner-width form-control" name="performanceStatement"></textarea>
+        </td>
+    </tr>
+</div>
+
+<div layout:fragment="view-update">
+    <div th:if="${isUpdate}">
+        <tr>
+            <td class="table-active w-25 text-center">직원명<</td>
+            <td class="w-25" th:text="${performance.staff.staffInfo.staffName}"></td>
+            <td class="table-active w-25 text-center">직원아이디</td>
+            <td class="w-25" th:text="${performance.staff.userId}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uType">업무</label></td>
+            <td class="w-25">
+                <input type="text" id="uType" class="inner-width form-control" name="workType" th:value="${performance.workType.workName}">
+            </td>
+            <td class="table-active w-25 text-center"><label for="uName">실적</label></td>
+            <td class="w-25">
+                <input type="text" id="uName" class="inner-width form-control" name="name" th:value="${performance.name}">
+            </td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uPlan">계획</label></td>
+            <td class="w-75" colspan="3">
+                <textarea id="uPlan" class="inner-width form-control" name="plan" th:text="${performance.plan}"></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uArchive">수준</label></td>
+            <td class="w-25">
+                <input type="text" id="uArchive" class="inner-width form-control" name="archive" th:value="${performance.archive}">
+            </td>
+            <td class="table-active w-25 text-center"><label for="uRatio">성취율</label></td>
+            <td class="w-25">
+                <input type="text" id="uRatio" class="inner-width form-control" name="ratio" th:value="${performance.ratio}">
+            </td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uPerformanceStatement">성취 내용</label></td>
+            <td class="w-75" colspan="3">
+                <textarea id="uPerformanceStatement" class="inner-width form-control" name="performanceStatement" th:text="${performance.performanceStatement}"></textarea>
+            </td>
+        </tr>
+        <tr th:if="${isConsider}">
+            <td class="table-active w-25 text-center"><label for="uCheckStaffStatement">확인담당자 비고</label></td>
+            <td class="w-75" colspan="3">
+                <textarea id="uCheckStaffStatement" class="inner-width form-control" name="checkStaffStatement" th:text="${performance?.checkStaffStatement}"></textarea>
+            </td>
+        </tr>
+    </div>
+    <div th:unless="${isUpdate}">
+        <tr>
+            <td class="table-active w-25 text-center">직원명</td>
+            <td class="w-25" th:text="${performance.staff.staffInfo.staffName}"></td>
+            <td class="table-active w-25 text-center">직원아이디</td>
+            <td class="w-25" th:text="${performance.staff.userId}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">실적</td>
+            <td class="w-75" colspan="3" th:text="${performance.name}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">계획</td>
+            <td class="w-75" colspan="3" th:text="${performance.plan}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">수준</td>
+            <td class="w-25" th:text="${performance.archive}"></td>
+            <td class="table-active w-25 text-center">성취율</td>
+            <td class="w-25" th:text="${performance.ratio}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">성취 내용</td>
+            <td class="w-75" colspan="3" th:text="${performance.performanceStatement}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">확인담당자 비고</td>
+            <td class="w-75" colspan="3" th:text="${performance.checkStaffStatement}"></td>
+        </tr>
+    </div>
+</div>
+
+<div layout:fragment="input-hidden-data">
+    <input type="hidden" name="draftStaff" th:value="${draftStaff.staffName}">
+</div>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrag.net/nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${headerTitle}">Title</title>
+    <link rel="stylesheet" th:href="@{/css/board.css}">
+    <link rel="stylesheet" th:href="@{/css/button.css}">
+    <link rel="stylesheet" th:href="@{/css/write.css}">
+</head>
+<body>
+<div class="board-container" layout:fragment="content">
+    <div class="work-header">
+        <div class="header-title" th:text="${headerTitle}"></div>
+    </div>
+    <hr>
+    <form th:action="@{${link}}" method="post">
+        <div class="mb-3 write-space">
+            <a th:href="@{${backLink}}" class="btn btn-secondary btn-margin btn-right">뒤로가기</a>
+            <a th:href="@{${deleteLink}}" class="btn btn-secondary btn-margin btn-right" th:if="${isDeleteAuthority}"> 삭제</a>
+            <a th:href="@{${updateLink}}" class="btn btn-secondary btn-margin btn-right" th:unless="${isUpdate}">직무 개편</a>
+            <button type="submit" class="btn btn-secondary btn-margin btn-right" th:if="${isUpdate}">직무 개편</button>
+            <button type="submit" class="btn btn-secondary btn-margin btn-right" th:if="${isInsertAuthority}">직무 추가</button>
+            <input type="hidden" name="departmentName" th:value="departmentName" th:if="${isUpdate} and !${isUpdateAuthority}">
+        </div>
+        <table class="table table-light">
+            <tbody th:if="${isNew}">
+            <tr>
+                <td class="table-active w-25 text-center"><label for="role">직무명</label></td>
+                <td class="w-25">
+                    <input type="text" id="role" class="inner-width form-control" name="roleName">
+                </td>
+                <td class="table-active w-50" colspan="2"></td>
+            </tr>
+            </tbody>
+
+            <tbody th:unless="${isNew}">
+            <div th:if="${isUpdate}">
+                <tr>
+                    <td class="table-active w-25 text-center"><label for="uRoleName">직무명</label></td>
+                    <td class="w-25" th:if="${isUpdateAuthority}">
+                        <input type="text" id="uRoleName" class="inner-width form-control" name="roleName" th:value="${role.roleName}">
+                    </td>
+                    <td class="w-25" th:text="${role.roleName}" th:unless="${isUpdateAuthority}"></td>
+                    <td class="table-active w-25 text-center">직무 결재권자</td>
+                    <td class="w-25" th:text="${generalManager}"></td>
+                </tr>
+                <tr>
+                    <td class="table-active w-25 text-center">직무 종사자</td>
+                    <td class="w-75" colspan="3">
+                        <span th:each="staff, status:${roleStaff}" th:text="${staff.staffName} + ' '"></span>
+                    </td>
+                </tr>
+            </div>
+            <div th:unless="${isUpdate}">
+                <tr>
+                    <td class="table-active w-25 text-center">직무명</td>
+                    <td class="w-25" th:text="${role.roleName}"></td>
+                    <td class="table-active w-25 text-center">직무 결재권자</td>
+                    <td class="w-25" th:text="${generalManager}"></td>
+                </tr>
+                <tr>
+                    <td class="table-active w-25 text-center">직무 종사자</td>
+                    <td class="w-75" colspan="3">
+                        <span th:each="staff, status:${roleStaff}" th:text="${staff.staffName} + ' '"></span>
+                    </td>
+                </tr>
+            </div>
+            </tbody>
+        </table>
+    </form>
+</div>
+</body>
+</html>

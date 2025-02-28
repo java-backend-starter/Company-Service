@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrag.net/nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${headerTitle}">Title</title>
+    <link rel="stylesheet" th:href="@{/css/content.css}">
+    <link rel="stylesheet" th:href="@{/css/comment.css}">
+    <link rel="stylesheet" th:href="@{/css/button.css}">
+</head>
+<body>
+    <div layout:fragment="content" class="content-container">
+        <div class="header" th:text="${headerTitle}"></div>
+        <div class="content-header">
+            <div class="content-title" th:text="${post.title}"></div>
+            <div class="content-info">
+                <div class="content-writer" th:text="${post.staff.staffName} + '(' + ${post.staff.userId} + ')'">작성자</div>
+                <div class="content-role" th:text="${post.staff.role.roleName}">소속</div>
+                <div class="content-date" th:text="${#temporals.format(post.createTime, 'yyyy년 MM월 dd일 hh시 mm분 ss초')}">작성 날짜</div>
+            </div>
+            <div class="content-data"></div>
+        </div>
+        <div class="content-nav">
+            <a th:href="@{${detailLink}+'/delete'}" class="btn btn-secondary btn-margin btn-right"
+               th:if="${post.staff.staffName} == ${staffName}">글 삭제</a>
+            <a th:href="@{${detailLink}+'/update'}" class="btn btn-secondary btn-margin btn-right"
+               th:if="${post.staff.staffName} == ${staffName}">글 수정</a>
+            <a th:href="@{${link}}" class="btn btn-secondary btn-margin btn-right">뒤로 가기</a>
+        </div>
+        <div class="content" th:text="${post.content}"></div>
+
+        <div class="comment-input-container">
+            <div class="comment-input">
+                <div class="comment-name" th:if="${isUpdate}"><label for="staffName" th:text="${staffName}">아이디</label></div>
+                <div class="comment-name" th:unless="${isUpdate}"><label for="uStaffName" th:text="${staffName}">아이디</label></div>
+                <form th:action="@{${commentLink}}" method="post">
+                    <textarea id="staffName" class="comment-area" name="content" th:text="${comment.content}"
+                              th:placeholder="${commentState}" th:if="${isUpdate}"></textarea>
+                    <textarea id="uStaffName" class="comment-area" name="content"
+                              th:placeholder="${commentState}" th:unless="${isUpdate}"></textarea>
+                    <button class="btn btn-secondary btn-margin btn-right" type="submit">등록</button>
+                    <input type="hidden" th:value="${toStaff}" name="toStaff" th:if="${isReply} and !${isUpdate}">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                </form>
+            </div>
+        </div>
+
+        <div class="comment-container" th:each="comment, status: ${comment}" th:if="!${isUpdate} and !${isReply}">
+            <div class="comment-item">
+                <div class="comment-info">
+                    <div class="comment-name" th:text="${comment.fromStaff.staffName}">아이디</div>
+                    <div class="comment-time" th:text="${#temporals.format(comment.createTime, 'yyyy-MM-dd hh:mm:ss')}">작성일시</div>
+                </div>
+                <div class="comment-content" th:text="${comment.content}">내용</div>
+                <div class="comment-button-list">
+                    <a th:href="@{{commentLink}/{num}/delete(commentLink=${commentLink}, num=${comment.commentId})}"
+                       th:if="${staffName} == ${comment.fromStaff.staffInfo.staffName}"
+                       class="btn btn-secondary btn-margin btn-right">삭제하기</a>
+                    <a th:href="@{{commentLink}/{num}/delete(commentLink=${commentLink}, num=${comment.commentId})}"
+                       th:unless="${staffName} == ${comment.fromStaff.staffInfo.staffName}"
+                       sec:authorize="hasRole('ADMINISTRATOR') || hasRole('GENERAL_MANAGER')"
+                       class="btn btn-secondary btn-margin btn-right">삭제하기</a>
+                    <a th:href="@{{commentLink}/{num}/update(commentLink=${commentLink}, num=${comment.commentId})}"
+                       th:if="${staffName} == ${comment.fromStaff.staffInfo.staffName}"
+                       class="btn btn-secondary btn-margin btn-right">수정하기</a>
+                    <a th:href="@{{commentLink}/{num}/create(commentLink=${commentLink}, num=${comment.commentId})}"
+                       class="btn btn-secondary btn-margin btn-right">답글 달기</a>
+                </div>
+            </div>
+            <div class="comment-item-reply" th:each="reply, status: ${comment.child}">
+                <div class="comment-info">
+                    <div class="comment-name" th:text="${reply.fromStaff.staffName}">아이디</div>
+                    <div class="comment-time" th:text="${#temporals.format(reply.createTime, 'YYYY-MM-dd hh:mm:ss')}">작성일시</div>
+                </div>
+                <div class="comment-content" th:text="${reply.toStaff} + ' ' + ${reply.content}">내용</div>
+                <div class="comment-button-list">
+                    <a th:href="@{{commentLink}/{com}/{rep}/delete(commentLink=${commentLink}, com=${comment.commentId}, rep=${reply.commentId})}"
+                       th:if="${staffName} == ${reply.fromStaff.staffInfo.staffName}"
+                       class="btn btn-secondary btn-margin btn-right">삭제하기</a>
+                    <a th:href="@{{commentLink}/{com}/{rep}/delete(commentLink=${commentLink}, com=${comment.commentId}, rep=${reply.commentId})}"
+                       th:unless="${staffName} == ${reply.fromStaff.staffInfo.staffName}"
+                       sec:authorize="hasRole('ADMINISTRATOR') || hasRole('GENERAL_MANAGER')"
+                       class="btn btn-secondary btn-margin btn-right">삭제하기</a>
+                    <a th:href="@{{commentLink}/{com}/{rep}/update(commentLink=${commentLink}, com=${comment.commentId}, rep=${reply.commentId})}"
+                       th:if="${staffName} == ${reply.fromStaff.staffInfo.staffName}"
+                       class="btn btn-secondary btn-margin btn-right">수정하기</a>
+                    <a th:href="@{{commentLink}/{com}/create(commentLink=${commentLink}, com=${comment.commentId})}"
+                       class="btn btn-secondary btn-margin btn-right">답글 달기</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

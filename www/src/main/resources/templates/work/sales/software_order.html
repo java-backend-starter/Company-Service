@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrag.net/nz/thymeleaf/layout"
+      layout:decorate="~{layouts/work}">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${headerTitle}">Title</title>
+</head>
+<body>
+<div layout:fragment="create">
+    <tr>
+        <td class="table-active w-25 text-center"><label for="name">고객명</label></td>
+        <td class="table-active w-25 text-center"><label for="type">업종</label></td>
+        <td class="table-active w-25 text-center"><label for="location">위치</label></td>
+        <td class="table-active w-25 text-center"><label for="contact">연락처</label></td>
+    </tr>
+    <tr>
+        <td class="w-25">
+            <input type="text" id="name" class="inner-width form-control" name="name">
+        </td>
+        <td class="w-25">
+            <input type="text" id="type" class="inner-width form-control" name="type">
+        </td>
+        <td class="w-25">
+            <input type="text" id="location" class="inner-width form-control" name="location">
+        </td>
+        <td class="w-25">
+            <input type="text" id="contact" class="inner-width form-control" name="contact">
+        </td>
+    </tr>
+    <tr>
+        <td class="table-active w-25 text-center"><label for="quotation">견적서 이름</label></td>
+        <td class="w-25">
+            <input type="text" id="quotation" class="inner-width form-control" name="quotation">
+        </td>
+        <td class="table-active w-25 text-center"><label for="date">작성일시</label></td>
+        <td class="w-25">
+            <input type="date" id="date" class="inner-width form-control" name="date">
+        </td>
+    </tr>
+    <tr>
+        <td class="table-active w-25 text-center"><label for="orderDate">주문일</label></td>
+        <td class="table-active w-25 text-center"><label for="provideDate">납기예상일</label></td>
+        <td class="table-active w-25 text-center"><label for="payment">결제수단</label></td>
+        <td class="table-active w-25 text-center"><label for="status">주문상태</label></td>
+    </tr>
+    <tr>
+        <td class="w-25">
+            <input type="date" id="orderDate" class="inner-width form-control" name="orderDate">
+        </td>
+        <td class="w-25">
+            <input type="date" id="provideDate" class="inner-width form-control" name="provideDate">
+        </td>
+        <td class="w-25">
+            <input type="text" id="payment" class="inner-width form-control" name="payment">
+        </td>
+        <td class="w-25">
+            <select id="status" class="inner-width form-control" name="status">
+                <option value="주문 완료">주문 완료</option>
+                <option value="전달 준비">전달 준비</option>
+                <option value="전달 중">전달 중</option>
+                <option value="전달 완료">전달 완료</option>
+                <option value="주문 취소">주문 취소</option>
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td class="table-active w-25 text-center"><label for="statement">비고</label></td>
+        <td class="w-75" colspan="3">
+            <textarea id="statement" class="inner-width form-control" name="statement"></textarea>
+        </td>
+    </tr>
+</div>
+
+<div layout:fragment="view-update">
+    <div th:if="${isUpdate}">
+        <tr>
+            <td class="table-active w-25 text-center">고객명</td>
+            <td class="table-active w-25 text-center">업종</td>
+            <td class="table-active w-25 text-center">위치</td>
+            <td class="table-active w-25 text-center">연락처</td>
+        </tr>
+        <tr>
+            <td class="w-25 text-center" th:text="${softwareOrder.patron.name}"></td>
+            <td class="w-25 text-center" th:text="${softwareOrder.patron.type}"></td>
+            <td class="w-25 text-center" th:text="${softwareOrder.patron.location}"></td>
+            <td class="w-25 text-center" th:text="${softwareQOrder.patron.contact}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">견적서 이름</td>
+            <td class="w-25" th:text="${softwareOrder.softwareQuotation.quotation}"></td>
+            <td class="table-active w-25 text-center">주문코드</td>
+            <td class="w-25" th:text="${softwareOrder.orderCode}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uOrderDate">주문일</label></td>
+            <td class="table-active w-25 text-center"><label for="uProvideDate">납기예상일</label></td>
+            <td class="table-active w-25 text-center"><label for="uPayment">결제수단</label></td>
+            <td class="table-active w-25 text-center"><label for="uStatus">주문상태</label></td>
+        </tr>
+        <tr>
+            <td class="w-25">
+                <input type="date" id="uOrderDate" class="inner-width form-control" name="orderDate" th:value="${softwareOrder.orderDate}">
+            </td>
+            <td class="w-25">
+                <input type="date" id="uProvideDate" class="inner-width form-control" name="provideDate" th:value="${softwareOrder.provideDate}">
+            </td>
+            <td class="w-25">
+                <input type="text" id="uPayment" class="inner-width form-control" name="payment" th:value="${softwareOrder.payment}">
+            </td>
+            <td class="w-25">
+                <select id="uStatus" class="inner-width form-control" name="status" th:value="${softwareOrder.status}">
+                    <option th:selected="${developOrder.status}=='주문완료'" value="주문 완료">주문 완료</option>
+                    <option th:selected="${developOrder.status}=='전달 준비'" value="전달 준비">전달 준비</option>
+                    <option th:selected="${developOrder.status}=='전달 중'" value="전달 중">전달 중</option>
+                    <option th:selected="${developOrder.status}=='전달 완료'" value="전달 완료">전달 완료</option>
+                    <option th:selected="${developOrder.status}=='주문 취소'" value="주문 취소">주문 취소</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uStatement">비고</label></td>
+            <td class="w-75" colspan="3">
+                <textarea id="uStatement" class="inner-width form-control" name="statement" th:text="${softwareOrder.statement}"></textarea>
+            </td>
+        </tr>
+    </div>
+    <div th:unless="${isUpdate}">
+        <tr>
+            <td class="table-active w-25 text-center">고객명</td>
+            <td class="table-active w-25 text-center">업종</td>
+            <td class="table-active w-25 text-center">위치</td>
+            <td class="table-active w-25 text-center">연락처</td>
+        </tr>
+        <tr>
+            <td class="w-25 text-center" th:text="${softwareOrder.patron.name}"></td>
+            <td class="w-25 text-center" th:text="${softwareOrder.patron.type}"></td>
+            <td class="w-25 text-center" th:text="${softwareOrder.patron.location}"></td>
+            <td class="w-25 text-center" th:text="${softwareQOrder.patron.contact}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">주문일</td>
+            <td class="table-active w-25 text-center">납기예상일</td>
+            <td class="table-active w-25 text-center">결제수단</td>
+            <td class="table-active w-25 text-center">주문상태</td>
+        </tr>
+        <tr>
+            <td class="w-25 text-center" th:text="${softwareOrder.orderDate}"></td>
+            <td class="w-25 text-center" th:text="${softwareOrder.provideDate}"></td>
+            <td class="w-25 text-center" th:text="${softwareOrder.payment}"></td>
+            <td class="w-25 text-center" th:text="${softwareOrder.status}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">비고</td>
+            <td class="w-75" colspan="3" th:text="${softwareOrder.statement}"></td>
+        </tr>
+    </div>
+</div>
+
+<div layout:fragment="input-hidden-data">
+    <input type="hidden" name="draftStaff" th:value="${draftStaff.staffName}">
+</div>
+</body>
+</html>

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrag.net/nz/thymeleaf/layout"
+      layout:decorate="~{layouts/work}">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${headerTitle}">Title</title>
+</head>
+<body>
+<div layout:fragment="create">
+    <tr>
+        <td class="table-active w-25 text-center"><label for="staff">직원명</label></td>
+        <td class="w-25">
+            <input type="text" id="staff" class="inner-width form-control" name="staff">
+        </td>
+        <td class="table-active w-25 text-center"><label for="userId">직원 아이디</label></td>
+        <td class="w-25">
+            <input type="text" id="userId" class="inner-width form-control" name="userId">
+        </td>
+    </tr>
+    <tr>
+        <td class="table-active w-25 text-center"><label for="result">총평</label></td>
+        <td class="w-25">
+            <input type="text" id="result" class="inner-width form-control" name="result">
+        </td>
+        <td class="table-active w-25 text-center"><label for="date">평가일</label></td>
+        <td class="w-25">
+            <input type="date" id="date" class="inner-width form-control" name="date">
+        </td>
+    </tr>
+    <tr>
+        <td class="table-active w-25 text-center"><label for="contribution">기여도</label></td>
+        <td class="w-25">
+            <input type="text" id="contribution" class="inner-width form-control" name="contribution">
+        </td>
+        <td class="table-active w-25 text-center"><label for="judge">판단력</label></td>
+        <td class="w-25">
+            <input type="text" id="judge" class="inner-width form-control" name="judge">
+        </td>
+    </tr>
+    <tr>
+        <td class="table-active w-25 text-center"><label for="improvement">업무개선</label></td>
+        <td class="w-25">
+            <input type="text" id="improvement" class="inner-width form-control" name="improvement">
+        </td>
+        <td class="table-active w-25 text-center"><label for="propulsion">추진력</label></td>
+        <td class="w-25">
+            <input type="text" id="propulsion" class="inner-width form-control" name="propulsions">
+        </td>
+    </tr>
+    <tr>
+        <td class="table-active w-25 text-center"><label for="resolution">문제해결</label></td>
+        <td class="w-25">
+            <input type="text" id="resolution" class="inner-width form-control" name="resolution">
+        </td>
+        <td class="table-active w-25 text-center"><label for="accuracy">정확성</label></td>
+        <td class="w-25">
+            <input type="text" id="accuracy" class="inner-width form-control" name="accuracy">
+        </td>
+    </tr>
+    <tr>
+        <td class="table-active w-25 text-center"><label for="management">조직관리</label></td>
+        <td class="w-25">
+            <input type="text" id="management" class="inner-width form-control" name="management">
+        </td>
+        <td class="table-active w-25 text-center"><label for="sincerity">성실성</label></td>
+        <td class="w-25">
+            <input type="text" id="sincerity" class="inner-width form-control" name="sincerity">
+        </td>
+    </tr>
+    <tr>
+        <td class="table-active w-25 text-center"><label for="sympathy">공감/협조능력</label></td>
+        <td class="w-25">
+            <input type="text" id="sympathy" class="inner-width form-control" name="sympathy">
+        </td>
+        <td class="table-active w-25 text-center"><label for="belonging">애사심</label></td>
+        <td class="w-25">
+            <input type="text" id="belonging" class="inner-width form-control" name="belonging">
+        </td>
+    </tr>
+    <tr>
+        <td class="table-active w-25 text-center"><label for="statement">평가자 비고</label></td>
+        <td class="w-75" colspan="3">
+            <textarea id="statement" class="inner-width form-control" name="statement"></textarea>
+        </td>
+    </tr>
+</div>
+
+<div layout:fragment="view-update">
+    <div th:if="${isUpdate}">
+        <tr>
+            <td class="table-active w-25 text-center">직원명</td>
+            <td class="w-25" th:text="${appraisal.staff.staffInfo.staffName}"></td>
+            <td class="table-active w-25 text-center">직원 아이디</td>
+            <td class="w-25" th:value="${appraisal.staff.userId}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uResult">총평</label></td>
+            <td class="w-25">
+                <input type="text" id="uResult" class="inner-width form-control" name="result" th:value="${appraisal.result}">
+            </td>
+            <td class="table-active w-25 text-center"><label for="uDate">평가일</label></td>
+            <td class="w-25">
+                <input type="date" id="uDate" class="inner-width form-control" name="date" th:value="${appraisal.date}">
+            </td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uContribution">기여도</label></td>
+            <td class="w-25">
+                <input type="text" id="uContribution" class="inner-width form-control" name="contribution" th:value="${appraisal.contribution}">
+            </td>
+            <td class="table-active w-25 text-center"><label for="uJudge">판단력</label></td>
+            <td class="w-25">
+                <input type="text" id="uJudge" class="inner-width form-control" name="judge" th:value="${appraisal.judge}">
+            </td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uImprovement">업무개선</label></td>
+            <td class="w-25">
+                <input type="text" id="uImprovement" class="inner-width form-control" name="improvement" th:value="${appraisal.improvement}">
+            </td>
+            <td class="table-active w-25 text-center"><label for="uPropulsion">추진력</label></td>
+            <td class="w-25">
+                <input type="text" id="uPropulsion" class="inner-width form-control" name="propulsion" th:value="${appraisal.propulsion}">
+            </td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uResolution">문제해결</label></td>
+            <td class="w-25">
+                <input type="text" id="uResolution" class="inner-width form-control" name="resolution" th:value="${appraisal.resolution}">
+            </td>
+            <td class="table-active w-25 text-center"><label for="uAccuracy">정확성</label></td>
+            <td class="w-25">
+                <input type="text" id="uAccuracy" class="inner-width form-control" name="accuracy" th:value="${appraisal.accuracy}">
+            </td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uManagement">조직관리</label></td>
+            <td class="w-25">
+                <input type="text" id="uManagement" class="inner-width form-control" name="management" th:value="${appraisal.management}">
+            </td>
+            <td class="table-active w-25 text-center"><label for="uSincerity">성실성</label></td>
+            <td class="w-25">
+                <input type="text" id="uSincerity" class="inner-width form-control" name="sincerity" th:value="${appraisal.sincerity}">
+            </td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uSympathy">공감/협조능력</label></td>
+            <td class="w-25">
+                <input type="text" id="uSympathy" class="inner-width form-control" name="sympathy" th:value="${appraisal.sympathy}">
+            </td>
+            <td class="table-active w-25 text-center"><label for="uBelonging">애사심</label></td>
+            <td class="w-25">
+                <input type="text" id="uBelonging" class="inner-width form-control" name="belonging" th:value="${appraisal.belonging}">
+            </td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uStatement">평가자 비고</label></td>
+            <td class="w-75" colspan="3">
+                <textarea id="uStatement" class="inner-width form-control" name="statement" th:text="${appraisal.statement}"></textarea>
+            </td>
+        </tr>
+    </div>
+    <div th:unless="${isUpdate}">
+        <tr>
+            <td class="table-active w-25 text-center">직원명</td>
+            <td class="w-25" th:text="${appraisal.staff.staffInfo.staffName}"></td>
+            <td class="table-active w-25 text-center">직원 아이디</td>
+            <td class="w-25" th:text="${appraisal.staff.userId}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">총평</td>
+            <td class="w-25" th:text="${appraisal.result}"></td>
+            <td class="table-active w-25 text-center">평가일</td>
+            <td class="w-25" th:text="${appraisal.date}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">기여도</td>
+            <td class="w-25" th:text="${appraisal.contribution}"></td>
+            <td class="table-active w-25 text-center">판단력</td>
+            <td class="w-25" th:text="${appraisal.judge}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">업무개선</td>
+            <td class="w-25" th:text="${appraisal.improvement}"></td>
+            <td class="table-active w-25 text-center">추진력</td>
+            <td class="w-25" th:text="${appraisal.propulsion}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">문제해결<</td>
+            <td class="w-25" th:text="${appraisal.resolution}"></td>
+            <td class="table-active w-25 text-center">정확성</td>
+            <td class="w-25" th:text="${appraisal.accuracy}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">조직관리</td>
+            <td class="w-25" th:text="${appraisal.management}"></td>
+            <td class="table-active w-25 text-center">성실성</td>
+            <td class="w-25" th:text="${appraisal.sincerity}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">공감/협조능력</td>
+            <td class="w-25" th:text="${appraisal.sympathy}"></td>
+            <td class="table-active w-25 text-center">애사심></td>
+            <td class="w-25" th:text="${appraisal.belonging}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">평가자 비고</td>
+            <td class="w-75" colspan="3" th:text="${appraisal.statement}"></td>
+        </tr>
+    </div>
+</div>
+
+<div layout:fragment="input-hidden-data">
+    <input type="hidden" name="draftStaff" th:value="${draftStaff.staffName}">
+</div>
+</body>
+</html>

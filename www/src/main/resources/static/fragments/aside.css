@@ -1,0 +1,53 @@
+#left{
+    display:inline-block;
+    float: left;
+    width: 17.5%;
+    margin-right: 0;
+    z-index: 10;
+}
+.aside-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-items: center;
+}
+.menu-container{
+    margin: 1.5em auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-items: center;
+    width: 90%;
+    background-color: #e2e2e2;
+}
+.menu-title{
+    width: 100%;
+    font-size: 1.5em;
+    font-weight: 700;
+    text-align: center;
+    background-color: #aaaaaa;
+}
+.menu-bar-container{
+    width: 100%;
+}
+.menu-bar{
+    width: 100%;
+    height: 2.5em;
+    text-align: center;
+    list-style: none;
+    cursor: pointer;
+}
+.menu-bar:link, .menu-bar:visited {
+    color: black;
+}
+.menu-bar:hover, .menu-bar:active {
+    background-color: #dcdcdc;
+    color: black;
+}
+.menu-bar > a{
+    text-decoration: none;
+    color: black;
+}
+.login-box{
+
+}

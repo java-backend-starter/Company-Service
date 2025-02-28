@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrag.net/nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${headerTitle}">Title</title>
+    <link rel="stylesheet" th:href="@{/css/board.css}">
+    <link rel="stylesheet" th:href="@{/css/button.css}">
+    <link rel="stylesheet" th:href="@{/css/write.css}">
+</head>
+<body>
+<div class="board-container" layout:fragment="content">
+    <div class="work-header">
+        <div class="header-title" th:text="${headerTitle}"></div>
+    </div>
+    <hr>
+    <form th:action="@{${link}}" method="post">
+        <div class="mb-3 write-space">
+            <a th:href="@{${backLink}}" class="btn btn-secondary btn-margin btn-right">뒤로가기</a>
+            <a th:href="@{${deleteLink}}" class="btn btn-secondary btn-margin btn-right" th:if="${isDeleteAuthority}">부서 삭제</a>
+            <a th:href="@{${updateLink}}" class="btn btn-secondary btn-margin btn-right" th:if="!${isUpdate} and ${isUpdateAuthority}">부서 개편</a>
+            <button type="submit" class="btn btn-secondary btn-margin btn-right" th:if="${isUpdate} and ${isUpdateAuthority}">부서 개편</button>
+        </div>
+        <table class="table table-light">
+            <tbody th:if="${isNew}">
+            <tr>
+                <td class="table-active w-25 text-center"><label for="department">부서 이름</label></td>
+                <td class="w-25">
+                    <input type="text" id="department" class="inner-width form-control" name="departmentName">
+                </td>
+                <td class="table-active w-25 text-center"><label for="department_link">부서 영문 이름</label></td>
+                <td class="w-25">
+                    <input type="text" id="department_link" class="inner-width form-control" name="departmentEnglishName">
+                </td>
+            </tr>
+            </tbody>
+            <tbody th:unless="${isNew}">
+            <div th:if="${isUpdate}">
+                <tr>
+                    <td class="table-active w-25 text-center"><label for="uDepartmentName">부서 이름</label></td>
+                    <td class="table-active w-25 text-center"><label for="uDepartmentEnglishName">부서 이름(영문명)</label></td>
+                    <td class="table-active w-25 text-center">부장</td>
+                    <td class="table-active w-25 text-center"></td>
+                </tr>
+                <tr th:if="${isUpdateAuthority}">
+                    <td class="w-25" th:if="${isUpdateAuthority}">
+                        <input type="text" id="uDepartmentName" class="inner-width form-control" name="departmentName" th:value="${department.departmentName}">
+                    </td>
+                    <td class="w-25" th:if="${isUpdateAuthority}">
+                        <input type="text" id="uDepartmentEnglishName" class="inner-width form-control" name="departmentEnglishName" th:value="${department.departmentEnglishName}">
+                    </td>
+                    <td class="w-25 text-center" th:text="${generalManager}"></td>
+                    <td class="w-25 text-center"></td>
+                </tr>
+                <tr th:unless="${isUpdateAuthority}">
+                    <td class="w-25 text-center" th:text="${department.departmentName}"></td>
+                    <td class="w-25 text-center" th:text="${department.departmentEnglishName}"></td>
+                    <td class="w-25 text-center" th:text="${generalManager}"></td>
+                    <td class="w-25 text-center"></td>
+                </tr>
+                <tr>
+                    <td class="table-active w-25 text-center">하위 부서(과)</td>
+                    <td class="w-75 text-center" colspan="3">
+                        <span th:each="section, status:${section}" th:text="${section.sectionName} + ' '"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="table-active w-25 text-center">부서원</td>
+                    <td class="w-75" colspan="3">
+                        <span th:each="staffWorkInfo, status:${department.staffWorkInfo}" th:text="${staffWorkInfo.staff.staffName} + ' '"></span>
+                    </td>
+                </tr>
+            </div>
+            <div th:unless="${isUpdate}">
+                <tr>
+                    <td class="table-active w-25 text-center">부서 이름</td>
+                    <td class="table-active w-25 text-center">부서 이름(영문명)</td>
+                    <td class="table-active w-25 text-center">부장</td>
+                    <td class="table-active w-25 text-center"></td>
+                </tr>
+                <tr>
+                    <td class="w-25 text-center" th:text="${department.departmentName}"></td>
+                    <td class="w-25 text-center" th:text="${department.departmentEnglishName}"></td>
+                    <td class="w-25 text-center" th:text="${generalManager}"></td>
+                    <td class="w-25 text-center"></td>
+                </tr>
+                <tr>
+                    <td class="table-active w-25 text-center">하위부서(과)</td>
+                    <td class="w-75" colspan="3">
+                        <span th:each="section, status:${section}" th:text="${section.sectionName} + ' '"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="table-active w-25 text-center">부서원</td>
+                    <td class="w-75" colspan="3">
+                        <span th:each="staff, status:${departmentStaff}" th:text="${staff.staffName} + ' '"></span>
+                    </td>
+                </tr>
+            </div>
+            </tbody>
+        </table>
+    </form>
+</div>
+</body>
+</html>

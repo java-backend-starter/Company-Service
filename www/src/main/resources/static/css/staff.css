@@ -1,0 +1,47 @@
+.staff-login-container, .staff-signup-container, .staff-info-container{
+    width: 60%;
+    margin: 1.2em auto;
+}
+.staff-container{
+    width: 100%;
+    margin: 1em auto;
+}
+.staff-login-container, .staff-signup-container{
+    padding: 0.625em 0;
+}
+.staff-login-container > .card{
+    width: 100%;
+}
+.staff-login-container .card, .staff-login-container .card-group{
+    margin-bottom: 0.625em;
+}
+.staff-signup-container, .staff-login-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-items: center;
+}
+
+.staff-input-box .staff-input:first-child{
+    border-radius: 0.625em 0.625em 0 0;
+}
+.staff-input-box .staff-input:last-child{
+    border-radius: 0 0 0.625em 0.625em;
+}
+
+.member-input-box{
+    width: 60%;
+    margin-bottom: 0.625em;
+}
+.member-input{
+    width: 100%; height: 3em;
+    padding: 0.5em;
+}
+
+.empty-block{
+    width: 100%; height: 3em;
+    clear: both;
+}
+.staff-info-header > h1 {
+    text-align : center;
+}

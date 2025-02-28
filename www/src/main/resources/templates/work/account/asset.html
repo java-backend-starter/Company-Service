@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrag.net/nz/thymeleaf/layout"
+      layout:decorate="~{layouts/work}">
+<head>
+  <meta charset="UTF-8">
+  <title th:text="${headerTitle}">Title</title>
+</head>
+<body>
+<div layout:fragment="create">
+  <tr>
+    <td class="table-active w-25 text-center"><label for="type">자산분류</label></td>
+    <td class="w-25">
+      <input type="text" id="type" class="inner-width form-control" name="type">
+    </td>
+    <td class="table-active w-25 text-center"><label for="name">자산명</label></td>
+    <td class="w-25">
+      <input type="text" id="name" class="inner-width form-control" name="name">
+    </td>
+  </tr>
+  <tr>
+    <td class="table-active w-25 text-center"><label for="date">취득일자</label></td>
+    <td class="table-active w-25 text-center"><label for="quantity">취득수량</label></td>
+    <td class="table-active w-25 text-center"><label for="price">취득가액</label></td>
+    <td class="table-active w-25 text-center"><label for="acquisitionMethod">취득방법</label></td>
+  </tr>
+  <tr>
+    <td class="w-25">
+      <input type="date" id="date" class="inner-width form-control" name="date">
+    </td>
+    <td class="w-25">
+      <input type="text" id="quantity" class="inner-width form-control" name="quantity">
+    </td>
+    <td class="w-25">
+      <input type="text" id="price" class="inner-width form-control" name="price">
+    </td>
+    <td class="w-25">
+      <input type="text" id="acquisitionMethod" class="inner-width form-control" name="acquisitionMethod">
+    </td>
+  </tr>
+  <tr>
+    <td class="table-active w-25 text-center"><label for="department">사용부서</label></td>
+    <td class="w-25">
+      <input type="text" id="department" class="inner-width form-control" name="department">
+    </td>
+    <td class="table-active w-25 text-center"><label for="status">자산상태</label></td>
+    <td class="w-25">
+      <input type="text" id="status" class="inner-width form-control" name="status">
+    </td>
+  </tr>
+</div>
+
+<div layout:fragment="view-update">
+  <div th:if="${isUpdate}">
+    <tr>
+      <td class="table-active w-25 text-center">자산코드</td>
+      <td class="table-active w-25 text-center">자산분류</td>
+      <td class="table-active w-25 text-center"><label for="uName">자산명</label></td>
+      <td class="table-active w-25 text-center"></td>
+    </tr>
+    <tr>
+      <td class="w-25 text-center" th:text="${asset.assetType.superCode} + '-' +${asset.subCode}"></td>
+      <td class="w-25 text-center" th:text="${asset.assetType.type}"></td>
+      <td class="w-25">
+        <input type="text" id="uName" class="inner-width form-control" name="name" th:value="${asset.name}">
+      </td>
+      <td class="w-25"></td>
+    </tr>
+    <tr>
+      <td class="table-active w-25 text-center"><label for="uDate">취득일자</label></td>
+      <td class="table-active w-25 text-center"><label for="uQuantity">취득수량</label></td>
+      <td class="table-active w-25 text-center"><label for="uPrice">취득가액</label></td>
+      <td class="table-active w-25 text-center"><label for="uAcquisitionMethod">취득방법</label></td>
+    </tr>
+    <tr>
+      <td class="w-25">
+        <input type="date" id="uDate" class="inner-width form-control" name="date" th:value="${asset.date}">
+      </td>
+      <td class="w-25">
+        <input type="text" id="uQuantity" class="inner-width form-control" name="quantity" th:value="${asset.quantity}">
+      </td>
+      <td class="w-25">
+        <input type="text" id="uPrice" class="inner-width form-control" name="price" th:value="${asset.price}">
+      </td>
+      <td class="w-25">
+        <input type="text" id="uAcquisitionMethod" class="inner-width form-control" name="acquisitionMethod" th:value="${asset.acquisitionMethod}">
+      </td>
+    </tr>
+    <tr>
+      <td class="table-active w-25 text-center">내용연수</td>
+      <td class="table-active w-25 text-center">상각법</td>
+      <td class="table-active w-25 text-center">상각비</td>
+      <td class="table-active w-25 text-center">상태</td>
+    </tr>
+    <tr>
+      <td class="w-25 text-center" th:text="${asset.assetType.usefulYear}"></td>
+      <td class="w-25 text-center" th:text="${asset.assetType.depreciationMethod}"></td>
+      <td class="w-25 text-center" th:text="${asset.depreciation}"></td>
+      <td class="w-25 text-center" th:text="${asset.status}"></td>
+    </tr>
+  </div>
+
+  <div th:unless="${isUpdate}">
+    <tr>
+      <td class="table-active w-25 text-center">자산코드</td>
+      <td class="table-active w-25 text-center">자산분류</td>
+      <td class="table-active w-25 text-center">자산명</td>
+      <td class="table-active w-25 text-center"></td>
+    </tr>
+    <tr>
+      <td class="w-25 text-center" th:text="${asset.assetType.superCode} + '-' +${asset.subCode}"></td>
+      <td class="w-25 text-center" th:text="${asset.assetType.type}"></td>
+      <td class="w-25 text-center" th:text="${asset.name}"></td>
+      <td class="w-25"></td>
+    </tr>
+    <tr>
+      <td class="table-active w-25 text-center">취득일자</td>
+      <td class="table-active w-25 text-center">취득수량</td>
+      <td class="table-active w-25 text-center">취득가액</td>
+      <td class="table-active w-25 text-center">취득방법</td>
+    </tr>
+    <tr>
+      <td class="w-25 text-center" th:text="${asset.date}"></td>
+      <td class="w-25 text-center" th:text="${asset.quantity}"></td>
+      <td class="w-25 text-center" th:text="${asset.price}"></td>
+      <td class="w-25 text-center" th:text="${asset.acquisitionMethod}"></td>
+    </tr>
+    <tr>
+      <td class="table-active w-25 text-center">내용연수</td>
+      <td class="table-active w-25 text-center">상각법</td>
+      <td class="table-active w-25 text-center">상각비</td>
+      <td class="table-active w-25 text-center">상태</td>
+    </tr>
+    <tr>
+      <td class="w-25 text-center" th:text="${asset.assetType.usefulYear}"></td>
+      <td class="w-25 text-center" th:text="${asset.assetType.depreciationMethod}"></td>
+      <td class="w-25 text-center" th:text="${asset.depreciation}"></td>
+      <td class="w-25 text-center" th:text="${asset.status}"></td>
+    </tr>
+  </div>
+</div>
+
+<div layout:fragment="input-hidden-data">
+  <input type="hidden" name="draftStaff" th:value="${draftStaff.staffName}">
+</div>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrag.net/nz/thymeleaf/layout"
+      layout:decorate="~{layouts/work}">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${headerTitle}">Title</title>
+</head>
+<body>
+<div layout:fragment="create">
+    <tr>
+        <td class="table-active width-20 text-center"><label for="item">항목</label></td>
+        <td class="table-active width-20 text-center"><label for="type">분류</label></td>
+        <td class="table-active width-20 text-center"><label for="grade">등급</label></td>
+        <td class="table-active width-20 text-center"><label for="base">일단가</label></td>
+        <td class="table-active width-20 text-center"><label for="date">계산일자</label></td>
+    </tr>
+    <tr>
+        <td class="width-20">
+            <input type="text" id="item" class="inner-width form-control" name="item">
+        </td>
+        <td class="width-20">
+            <input type="text" id="type" class="inner-width form-control" name="type">
+        </td>
+        <td class="width-20">
+            <input type="text" id="grade" class="inner-width form-control" name="grade">
+        </td>
+        <td class="width-20">
+            <input type="text" id="base" class="inner-width form-control" name="base">
+        </td>
+        <td class="width-20">
+            <input type="date" id="date" class="inner-width form-control" name="date">
+        </td>
+    </tr>
+    <tr>
+        <td class="table-active w-100 text-center" colspan="5"><label for="statement">세부사항</label></td>
+    </tr>
+    <tr>
+        <td class="w-100" colspan="5">
+            <textarea id="statement" class="inner-width form-control" name="statement"></textarea>
+        </td>
+    </tr>
+</div>
+
+<div layout:fragment="view-update">
+    <div th:if="${isUpdate}">
+        <tr>
+            <td class="table-active width-20 text-center"><label for="uItem">항목</label></td>
+            <td class="table-active width-20 text-center"><label for="uType">분류</label></td>
+            <td class="table-active width-20 text-center"><label for="uGrade">등급</label></td>
+            <td class="table-active width-20 text-center"><label for="uBase">단위원가</label></td>
+            <td class="table-active width-20 text-center"><label for="uDate">기준일</label></td>
+        </tr>
+        <tr>
+            <td class="width-20">
+                <input type="text" id="uItem" class="inner-width form-control" name="item" th:value="${standardCost.item}">
+            </td>
+            <td class="width-20">
+                <input type="text" id="uType" class="inner-width form-control" name="type" th:value="${standardCost.type}">
+            </td>
+            <td class="width-20">
+                <input type="text" id="uGrade" class="inner-width form-control" name="grade" th:value="${standardCost.grade}">
+            </td>
+            <td class="width-20">
+                <input type="text" id="uBase" class="inner-width form-control" name="base" th:value="${standardCost.base}">
+            </td>
+            <td class="width-20">
+                <input type="date" id="uDate" class="inner-width form-control" name="date" th:value="${standardCost.date}">
+            </td>
+        </tr>
+        <tr>
+            <td class="table-active w-100 text-center" colspan="5"><label for="uStatement">세부사항</label></td>
+        </tr>
+        <tr>
+            <td class="w-100" colspan="5">
+                <textarea id="uStatement" class="inner-width form-control" name="statement" th:text="${standardCost.statement}"></textarea>
+            </td>
+        </tr>
+    </div>
+    <div th:unless="${isUpdate}">
+        <tr>
+            <td class="table-active width-20 text-center">항목</td>
+            <td class="table-active width-20 text-center">분류</td>
+            <td class="table-active width-20 text-center">등급</td>
+            <td class="table-active width-20 text-center">단위원가</td>
+            <td class="table-active width-20 text-center">기준일</td>
+        </tr>
+        <tr>
+            <td class="table-active w-100 text-center" colspan="5">세부사항</td>
+        </tr>
+        <tr>
+            <td class="w-100" colspan="5" th:text="${standardCost.statement}"></td>
+        </tr>
+    </div>
+</div>
+
+<div layout:fragment="input-hidden-data">
+    <input type="hidden" name="draftStaff" th:value="${draftStaff.staffName}">
+</div>
+</body>
+</html>

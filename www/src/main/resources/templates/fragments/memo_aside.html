@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  <link rel="stylesheet" th:href="@{/fragments/aside.css}">
+</head>
+<div id="left" class="aside-container" th:fragment="aside">
+  <div class="menu-container">
+    <div class="menu-title">분류</div>
+    <div>
+      <div class="menu-bar" onclick="location.href='/memo/all'">
+        전체 메모
+      </div>
+      <div class="menu-bar" onclick="location.href='/memo/work'">
+        업무 메모
+      </div>
+      <div class="menu-bar" onclick="location.href='/memo/schedule'">
+        일정 메모
+      </div>
+      <div class="menu-bar" onclick="location.href='/memo/and_so_on'">
+        기타 메모
+      </div>
+    </div>
+  </div>
+  <div class="menu-container">
+    <div class="menu-title">상태</div>
+    <div>
+      <div class="menu-bar" onclick="location.href='/memo/plan'">
+        예정
+      </div>
+      <div class="menu-bar" onclick="location.href='/memo/delay'">
+        보류
+      </div>
+      <div class="menu-bar" onclick="location.href='/memo/proceed'">
+        진행중
+      </div>
+      <div class="menu-bar" onclick="location.href='/memo/complete'">
+        완료
+      </div>
+    </div>
+  </div>
+</div>
+</html>

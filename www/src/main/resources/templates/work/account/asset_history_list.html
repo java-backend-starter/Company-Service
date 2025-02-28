@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrag.net/nz/thymeleaf/layout"
+      layout:decorate="~{layouts/work_v8}">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${headerTitle}">Title</title>
+</head>
+<body>
+<div layout:fragment="view-update">
+    <tr>
+        <td class="table-active w-25 text-center" colspan="2">일시</td>
+        <td class="w-75 text-center" colspan="6" th:text="${assetHistory.date}"></td>
+    </tr>
+    <tr>
+        <td class="table-active w-25 text-center" colspan="2">고정자산명</td>
+        <td class="table-active w-25 text-center" colspan="2">유형</td>
+        <td class="table-active w-25 text-center" colspan="2">코드</td>
+        <td class="table-active w-25 text-center" colspan="2">사용부서</td>
+    </tr>
+    <tr>
+        <td class="w-25" colspan="2" th:text="${assetHistory.assetType.name}"></td>
+        <td class="w-25" colspan="2" th:text="${assetHistory.assetType.type}"></td>
+        <td class="w-25" colspan="2" th:text="${assetHistory.assetType.code}"></td>
+        <td class="w-25" colspan="2" th:text="${assetHistory.assetType.department.departmentName}"></td>
+    </tr>
+    <tr>
+        <td class="table-active width-12 text-center">기존 수량</td>
+        <td class="table-active width-12 text-center">구입 수량</td>
+        <td class="table-active width-12 text-center">처분 수량</td>
+        <td class="table-active width-12 text-center">현재 수량</td>
+        <td class="table-active width-12 text-center">기존 금액</td>
+        <td class="table-active width-12 text-center">구입 금액</td>
+        <td class="table-active width-12 text-center">처분 금액</td>
+        <td class="table-active width-12 text-center">현재 금액</td>
+    </tr>
+    <tr th:each="assetHistory, status:${assetType.assetHistory}">
+        <td class="width-12" th:text="${assetHistory.initialQuantity}"></td>
+        <td class="width-12" th:text="${assetHistory.increaseQuantity}"></td>
+        <td class="width-12" th:text="${assetHistory.decreaseQuantity}"></td>
+        <td class="width-12" th:text="${assetHistory.currentQuantity()}"></td>
+        <td class="width-12" th:text="${assetHistory.initialPrice}"></td>
+        <td class="width-12" th:text="${assetHistory.increasePrice}"></td>
+        <td class="width-12" th:text="${assetHistory.decreasePrice}"></td>
+        <td class="width-12" th:text="${assetHistory.currentPrice()}"></td>
+    </tr>
+</div>
+</body>
+</html>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrag.net/nz/thymeleaf/layout"
+      layout:decorate="~{layouts/user}">
+<head>
+  <meta charset="UTF-8">
+  <title th:text="${headerTitle}">Title</title>
+</head>
+<body>
+<div layout:fragment="content">
+  <div class="list-group board-container">
+    <div th:each="work, status:${works}">
+      <a th:href="${work.value}" th:text="${work.key}" class="list-group-item list-group-item-action text-center work-type-title">업무 상세 1</a>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrag.net/nz/thymeleaf/layout"
+      layout:decorate="~{layouts/work}">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${headerTitle}">Title</title>
+</head>
+<body>
+<div layout:fragment="create">
+    <tr>
+        <td class="table-active width-16 text-center"><label for="startDate">시작일</label></td>
+        <td class="width-16">
+            <input type="text" id="startDate" class="inner-width form-control" name="startDate">
+        </td>
+        <td class="table-active width-33" colspan="2"></td>
+        <td class="table-active width-16 text-center"><label for="endDate">종료일</label></td>
+        <td class="width-16">
+            <input type="text" id="endDate" class="inner-width form-control" name="endDate">
+        </td>
+    </tr>
+    <tr>
+        <td class="table-active width-16 text-center"><label for="sales">매출액</label></td>
+        <td class="width-16">
+            <input type="text" id="sales" class="inner-width form-control" name="sales">
+        </td>
+        <td class="table-active width-16 text-center"><label for="salesCost">매출원가</label></td>
+        <td class="width-16">
+            <input type="text" id="salesCost" class="inner-width form-control" name="salesCost">
+        </td>
+        <td class="table-active width-16 text-center"><label for="operatingExpense">영업비용</label></td>
+        <td class="width-16">
+            <input type="text" id="operatingExpense" class="inner-width form-control" name="operatingExpense">
+        </td>
+    </tr>
+    <tr>
+        <td class="table-active width-16 text-center"><label for="financialEarning">금융수익</label></td>
+        <td class="width-16">
+            <input type="text" id="financialEarning" class="inner-width form-control" name="financialEarning">
+        </td>
+        <td class="table-active width-16 text-center"><label for="financialExpense">금융비용</label></td>
+        <td class="width-16">
+            <input type="text" id="financialExpense" class="inner-width form-control" name="financialExpense">
+        </td>
+        <td class="table-active width-16 text-center"><label for="corporateTax">법인세</label></td>
+        <td class="width-16">
+            <input type="text" id="corporateTax" class="inner-width form-control" name="corporateTax">
+        </td>
+    </tr>
+</div>
+
+<div layout:fragment="view-update">
+    <div th:if="${isUpdate}">
+        <tr>
+            <td class="table-active width-16 text-center"><label for="uStartDate">시작일</label></td>
+            <td class="width-16">
+                <input type="text" id="uStartDate" class="inner-width form-control" name="startDate" th:value="${income.startDate}">
+            </td>
+            <td class="table-active width-33" colspan="2"></td>
+            <td class="table-active width-16 text-center"><label for="uEndDate">종료일</label></td>
+            <td class="width-16">
+                <input type="text" id="uEndDate" class="inner-width form-control" name="endDate" th:value="${income.endDate}">
+            </td>
+        </tr>
+        <tr>
+            <td class="table-active width-16 text-center"><label for="uSales">매출액</label></td>
+            <td class="width-16">
+                <input type="text" id="uSales" class="inner-width form-control" name="sales" th:value="${income.sales}">
+            </td>
+            <td class="table-active width-16 text-center"><label for="uSalesCost">매출원가</label></td>
+            <td class="width-16">
+                <input type="text" id="uSalesCost" class="inner-width form-control" name="salesCost" th:value="${income.salesCost}">
+            </td>
+            <td class="table-active width-16 text-center">매출총이익</td>
+            <td class="table-active width-16"></td>
+        </tr>
+        <tr>
+            <td class="table-active width-16 text-center"><label for="uOperatingExpense">영업비용</label></td>
+            <td class="width-16">
+                <input type="text" id="uOperatingExpense" class="inner-width form-control" name="operatingExpense" th:value="${income.operatingExpense}">
+            </td>
+            <td class="table-active width-16 text-center">영업이익</td>
+            <td class="width-16"></td>
+            <td class="width-33" colspan="2"></td>
+        </tr>
+        <tr>
+            <td class="table-active width-16 text-center"><label for="uFinancialEarning">금융수익</label></td>
+            <td class="width-16">
+                <input type="text" id="uFinancialEarning" class="inner-width form-control" name="financialEarning" th:value="${income.financialEarning}">
+            </td>
+            <td class="table-active width-16 text-center"><label for="uFinancialExpense">금융비용</label></td>
+            <td class="width-16">
+                <input type="text" id="uFinancialExpense" class="inner-width form-control" name="financialExpense" th:value="${income.financialExpense}">
+            </td>
+            <td class="table-active width-16">순이익(법인세 차감 X)</td>
+            <td class="width-16"></td>
+        </tr>
+        <tr>
+            <td class="table-active width-16 text-center"><label for="uCorporateTax">법인세</label></td>
+            <td class="width-16">
+                <input type="text" id="uCorporateTax" class="inner-width form-control" name="corporateTax" th:value="${income.corporateTax}">
+            </td>
+            <td class="table-active width-16 text-center">당기 순이익</td>
+            <td class="width-16"></td>
+        </tr>
+    </div>
+    <div th:unless="${isUpdate}">
+        <tr>
+            <td class="table-active width-16 text-center">시작일</td>
+            <td class="width-16" th:text="${income.startDate}"></td>
+            <td class="table-active width-33" colspan="2"></td>
+            <td class="table-active width-16 text-center"><label for="uEndDate">종료일</label></td>
+            <td class="width-16" th:text="${income.endDate}"></td>
+        </tr>
+        <tr>
+            <td class="table-active width-16 text-center">매출액</td>
+            <td class="width-16" th:text="${income.sales}"></td>
+            <td class="table-active width-16 text-center">매출원가</td>
+            <td class="width-16" th:text="${income.salesCost}"></td>
+            <td class="table-active width-16 text-center">매출총이익</td>
+            <td class="table-active width-16" th:text="${salesIncome}"></td>
+        </tr>
+        <tr>
+            <td class="table-active width-16 text-center">영업비용</td>
+            <td class="width-16" th:text="${income.operatingExpense}"></td>
+            <td class="table-active width-16 text-center">영업이익</td>
+            <td class="width-16" th:text="${operatingIncome}"></td>
+            <td class="width-33" colspan="2"></td>
+        </tr>
+        <tr>
+            <td class="table-active width-16 text-center">금융수익</td>
+            <td class="width-16" th:text="${income.financialEarning}"></td>
+            <td class="table-active width-16 text-center">금융비용</td>
+            <td class="width-16" th:text="${income.financialExpense}"></td>
+            <td class="table-active width-16 text-center">순이익(법인세 차감 X)</td>
+            <td class="width-16" th:text="${income}"></td>
+        </tr>
+        <tr>
+            <td class="table-active width-16 text-center">법인세</td>
+            <td class="width-16" th:text="${income.corporateTax}"></td>
+            <td class="table-active width-16 text-center">당기 순이익</td>
+            <td class="width-16" th:text="${netIncome}"></td>
+        </tr>
+    </div>
+</div>
+
+<div layout:fragment="input-hidden-data">
+    <input type="hidden" name="draftStaff" th:value="${draftStaff.staffName}">
+</div>
+</body>
+</html>

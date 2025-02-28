@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrag.net/nz/thymeleaf/layout"
+      layout:decorate="~{layouts/user}">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${headerTitle}"></title>
+    <link rel="stylesheet" th:href="@{/css/board.css}">
+    <link rel="stylesheet" th:href="@{/css/button.css}">
+</head>
+<body>
+  <div layout:fragment="content">
+    <div class="list-group board-container" th:if="${isWork}">
+        <div th:each="workType, status:${workType}">
+            <a th:href="@{${workType.workLink}}" th:if="!${workType.workLink == '#'}"
+               class="list-group-item list-group-item-action text-center work-title" th:text="${workType.workName}"></a>
+            <a th:unless="!${workType.workLink == '#'}"
+               class="list-group-item list-group-item-action text-center work-type-title" th:text="${workType.workName}"></a>
+        </div>
+    </div>
+      <div class="list-group board-container" th:unless="${isWork}">
+          <div th:each="work, status:${paging}">
+              <a th:href="@{${requestLink} + ${work.workId}}" class="list-group-item list-group-item-action" th:text="${name} + '-' + ${work.requestDate}">휴가/관혼상제 1</a>
+          </div>
+      </div>
+      <nav aria-label="Page navigation example" th:if="${paging} and ${!paging.isEmpty()}" style="margin-top: 0.5em;">
+          <ul class="pagination justify-content-center">
+              <li class="page-item">
+                  <a class="page-link" href="#" aria-label="Previous" th:classappend="${!paging.hasPrevious} ? 'disabled'"
+                     th:href="@{|?page=${paging.number-1}|}"><span aria-hidden="true">&laquo;</span></a>
+              </li>
+              <li class="page-item" th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}">
+                  <a class="page-link" th:text="${page+1}" th:href="@{|?page=${page}|}"
+                     th:if="${page >= paging.number-5 and page <= paging.number+5}"
+                     th:classappend="${page == paging.number} ? 'active'">1</a>
+              </li>
+              <li class="page-item">
+                  <a class="page-link" href="#" aria-label="Next"
+                     th:classappend="${!paging.hasNext} ? 'disabled'"
+                     th:href="@{|?page=${paging.number+1}|}">
+                      <span aria-hidden="true">&raquo;</span>
+                  </a>
+              </li>
+          </ul>
+      </nav>
+  </div>
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" th:href="@{/fragments/aside.css}">
+</head>
+<div id="left" class="aside-container" th:fragment="aside">
+    <!--div class="menu-container">
+        <div class="menu-title">유저 정보</div>
+        <div class="menu-bar" sec:authorize="isAnonymous()">
+            <a th:href="@{/login}">로그인</a>
+        </div>
+        <div class="menu-bar" sec:authorize="isAuthenticated()">
+            <a th:href="@{/logout}">로그아웃</a>
+        </div>
+        <div class="menu-bar" sec:authorize="isAnonymous()">
+            <a th:href="@{/signup}">회원가입</a>
+        </div>
+    </div -->
+    <div class="menu-container">
+        <div class="menu-title">공용 기능</div>
+        <div class="menu-bar-container" sec:authorize="isAnonymous()">
+            <div class="menu-bar">
+                로그인하세요.
+            </div>
+        </div>
+        <div class="menu-bar-container" sec:authorize="isAuthenticated()">
+            <div class="menu-bar" onclick="location.href='/commute'">
+                출퇴근 기록
+            </div>
+            <div class="menu-bar" onclick="location.href='/mail'">
+                메일
+            </div>
+            <div class="menu-bar" onclick="location.href='/memo'">
+                메모
+            </div>
+            <div class="menu-bar" onclick="location.href='/holiday'">
+                휴가
+            </div>
+        </div>
+    </div>
+    <div class="menu-container">
+        <div class="menu-title">게시판</div>
+        <div class="menu-bar-container" sec:authorize="isAnonymous()">
+            <div class="menu-bar">
+                로그인하세요.
+            </div>
+        </div>
+        <div class="menu-bar-container" sec:authorize="isAuthenticated()">
+            <!--div class="menu-bar" onclick="location.href='${postLink}'" th:text="${postName}"></div-->
+            <div class="menu-bar" onclick="location.href='/notice'">
+                공지사항
+            </div>
+            <div class="menu-bar" onclick="location.href='/free'">
+                자유게시판
+            </div>
+            <div class="menu-bar" onclick="location.href='/sales'"
+                 sec:authorize="hasRole('경영진') || hasRole('영업')">
+                 영업부 게시판
+            </div>
+            <div class="menu-bar" onclick="location.href='/account'"
+                 sec:authorize="hasRole('경영진') || hasRole('재무회계')">
+                 재무회계부 게시판
+            </div>
+            <div class="menu-bar" onclick="location.href='/human'"
+                 sec:authorize="hasRole('경영진') || hasRole('인사')">
+                 인사부 게시판
+            </div>
+            <div class="menu-bar" onclick="location.href='/design'"
+                 sec:authorize="hasRole('경영진') || hasRole('디자인')">
+                 디자인부 게시판
+            </div>
+            <div class="menu-bar" onclick="location.href='/information'"
+                 sec:authorize="hasRole('경영진') || hasRole('IT')">
+                 IT부 게시판
+            </div>
+        </div>
+    </div>
+    <div class="menu-container">
+        <div class="menu-title">업무</div>
+        <div class="menu-bar-container" sec:authorize="isAnonymous()">
+            <div class="menu-bar">
+                로그인하세요.
+            </div>
+        </div>
+        <div class="menu-bar-container" sec:authorize="isAuthenticated()">
+            <!--div class="menu-bar" onclick="location.href='${postLink}'" th:text="${postName}"></div-->
+            <div class="menu-bar" onclick="location.href='/sales/work'"
+                 sec:authorize="hasRole('경영진') || hasRole('영업')">
+                영업 업무
+            </div>
+            <div class="menu-bar" onclick="location.href='/account/work'"
+                 sec:authorize="hasRole('경영진') || hasRole('재무회계')">
+                재무회계 업무
+            </div>
+            <div class="menu-bar" onclick="location.href='/human/work'"
+                 sec:authorize="hasRole('경영진') || hasRole('인사')">
+                인사 업무
+            </div>
+            <div class="menu-bar" onclick="location.href='/design/work'"
+                 sec:authorize="hasRole('경영진') || hasRole('디자인')">
+                디자인 업무
+            </div>
+            <div class="menu-bar" onclick="location.href='/information/work'"
+                 sec:authorize="hasRole('경영진') || hasRole('IT')">
+                IT 업무
+            </div>
+        </div>
+    </div>
+</div>
+</html>

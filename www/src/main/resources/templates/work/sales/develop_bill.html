@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrag.net/nz/thymeleaf/layout"
+      layout:decorate="~{layouts/work}">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${headerTitle}">Title</title>
+</head>
+<body>
+<div layout:fragment="create">
+    <tr>
+        <td class="table-active width-16 text-center"><label for="name">이름</label></td>
+        <td class="table-active width-16 text-center"><label for="type">업종</label></td>
+        <td class="table-active width-16 text-center"><label for="location">위치</label></td>
+        <td class="table-active width-16 text-center"><label for="contact">연락처</label></td>
+        <td class="table-active width-16 text-center"><label for="orderCode">주문코드</label></td>
+        <td class="table-active width-16 text-center"><label for="orderDate">주문일</label></td>
+    </tr>
+    <tr>
+        <td class="width-16">
+            <input type="text" id="name" class="inner-width form-control" name="name">
+        </td>
+        <td class="width-16">
+            <input type="text" id="type" class="inner-width form-control" name="type">
+        </td>
+        <td class="width-16">
+            <input type="text" id="location" class="inner-width form-control" name="location">
+        </td>
+        <td class="width-16">
+            <input type="text" id="contact" class="inner-width form-control" name="contact">
+        </td>
+        <td class="width-16">
+            <input type="text" id="orderCode" class="inner-width form-control" name="orderCode">
+        </td>
+        <td class="width-16">
+            <input type="date" id="orderDate" class="inner-width form-control" name="orderDate">
+        </td>
+    </tr>
+    <tr>
+        <td class="table-active width-16 text-center"><label for="received">선수금</label></td>
+        <td class="width-16">
+            <input type="date" id="received" class="inner-width form-control" name="received">
+        </td>
+        <td class="table-active width-66" colspan="4"></td>
+    </tr>
+    <tr>
+        <td class="table-active width-16 text-center"><label for="receiveStatement">상환 이력</label></td>
+        <td class="width-83" colspan="5">
+            <textarea id="receiveStatement" class="inner-width form-control" name="receiveStatement"></textarea>
+        </td>
+    </tr>
+</div>
+
+<div layout:fragment="view-update">
+    <div th:if="${isUpdate}">
+        <tr>
+            <td class="table-active width-16 text-center">이름</td>
+            <td class="table-active width-16 text-center">업종</td>
+            <td class="table-active width-16 text-center">위치</td>
+            <td class="table-active width-16 text-center">연락처<</td>
+            <td class="table-active width-16 text-center">주문코드</td>
+            <td class="table-active width-16 text-center">주문일</td>
+        </tr>
+        <tr>
+            <td class="width-16" th:text="${developBill.patron.name}"></td>
+            <td class="width-16" th:text="${developBill.patron.type}"></td>
+            <td class="width-16" th:text="${developBill.patron.location}"></td>
+            <td class="width-16" th:text="${developBill.patron.contact}"></td>
+            <td class="width-16" th:text="${developBill.developOrder.orderCode}"></td>
+            <td class="width-16" th:text="${developBill.developOrder.orderDate}"></td>
+        </tr>
+        <tr>
+            <td class="table-active width-16 text-center">금액</td>
+            <td class="width-16" th:text="${developBill.developOrder.developQuotation.developCost}"></td>
+            <td class="table-active width-16 text-center"><label for="uReceived">받은 금액</label></td>
+            <td class="width-16">
+                <input type="date" id="uReceived" class="inner-width form-control" name="received" th:value="${developBill.received}">
+            </td>
+            <td class="table-active width-16 text-center">잔액</td>
+            <td class="width-16"></td>
+        </tr>
+        <tr>
+            <td class="table-active width-16 text-center"><label for="uReceiveStatement">상환 이력</label></td>
+            <td class="width-83" colspan="5">
+                <textarea id="uReceiveStatement" class="inner-width form-control" name="receiveStatement" th:text="${developBill?.receiveStatement"></textarea>
+            </td>
+        </tr>
+    </div>
+    <div th:unless="${isUpdate}">
+        <tr>
+            <td class="table-active width-16 text-center">이름</td>
+            <td class="table-active width-16 text-center">업종</td>
+            <td class="table-active width-16 text-center">위치</td>
+            <td class="table-active width-16 text-center">연락처<</td>
+            <td class="table-active width-16 text-center">주문코드</td>
+            <td class="table-active width-16 text-center">주문일</td>
+        </tr>
+        <tr>
+            <td class="width-16" th:text="${developBill.patron.name}"></td>
+            <td class="width-16" th:text="${developBill.patron.type}"></td>
+            <td class="width-16" th:text="${developBill.patron.location}"></td>
+            <td class="width-16" th:text="${developBill.patron.contact}"></td>
+            <td class="width-16" th:text="${developBill.developOrder.orderCode}"></td>
+            <td class="width-16" th:text="${developBill.developOrder.orderDate}"></td>
+        </tr>
+        <tr>
+            <td class="table-active width-16 text-center">금액</td>
+            <td class="width-16" th:text="${developBill.developOrder.developQuotation.developCost}"></td>
+            <td class="table-active width-16 text-center">받은 금액</td>
+            <td class="width-16" th:text="${developBill.received}"></td>
+            <td class="table-active width-16 text-center">잔액</td>
+            <td class="width-16" th:text="${developBill.rest}">
+            </td>
+        </tr>
+        <tr>
+            <td class="table-active width-16 text-center">상환 이력</td>
+            <td class="width-83" colspan="5" th:text="${developBill?.receiveStatement"></td>
+        </tr>
+    </div>
+</div>
+
+<div layout:fragment="input-hidden-data">
+    <input type="hidden" name="draftStaff" th:value="${draftStaff.staffName}">
+</div>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrag.net/nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${headerTitle}">Title</title>
+</head>
+<body>
+<div layout:fragment="view-update">
+    <tr>
+        <td class="table-active w-25 text-center">결산 시작일</td>
+        <td class="w-25 text-center" th:text="${closingStart}"></td>
+        <td class="table-active w-25 text-center">결산 종료일</td>
+        <td class="w-25 text-center" th:text="${closingEnd}"></td>
+    </tr>
+    <tr>
+        <td class="table-active w-25 text-center">이름</td>
+        <td class="table-active w-25 text-center">유형</td>
+        <td class="table-active w-25 text-center">세부유형</td>
+        <td class="table-active w-25 text-center">금액</td>
+    </tr>
+    <tr th:each="property, status : ${properties}">
+        <td class="w-25 text-center" th:text="${property.name}"></td>
+        <td class="w-25 text-center" th:text="${property.type}"></td>
+        <td class="w-25 text-center" th:text="${property.detailedType}"></td>
+        <td class="w-25 text-center" th:text="${property.amount}"></td>
+    </tr>
+    <tr>
+        <td class="table-active w-50" colspan="2"></td>
+        <td class="table-active w-25 text-center">소계</td>
+        <td class="w-25 text-center" th:text="${total}"></td>
+    </tr>
+</div>
+</body>
+</html>

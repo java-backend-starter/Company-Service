@@ -1,0 +1,8 @@
+.memo-container{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+
+}
+.memo-container .card{
+    margin: 0.25em;
+}

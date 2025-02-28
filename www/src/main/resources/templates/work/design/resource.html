@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrag.net/nz/thymeleaf/layout"
+      layout:decorate="~{layouts/work}">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${headerTitle}">Title</title>
+</head>
+<body>
+<div layout:fragment="create">
+    <tr>
+        <td class="table-active w-25 text-center"><label for="subject">주제</label></td>
+        <td class="w-25">
+            <input type="time" id="subject" class="inner-width form-control" name="subject">
+        </td>
+        <td class="table-active w-25 text-center"><label for="complete">제작완료일</label></td>
+        <td class="w-25">
+            <input type="date" id="complete" class="inner-width form-control" name="complete">
+        </td>
+    </tr>
+    <!-- tr>파일 입출력</tr-->
+    <tr>
+        <td class="table-active w-25 text-center"><label for="statement">비고</label></td>
+        <td class="w-75" colspan="3">
+            <textarea id="statement" class="inner-width form-control" name="statement"></textarea>
+        </td>
+    </tr>
+</div>
+
+<div layout:fragment="view-update">
+    <div th:if="${isUpdate}">
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uSubject">주제</label></td>
+            <td class="w-25">
+                <input type="time" id="uSubject" class="inner-width form-control" name="subject" th:value="${resource.subject}">
+            </td>
+            <td class="table-active w-25 text-center"><label for="uComplete">제작완료일</label></td>
+            <td class="w-25">
+                <input type="date" id="uComplete" class="inner-width form-control" name="complete" th:value="${resource.complete}">
+            </td>
+        </tr>
+        <!-- tr>파일 입출력</tr-->
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uStatement">비고</label></td>
+            <td class="w-75" colspan="3">
+                <textarea id="uStatement" class="inner-width form-control" name="statement" th:text="${resource?.statement}"></textarea>
+            </td>
+        </tr>
+        <tr th:if="${isAppraisal}">
+            <td class="table-active w-25 text-center">평가</td>
+            <td class="w-75" colspan="3" th:text="${resource?.appraisal}"></td>
+        </tr>
+    </div>
+    <div th:unless="${isUpdate}">
+        <tr>
+            <td class="table-active w-25 text-center">주제</td>
+            <td class="w-25" th:value="${resource.subject}"></td>
+            <td class="table-active w-25 text-center">제작완료일</td>
+            <td class="w-25" th:value="${resource.complete}"></td>
+        </tr>
+        <!-- tr>파일 입출력</tr-->
+        <tr>
+            <td class="table-active w-25 text-center">비고</td>
+            <td class="w-75" colspan="3" th:text="${resource?.statement}"></td>
+        </tr>
+        <tr th:if="${isAppraisal}">
+            <td class="table-active w-25 text-center"><label for="appraisal">평가</label></td>
+            <td class="w-75" th:if="${isConsider}">
+                <textarea id="appraisal" class="inner-width form-control" name="appraisal" th:text="${resource?.appraisal}"></textarea>
+            </td>
+            <td class="w-75" colspan="3" th:text="${resource?.appraisal}" th:unless="${isConsider}"></td>
+        </tr>
+    </div>
+</div>
+
+<div layout:fragment="input-hidden-data">
+    <input type="hidden" name="draftStaff" th:value="${draftStaff.staffName}">
+</div>
+</body>
+</html>

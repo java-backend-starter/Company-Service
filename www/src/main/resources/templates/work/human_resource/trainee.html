@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrag.net/nz/thymeleaf/layout"
+      layout:decorate="~{layouts/work}">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${headerTitle}">Title</title>
+</head>
+<body>
+<div layout:fragment="create">
+    <tr>
+        <td class="table-active w-25 text-center"><label for="training">프로그램명</label></td>
+        <td class="w-25">
+            <input type="text" id="training" class="inner-width form-control" name="training">
+        </td>
+        <td class="w-50 table-active" colspan="2"></td>
+    </tr>
+    <tr>
+        <td class="table-active w-25 text-center"><label for="staffName">피교육자</label></td>
+        <td class="w-25">
+            <input type="text" id="staffName" class="inner-width form-control" name="staffName">
+        </td>
+        <td class="table-active w-25 text-center"><label for="userId">피교육자 아이디</label></td>
+        <td class="w-25">
+            <input type="text" id="userId" class="inner-width form-control" name="userId">
+        </td>
+    </tr>
+    <tr>
+        <td class="table-active w-25 text-center">피드백</td>
+        <td class="w-75" colspan="3"></td>
+    </tr>
+</div>
+
+<div layout:fragment="view-update">
+    <div th:if="${isUpdate}">
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uTraining">프로그램명</label></td>
+            <td class="w-25">
+                <input type="text" id="uTraining" class="inner-width form-control" name="training" th:value="${trainee.training.name}">
+            </td>
+            <td class="w-50 table-active" colspan="2"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">피교육자</td>
+            <td class="w-25" th:text="${trainee.staff.staffName}"></td>
+            <td class="table-active w-25 text-center">피교육자 아이디</td>
+            <td class="w-25" th:text="${trainee.staff.userId}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uFeedback">피드백</label></td>
+            <td class="w-75" colspan="3" th:if="${isFeedback}">
+                <textarea id="uFeedback" class="inner-width form-control" name="feedback" th:text="${trainee?.feedback}"></textarea>
+            </td>
+            <td class="w-75" colspan="3" th:unless="${isConsider}" th:text="${trainee?.feedback}"></td>
+        </tr>
+    </div>
+    <div th:unless="${isUpdate}">
+        <tr>
+            <td class="table-active w-25 text-center">피교육자</td>
+            <td class="w-25" th:text="${trainee.staff.staffName}"></td>
+            <td class="table-active w-25 text-center">피교육자 아이디</td>
+            <td class="w-25" th:text="${trainee.staff.userId}">
+            </td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">프로그램명</td>
+            <td class="w-25" th:text="${trainee.training.name}"></td>
+            <td class="w-50 table-active" colspan="2"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">피드백</td>
+            <td class="w-75" colspan="3" th:text="${trainee?.feedback}"></td>
+        </tr>
+    </div>
+</div>
+
+<div layout:fragment="input-hidden-data">
+    <input type="hidden" name="draftStaff" th:value="${draftStaff.staffName}">
+</div>
+</body>
+</html>

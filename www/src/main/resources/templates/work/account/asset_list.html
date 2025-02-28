@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrag.net/nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${headerTitle}"></title>
+    <link rel="stylesheet" th:href="@{/css/work.css}">
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="work-header">
+        <div class="header-title" th:text="${headerTitle}"></div>
+    </div>
+    <hr>
+    <table class="table table-light">
+        <tr>
+            <th class="table-active w-100 text-center" colspan="6">자산 정보</th>
+        </tr>
+        <tr>
+            <td class="table-active width-16 text-center">자산코드</td>
+            <td class="table-active width-16 text-center">자산유형</td>
+            <td class="table-active width-16 text-center">자산명</td>
+            <td class="table-active width-16 text-center">사용부서</td>
+            <td class="table-active width-16 text-center">자산상태</td>
+            <td class="table-active width-16 text-center">세부정보</td>
+        </tr>
+        <tr th:each="asset, status : ${assets}">
+            <td class="width-16 text-center" th:text="${asset.assetType.superCode} + '-' + ${asset.subCode}"></td>
+            <td class="width-16 text-center" th:text="${asset.assetType.type}"></td>
+            <td class="width-16 text-center" th:text="${asset.name}"></td>
+            <td class="width-16 text-center" th:text="${asset.department.departmentName}"></td>
+            <td class="width-16 text-center" th:text="${asset.status}"></td>
+            <td class="width-16 text-center"><a class="btn btn-secondary" role="button" th:href="@{${assetLink} + ${asset.assetId}">바로가기</a></td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

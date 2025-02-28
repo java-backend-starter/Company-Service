@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrag.net/nz/thymeleaf/layout"
+      layout:decorate="~{layouts/work}">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${headerTitle}">Title</title>
+</head>
+<body>
+<div layout:fragment="create">
+    <tr>
+        <td class="table-active w-25 text-center"><label for="clockIn">출근 시간</label></td>
+        <td class="w-25">
+            <input type="time" id="clockIn" class="inner-width form-control" name="clockIn">
+        </td>
+        <td class="table-active w-25 text-center">퇴근 시간</td>
+        <td class="w-25"></td>
+    </tr>
+    <tr>
+        <td class="table-active w-25 text-center"><label for="commuteStatement">비고</label></td>
+        <td class="w-75" colspan="3">
+            <textarea id="commuteStatement" class="inner-width form-control" name="commuteStatement"></textarea>
+        </td>
+    </tr>
+</div>
+
+<div layout:fragment="view-update">
+    <div th:if="${isUpdate}">
+        <tr>
+            <td class="table-active w-25 text-center">출근 일자</td>
+            <td class="w-25" th:text="${commute.commuteDate}"></td>
+            <td class="table-active w-25 text-center">상태</td>
+            <td class="w-25" th:text="${commuteType}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uClockIn">출근 시각</label></td>
+            <td class="w-25">
+                <input type="time" id="uClockIn" class="inner-width form-control" name="clockIn" th:value="${commute.clockIn}">
+            </td>
+            <td class="table-active w-25 text-center"><label for="uClockOut">퇴근 시각</label></td>
+            <td class="w-25">
+                <input type="time" id="uClockOut" class="inner-width form-control" name="clockOut" th:value="${commute?.clockOut}">
+            </td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uCommuteStatement">비고</label></td>
+            <td class="w-75" colspan="3">
+                <textarea id="uCommuteStatement" class="inner-width form-control" th:text="${commute?.statement}" name="commuteStatement"></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uStatement">결재자 비고</label></td>
+            <td class="w-75 statement" colspan="3" th:text="${work?.statement}"></td>
+        </tr>
+    </div>
+    <div th:unless="${isUpdate}">
+        <tr>
+            <td class="table-active w-25 text-center">출근 일자</td>
+            <td class="w-25" th:text="${commute.commuteDate}"></td>
+            <td class="table-active w-25 text-center"><label for="uCommuteType">상태</label></td>
+            <td class="w-25" th:if="${isConsider}">
+                <select id="uCommuteType" class="inner-width form-control" name="commuteType">
+                    <option th:value="NOT_SELECTED">선택</option>
+                    <option th:value="COMMUTE">출근</option>
+                    <option th:value="LATENESS">지각</option>
+                    <option th:value="ABSENCE">결근</option>
+                    <option th:value="OUT">외출</option>
+                    <option th:value="HALF_HOLIDAY">반차</option>
+                </select>
+            </td>
+            <td class="w-25" th:unless="${isConsider}" th:text="${commuteType}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">출근 시각</td>
+            <td class="w-25" th:text="${commute.clockIn}"></td>
+            <td class="table-active w-25 text-center">퇴근 시각</td>
+            <td class="w-25" th:text="${commute?.clockOut}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">비고</td>
+            <td class="w-75 statement" colspan="3" th:text="${commute.statement}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uStatement">결재자 비고</label></td>
+            <td class="w-75 statement" colspan="3" th:text="${work?.statement}" th:unless="${isConsider}"></td>
+            <td class="w-75" colspan="3" th:if="${isConsider}">
+                <textarea id="uStatement" class="inner-width form-control" th:text="${work?.statement}" name="statement"></textarea>
+            </td>
+        </tr>
+    </div>
+</div>
+
+<div layout:fragment="input-hidden-data">
+    <input type="hidden" name="staff" th:value="${draftStaff.staffName}">
+</div>
+
+</body>
+</html>

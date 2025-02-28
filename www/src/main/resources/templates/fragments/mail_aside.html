@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  <link rel="stylesheet" th:href="@{/fragments/aside.css}">
+</head>
+<div id="left" class="aside-container" th:fragment="aside">
+  <div class="menu-container">
+    <div class="menu-title">메일</div>
+    <div>
+      <div class="menu-bar" onclick="location.href='/mail/all'">
+        전체 메일
+      </div>
+      <div class="menu-bar" onclick="location.href='/mail/send'">
+        보낸 메일
+      </div>
+      <div class="menu-bar" onclick="location.href='/mail/receive'">
+        받은 메일
+      </div>
+      <div class="menu-bar" onclick="location.href='/mail/for_me'">
+        나에게 쓴 메일
+      </div>
+    </div>
+  </div>
+</div>
+</html>

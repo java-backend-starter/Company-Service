@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrag.net/nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layouts/memo}" >
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <link rel="stylesheet" th:href="@{/css/board.css}">
+  <link rel="stylesheet" th:href="@{/css/memo.css}">
+  <link rel="stylesheet" th:href="@{/css/button.css}">
+</head>
+<body>
+<div layout:fragment="content">
+  <div class="memo-container">
+    <div class="card" th:each="memo, status:${paging}">
+      <div class="card-body">
+        <h5 class="card-title" th:text="${memo.title}">Card title</h5>
+        <p class="card-text" th:text="${memo.content}" style="overflow: hidden;"></p>
+        <a th:href="@{'/memo/memoId=' + ${memo.memoId}}" class="btn btn-secondary btn-right">링크</a>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

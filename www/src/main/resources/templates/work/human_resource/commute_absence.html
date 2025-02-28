@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrag.net/nz/thymeleaf/layout"
+      layout:decorate="~{layouts/work}">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${headerTitle}">Title</title>
+</head>
+<body>
+<div layout:fragment="create">
+    <tr>
+        <td class="table-active w-25 text-center"><label for="staffName">결근자 이름</label></td>
+        <td class="w-25">
+            <input type="text" id="staffName" class="inner-width form-control" name="staffName">
+        </td>
+        <td class="table-active w-25 text-center"><label for="userId">결근자 아이디</label></td>
+        <td class="w-25">
+            <input type="text" id="userId" class="inner-width form-control" name="userId">
+        </td>
+    </tr>
+    <tr>
+        <td class="table-active w-25 text-center"><label for="commuteDate">결근 일시</label></td>
+        <td class="w-25">
+            <input type="date" id="commuteDate" class="inner-width form-control" name="absence">
+        </td>
+        <td class="table-active w-50" colspan="2"></td>
+    </tr>
+    <tr>
+        <td class="table-active w-25 text-center"><label for="commuteStatement">비고</label></td>
+        <td class="w-75" colspan="3">
+            <textarea id="commuteStatement" class="inner-width form-control" name="commuteStatement"></textarea>
+        </td>
+    </tr>
+</div>
+
+<div layout:fragment="view-update">
+
+</div>
+
+<div layout:fragment="input-hidden-data">
+    <input type="hidden" name="draftStaff" th:value="${draftStaff.staffName}">
+</div>
+
+</body>
+</html>

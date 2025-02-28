@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrag.net/nz/thymeleaf/layout"
+      layout:decorate="~{layouts/work}">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${headerTitle}">Title</title>
+</head>
+<body>
+<div layout:fragment="create">
+    <tr>
+        <td class="table-active w-25 text-center"><label for="name">고객명</label></td>
+        <td class="table-active w-25 text-center"><label for="type">업종</label></td>
+        <td class="table-active w-25 text-center"><label for="location">위치</label></td>
+        <td class="table-active w-25 text-center"><label for="contact">연락처</label></td>
+    </tr>
+    <tr>
+        <td class="w-25">
+            <input type="text" id="name" class="inner-width form-control" name="name">
+        </td>
+        <td class="w-25">
+            <input type="text" id="type" class="inner-width form-control" name="type">
+        </td>
+        <td class="w-25">
+            <input type="text" id="location" class="inner-width form-control" name="location">
+        </td>
+        <td class="w-25">
+            <input type="text" id="contact" class="inner-width form-control" name="contact">
+        </td>
+    </tr>
+    <tr>
+        <td class="table-active w-25 text-center"><label for="quotation">견적서 이름</label></td>
+        <td class="w-25">
+            <input type="text" id="quotation" class="inner-width form-control" name="quotation">
+        </td>
+        <td class="table-active w-25 text-center"><label for="date">견적일자</label></td>
+        <td class="w-25">
+            <input type="date" id="date" class="inner-width form-control" name="date">
+        </td>
+    </tr>
+    <tr>
+        <th class="table-active w-25 text-center">소프트웨어 이름</th>
+        <th class="table-active w-25 text-center">구분</th>
+        <th class="table-active w-25 text-center">수량</th>
+        <th class="table-active w-25 text-center">
+            <button type="button" class="btn btn-secondary inner-width" onclick="insertMenuEvent(0, 0)">행 추가</button>
+        </th>
+    </tr>
+    <tr>
+        <td class="w-25">
+            <input type="text" class="inner-width form-control" name="softwareName">
+        </td>
+        <td class="w-25">
+            <input type="text" class="inner-width form-control" name="softwareType">
+        </td>
+        <td class="w-25">
+            <input type="text" class="inner-width form-control" name="quantity">
+        </td>
+        <td class="w-25"><button type="button" class="inner-width form-control delete-menu" onclick="deleteMenuEvent(this)">행 삭제</button></td>
+    </tr>
+</div>
+
+<div layout:fragment="view-update">
+    <div th:if="${isUpdate}">
+        <tr>
+            <td class="table-active w-25 text-center">고객명</td>
+            <td class="table-active w-25 text-center">업종</td>
+            <td class="table-active w-25 text-center">위치</td>
+            <td class="table-active w-25 text-center">연락처</td>
+        </tr>
+        <tr>
+            <td class="w-25 text-center" th:text="${softwareQuotation.patron.name}"></td>
+            <td class="w-25 text-center" th:text="${softwareQuotation.patron.type}"></td>
+            <td class="w-25 text-center" th:text="${softwareQuotation.patron.location}"></td>
+            <td class="w-25 text-center" th:text="${softwareQuotation.patron.contact}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uQuotation">견적서 이름</label></td>
+            <td class="w-25">
+                <input type="text" id="uQuotation" class="inner-width form-control" name="quotation" th:value="${softwareQuotation.quotation}">
+            </td>
+            <td class="table-active w-25 text-center"><label for="uDate">견적일자</label></td>
+            <td class="w-25">
+                <input type="date" id="uDate" class="inner-width form-control" name="date" th:value="${softwareQuotation.date}">
+            </td>
+        </tr>
+        <tr>
+            <th class="table-active w-25 text-center"><label for="uSoftwareName">소프트웨어 이름</label></th>
+            <th class="table-active w-25 text-center"><label for="uSoftwareType">구분</label></th>
+            <th class="table-active w-25 text-center"><label for="uQuantity">수량</label></th>
+            <th class="table-active w-25 text-center"><button type="button" class="btn btn-secondary inner-width" onclick="insertMenuEvent(0, 0)">행 추가</button></th>
+        </tr>
+        <tr th:each="softwareItem, status:${softwareQuotation.softwareItems}">
+            <td class="w-25" th:text="${softwareItem.software.softwareName}">
+                <input type="text" id="uSoftwareName" name="softwareName" th:value="${softwareItem.softwareName}">
+            </td>
+            <td class="w-25" th:text="${softwareItem.software.softwareType}">
+                <input type="text" id="uSoftwareType" name="softwareType" th:value="${softwareItem.softwareType}">
+            </td>
+            <td class="w-25">
+                <input type="text" id="uQuantity" name="quantity" th:value="${softwareItem.quantity}">
+            </td>
+            <td class="w-25"></td>
+        </tr>
+    </div>
+    <div th:unless="${isUpdate}">
+        <tr>
+            <td class="table-active w-25 text-center">고객명</td>
+            <td class="table-active w-25 text-center">업종</td>
+            <td class="table-active w-25 text-center">위치</td>
+            <td class="table-active w-25 text-center">연락처</td>
+        </tr>
+        <tr>
+            <td class="w-25 text-center" th:text="${softwareQuotation.patron.name}"></td>
+            <td class="w-25 text-center" th:text="${softwareQuotation.patron.type}"></td>
+            <td class="w-25 text-center" th:text="${softwareQuotation.patron.location}"></td>
+            <td class="w-25 text-center" th:text="${softwareQuotation.patron.contact}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">견적서 이름</td>
+            <td class="w-25 text-center" th:text="${softwareQuotation.quotation}"></td>
+            <td class="table-active w-25 text-center">견적일자</td>
+            <td class="w-25 text-center" th:text="${softwareQuotation.date}"></td>
+        </tr>
+        <tr>
+            <th class="table-active w-25 text-center">소프트웨어 이름</th>
+            <th class="table-active w-25 text-center">구분</th>
+            <th class="table-active w-25 text-center">수량</th>
+            <th class="table-active w-25 text-center">가격</th>
+        </tr>
+        <tr th:each="softwareItem, status:${softwareQuotation.softwareItems}">
+            <td class="w-25 text-center" th:text="${softwareItem.software.softwareName}"></td>
+            <td class="w-25 text-center" th:text="${softwareItem.software.softwareType}"></td>
+            <td class="w-25 text-center" th:text="${softwareItem.quantity}"></td>
+            <td class="w-25 text-center" th:text="${softwareItem.software.price}"></td>
+        </tr>
+        <tr>
+            <td class="w-50" colspan="2"></td>
+            <td class="table-active w-25 text-center">총 가격</td>
+            <td class="w25 text-center" th:text="${softwareQuotation.totalPrice}"></td>
+        </tr>
+    </div>
+</div>
+
+<div layout:fragment="input-hidden-data">
+    <input type="hidden" name="draftStaff" th:value="${draftStaff.staffName}">
+</div>
+</body>
+</html>

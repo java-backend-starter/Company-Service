@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrag.net/nz/thymeleaf/layout"
+      layout:decorate="~{layouts/work}">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${headerTitle}">Title</title>
+</head>
+<body>
+<div layout:fragment="create">
+    <tr>
+        <td class="table-active width-16 text-center"><label for="grossAsset">총자산</label></td>
+        <td class="table-active width-16 text-center"><label for="ownerCapital">자기자본</label></td>
+        <td class="table-active width-16 text-center"><label for="startDate">시작일</label></td>
+        <td class="table-active width-16 text-center"><label for="endDate">종료일</label></td>
+        <td class="table-active width-33" colspan="2"></td>
+    </tr>
+    <tr>
+        <td class="width-16">
+            <input type="text" id="grossAsset" class="inner-width form-control" name="grossAsset">
+        </td>
+        <td class="width-16">
+            <input type="text" id="ownerCapital" class="inner-width form-control" name="ownerCapital">
+        </td>
+        <td class="width-16">
+            <input type="text" id="startDate" class="inner-width form-control" name="startDate">
+        </td>
+        <td class="width-16">
+            <input type="text" id="endDate" class="inner-width form-control" name="endDate">
+        </td>
+        <td class="width-33" colspan="2"></td>
+    </tr>
+</div>
+
+<div layout:fragment="view-update">
+    <div th:if="${isUpdate}">
+        <tr>
+            <td class="table-active width-16 text-center">시작일</td>
+            <td class="table-active width-16 text-center">종료일</td>
+            <td class="table-active width-16 text-center">총자산</td>
+            <td class="table-active width-16 text-center">자기자본</td>
+            <td class="table-active width-33" colspan="2"></td>
+        </tr>
+        <tr>
+            <td class="width-16 text-center" th:text="${profitabilityAnalysis.startDate}"></td>
+            <td class="width-16 text-center" th:text="${profitabilityAnalysis.endDate}"></td>
+            <td class="width-16 text-center" th:text="${profitabilityAnalysis.grossAsset}"></td>
+            <td class="width-16 text-center" th:text="${profitabilityAnalysis.ownerCapital}"></td>
+            <td class="width-33" colspan="2"></td>
+        </tr>
+        <tr>
+            <td class="table-active width-16 text-center">매출순이익률</td>
+            <td class="table-active width-16 text-center">매출총이익률</td>
+            <td class="table-active width-16 text-center">매출영업이익률</td>
+            <td class="table-active width-16 text-center">총자산순이익률</td>
+            <td class="table-active width-16 text-center">자기자본순이익률</td>
+            <td class="table-active width-16"></td>
+        </tr>
+        <tr>
+            <td class="width-16 text-center" th:text="${profitabilityAnalysis.netIncomeRate}"></td>
+            <td class="width-16 text-center" th:text="${profitabilityAnalysis.grossMarginRate}"></td>
+            <td class="width-16 text-center" th:text="${profitabilityAnalysis.operatingProfitRate}"></td>
+            <td class="width-16 text-center" th:text="${profitabilityAnalysis.grossCapitalRate}"></td>
+            <td class="width-16 text-center" th:text="${profitabilityAnalysis.returnOnEquity}"></td>
+            <td class="width-16"></td>
+        </tr>
+        <tr>
+            <td class="table-active width-33 text-center" colspan="2"><label for="statement">결제자 비고</label></td>
+            <td class="width-66" colspan="4">
+                <textarea id="statement" class="inner-width form-control" name="statement" th:text="${work?.statement}"></textarea>
+            </td>
+        </tr>
+    </div>
+    <div th:unless="${isUpdate}">
+        <tr>
+            <td class="table-active width-16 text-center">시작일</td>
+            <td class="table-active width-16 text-center">종료일</td>
+            <td class="table-active width-16 text-center">총자산</td>
+            <td class="table-active width-16 text-center">자기자본</td>
+            <td class="table-active width-33" colspan="2"></td>
+        </tr>
+        <tr>
+            <td class="width-16 text-center" th:text="${profitabilityAnalysis.startDate}"></td>
+            <td class="width-16 text-center" th:text="${profitabilityAnalysis.endDate}"></td>
+            <td class="width-16 text-center" th:text="${profitabilityAnalysis.grossAsset}"></td>
+            <td class="width-16 text-center" th:text="${profitabilityAnalysis.ownerCapital}"></td>
+            <td class="width-33" colspan="2"></td>
+        </tr>
+        <tr>
+            <td class="table-active width-16 text-center">매출순이익률</td>
+            <td class="table-active width-16 text-center">매출총이익률</td>
+            <td class="table-active width-16 text-center">매출영업이익률</td>
+            <td class="table-active width-16 text-center">총자산순이익률</td>
+            <td class="table-active width-16 text-center">자기자본순이익률</td>
+            <td class="table-active width-16"></td>
+        </tr>
+        <tr>
+            <td class="width-16 text-center" th:text="${profitabilityAnalysis.netIncomeRate}"></td>
+            <td class="width-16 text-center" th:text="${profitabilityAnalysis.grossMarginRate}"></td>
+            <td class="width-16 text-center" th:text="${profitabilityAnalysis.operatingProfitRate}"></td>
+            <td class="width-16 text-center" th:text="${profitabilityAnalysis.grossCapitalRate}"></td>
+            <td class="width-16 text-center" th:text="${profitabilityAnalysis.returnOnEquity}"></td>
+            <td class="width-16"></td>
+        </tr>
+        <tr>
+            <td class="table-active width-33 text-center" colspan="2">결제자 비고</td>
+            <td class="width-66 statement" colspan="4" th:text="${work?.statement}"></td>
+        </tr>
+    </div>
+</div>
+
+<div layout:fragment="input-hidden-data">
+    <input type="hidden" name="draftStaff" th:value="${draftStaff.staffName}">
+</div>
+</body>
+</html>

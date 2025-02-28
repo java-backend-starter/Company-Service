@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrag.net/nz/thymeleaf/layout"
+      layout:decorate="~{layouts/work}">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${headerTitle}">Title</title>
+</head>
+<body>
+<div layout:fragment="create">
+    <tr>
+        <td class="table-active w-25 text-center"><label for="startDate">시작일</label></td>
+        <td class="table-active w-25 text-center"><label for="endDate">종료일</label></td>
+        <td class="table-active w-25 text-center"><label for="otherIncome">기타 포괄손익</label></td>
+        <td class="table-active w-25"></td>
+    </tr>
+    <tr>
+        <td class="w-25">
+            <input type="date" id="startDate" class="inner-width form-control" name="startDate" th:value="${comprehensive?.startDate}">
+        </td>
+        <td class="w-25">
+            <input type="date" id="endDate" class="inner-width form-control" name="endDate" th:value="${comprehensive?.endDate}">
+        </td>
+        <td class="w-25">
+            <input type="text" id="otherIncome" class="inner-width form-control" name="otherIncome" th:value="${comprehensive?.otherIncome}">
+        </td>
+        <td class="w-25"></td>
+    </tr>
+</div>
+
+<div layout:fragment="view-update">
+    <div th:if="${isUpdate}">
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uStartDate">시작일</label></td>
+            <td class="w-25">
+                <input type="date" id="uStartDate" class="inner-width form-control" name="startDate" th:value="${comprehensive.startDate}">
+            </td>
+            <td class="table-active w-25 text-center"><label for="uEndDate">종료일</label></td>
+            <td class="w-25">
+                <input type="date" id="uEndDate" class="inner-width form-control" name="endDate" th:value="${comprehensive.endDate}">
+            </td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">당기순이익</td>
+            <td class="table-active w-25 text-center"><label for="uOtherIncome">기타 포괄손익</label></td>
+            <td class="table-active w-25 text-center">총포괄손익</td>
+        </tr>
+        <tr>
+            <td class="w-25 text-center" th:text="${comprehensive.netIncome}"></td>
+            <td class="w-25">
+                <input type="text" id="uOtherIncome" class="inner-width form-control" name="otherIncome" th:value="${comprehensive.otherIncome}">
+            </td>
+            <td class="w-25 text-center" th:text="${comprehensive.totalIncome}"></td>
+            <td class="table-active w-50" colspan="2"></td>
+        </tr>
+    </div>
+    <div th:unless="${isUpdate}">
+        <tr>
+            <td class="table-active w-25 text-center">시작일</td>
+            <td class="w-25 text-center" th:text="${comprehensive.startDate}"></td>
+            <td class="table-active w-25 text-center">종료일</td>
+            <td class="w-25 text-center" th:text="${comprehensive.endDate}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">당기순이익</td>
+            <td class="table-active w-25 text-center">기타 포괄손익</td>
+            <td class="table-active w-25 text-center">총포괄손익</td>
+            <td class="table-active w-25"></td>
+        </tr>
+
+        <tr>
+            <td class="w-25 text-center" th:text="${comprehensive.netIncome}"></td>
+            <td class="w-25 text-center" th:text="${comprehensive.otherIncome}"></td>
+            <td class="w-25 text-center" th:text="${comprehensive.totalIncome}"></td>
+            <td class="w-25"></td>
+        </tr>
+    </div>
+</div>
+
+<div layout:fragment="input-hidden-data">
+    <input type="hidden" name="draftStaff" th:value="${draftStaff.staffName}">
+</div>
+</body>
+</html>

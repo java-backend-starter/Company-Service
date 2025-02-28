@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrag.net/nz/thymeleaf/layout"
+      layout:decorate="~{layouts/work}">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${headerTitle}">휴가 신청</title>
+</head>
+<body>
+<div layout:fragment="create">
+    <tr>
+        <td class="table-active w-25 text-center"><label for="holidayType">종류</label></td>
+        <td class="w-25"><input type="text" id="holidayType" class="inner-width form-control" name="holidayType"></td>
+        <td class="table-active w-25 text-center"><label for="question">반차 여부(Y/N)</label></td>
+        <td class="w-25"><input type="text" id="question" class="inner-width form-control" name="half"></td>
+    </tr>
+    <tr>
+        <td class="table-active w-25 text-center"><label for="reason">사유</label></td>
+        <td class="w-75" colspan="3">
+            <textarea id="reason" class="form-control" name="reason"></textarea>
+        </td>
+    </tr>
+    <tr>
+        <td class="table-active w-25 text-center"><label for="startDate">시작 시기</label></td>
+        <td class="w-25"><input type="date" id="startDate" class="inner-width form-control" name="startDate"></td>
+        <td class="table-active w-25 text-center"><label for="endDate">종료 시기</label></td>
+        <td class="w-25"><input type="date" id="endDate" class="inner-width form-control" name="endDate"></td>
+    </tr>
+</div>
+
+<div layout:fragment="view-update">
+    <div th:if="${isUpdate}">
+        <tr>
+            <td class="table-active w-25 text-center">종류</td>
+            <td class="w-25" th:text="${holiday.holidayType}">종류</td>
+            <td class="table-active w-25 text-center"><label for="uAnswer">반차 여부</label></td>
+            <td class="w-25">
+                <input type="text" id="uAnswer" class="inner-width form-control" name="half" th:value="${holiday.half}">
+            </td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uStartDate">시작 시기</label></td>
+            <td class="w-25"><input type="date" id="uStartDate" class="inner-width form-control" name="startDate" th:value="${holiday.startDate}"></td>
+            <td class="table-active w-25 text-center"><label for="uEndDate">종료 시기</label></td>
+            <td class="w-25"><input type="date" id="uEndDate" class="inner-width form-control" name="endDate" th:value="${holiday.endDate}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uReason">사유</label></td>
+            <td class="w-75" colspan="3">
+                <textarea id="uReason" name="reason" class="inner-width form-control" th:text="${holiday?.reason}"></textarea>
+            </td>
+        </tr>
+    </div>
+    <div th:unless="${isUpdate}">
+        <tr>
+            <td class="table-active w-25 text-center">종류</td>
+            <td class="w-25" th:text="${holiday.holidayType}">종류</td>
+            <td class="table-active w-25 text-center">반차 여부</td>
+            <td class="w-25" th:text="${holiday.half}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">시작일</td>
+            <td class="w-25" th:text="${holiday.startDate}"></td>
+            <td class="table-active w-25 text-center">종료일</td>
+            <td class="w-25" th:text="${holiday.endDate}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uReason">사유</label></td>
+            <td class="w-75 statement" colspan="3" th:text="${holiday?.reason}"></td>
+        </tr>
+    </div>
+</div>
+
+<div layout:fragment="input-hidden-data">
+    <input type="hidden" name="staff" th:value="${draftStaff.staffName}">
+</div>
+</body>
+</html>

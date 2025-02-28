@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrag.net/nz/thymeleaf/layout"
+      layout:decorate="~{layouts/work}">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${headerTitle}">Title</title>
+</head>
+<body>
+<div layout:fragment="create">
+    <tr>
+        <td class="table-active w-25 text-center"><label for="department">부서</label></td>
+        <td class="w-25">
+            <input type="text" id="department" class="inner-width form-control" name="department">
+        </td>
+        <td class="table-active w-50" colspan="2"></td>
+    </tr>
+    <!-- tr>
+        <td class="table-active w-25 text-center"><label for="startDate">시작일</label></td>
+        <td class="width-16">
+            <input type="text" id="startDate" class="inner-width form-control" name="startDate">
+        </td>
+        <td class="table-active w-25 text-center"><label for="endDate">종료일</label></td>
+        <td class="width-16">
+            <input type="text" id="endDate" class="inner-width form-control" name="endDate">
+        </td>
+    </tr>
+    <tr>
+        <td class="table-active w-25 text-center"><label for="actualUsedBudget">사용 예산</label></td>
+        <td class="width-16">
+            <input type="text" id="actualUsedBudget" class="inner-width form-control" name="actualUsedBudget">
+        </td>
+        <td class="table-active w-25 text-center"><label for="totalRevenue">수익</label></td>
+        <td class="w-25">
+            <input type="text" id="totalRevenue" class="inner-width form-control" name="totalRevenue">
+        </td>
+    </tr -->
+</div>
+
+<div layout:fragment="view-update">
+    <!-- div th:if="${isUpdate}">
+        <tr>
+            <td class="table-active w-25 text-center">부서</td>
+            <td class="w-25" th:text="${costCenter.department.departmentName}"></td>
+            <td class="table-active w-25 text-center">총 예산</td>
+            <td class="w-25" th:text="${costCenter.initial} + ${costCenter.additional}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">초기 예산</td>
+            <td class="w-25" th:text="${costCenter.initial}"></td>
+            <td class="table-active w-25 text-center">추가 예산</td>
+            <td class="w-25" th:text="${costCenter.additional}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uActualUsedBudget">사용 예산</label></td>
+            <td class="width-16">
+                <input type="text" id="uActualUsedBudget" class="inner-width form-control" name="actualUsedBudget" th:text="${costCenter.actualUsedBudget}">
+            </td>
+            <td class="table-active w-25 text-center"><label for="uTotalRevenue">수익</label></td>
+            <td class="w-25">
+                <input type="text" id="uTotalRevenue" class="inner-width form-control" name="totalRevenue" th:text="${costCenter.totalRevenue}">
+            </td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">시작일</td>
+            <td class="w-25" th:value="${costCenter.budget.startDate}"></td>
+            <td class="table-active w-25 text-center">종료일</td>
+            <td class="w-25" th:value="${costCenter.budget.endDate}"></td>
+        </tr>
+    </div -->
+    <div th:unless="${isUpdate}">
+        <tr>
+            <td class="table-active w-25 text-center">시작일</td>
+            <td class="w-25 text-center" th:text="${costCenter.budget.startDate}"></td>
+            <td class="table-active w-25 text-center">종료일</td>
+            <td class="w-25 text-center" th:text="${costCenter.budget.endDate}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">부서</td>
+            <td class="w-25 text-center" th:text="${costCenter.department.departmentName}"></td>
+            <td class="table-active w-25 text-center">총 예산</td>
+            <td class="w-25 text-center" th:text="${costCenter.initial} + ${costCenter.additional}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">초기 예산</td>
+            <td class="table-active w-25 text-center">추가 예산</td>
+            <td class="table-active w-25 text-center">사용 예산</td>
+            <td class="table-active w-25 text-center">기타 비용</td>
+        </tr>
+        <tr>
+            <td class="w-25 text-center" th:text="${costCenter.initial}"></td>
+            <td class="w-25 text-center" th:text="${costCenter.additional}"></td>
+            <td class="w-25" th:text="${costCenter.used}"></td>
+            <td class="w-25" th:text="${costCenter.otherCost}"></td>
+        </tr>
+    </div>
+</div>
+
+<div layout:fragment="input-hidden-data">
+    <input type="hidden" name="draftStaff" th:value="${draftStaff.staffName}">
+</div>
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrag.net/nz/thymeleaf/layout"
+      layout:decorate="~{layouts/work}">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${headerTitle}">Title</title>
+</head>
+<body>
+<div layout:fragment="create">
+    <tr>
+        <td class="table-active w-25 text-center"><label for="softwareName">소프트웨어명</label></td>
+        <td class="table-active w-25 text-center"><label for="softwareType">종류</label></td>
+        <td class="table-active w-25 text-center"><label for="developDate">개발일자</label></td>
+        <td class="table-active w-25 text-center"><label for="price">가격</label></td>
+    </tr>
+    <tr>
+        <td class="w-25">
+            <input type="text" id="softwareName" class="inner-width form-control" name="softwareName">
+        </td>
+        <td class="w-25">
+            <input type="text" id="softwareType" class="inner-width form-control" name="softwareType">
+        </td>
+        <td class="w-25">
+            <input type="date" id="developDate" class="inner-width form-control" name="developDate">
+        </td>
+        <td class="w-25">
+            <input type="text" id="price" class="inner-width form-control" name="price">
+        </td>
+    </tr>
+    <tr>
+        <td class="table-active w-25 text-center"><label for="salesDate">판매일</label></td>
+        <td class="w-25">
+            <input type="date" id="salesDate" class="inner-width form-control" name="salesDate">
+        </td>
+        <td class="table-active w-25 text-center"><label for="quantity">판매개수</label></td>
+        <td class="w-25">
+            <input type="text" id="quantity" class="inner-width form-control" name="quantity">
+        </td>
+    </tr>
+</div>
+
+<div layout:fragment="view-update">
+    <div th:if="${isUpdate}">
+        <tr>
+            <td class="table-active w-25 text-center">소프트웨어명</td>
+            <td class="table-active w-25 text-center">종류</td>
+            <td class="table-active w-25 text-center">개발일자</td>
+            <td class="table-active w-25 text-center">가격></td>
+        </tr>
+        <tr>
+            <td class="w-25 text-center" th:text="${softwareSales.software.softwareName}"></td>
+            <td class="w-25 text-center" th:text="${softwareSales.software.softwareType}"></td>
+            <td class="w-25 text-center" th:text="${softwareSales.software.developDate}"></td>
+            <td class="w-25 text-center" th:text="${softwareSales.software.price}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uSalesDate">판매일</label></td>
+            <td class="w-25">
+                <input type="date" id="uSalesDate" class="inner-width form-control" name="salesDate" th:value="${softwareSales.salesDate}">
+            </td>
+            <td class="table-active w-25 text-center"><label for="uQuantity">판매개수</label></td>
+            <td class="w-25">
+                <input type="text" id="uQuantity" class="inner-width form-control" name="quantity" th:value="${softwareSales.quantity}">
+            </td>
+        </tr>
+    </div>
+    <div th:unless="${isUpdate}">
+        <tr>
+            <td class="table-active w-25 text-center">소프트웨어명</td>
+            <td class="table-active w-25 text-center">종류</td>
+            <td class="table-active w-25 text-center">개발일자</td>
+            <td class="table-active w-25 text-center">가격></td>
+        </tr>
+        <tr>
+            <td class="w-25 text-center" th:text="${softwareSales.software.softwareName}"></td>
+            <td class="w-25 text-center" th:text="${softwareSales.software.softwareType}"></td>
+            <td class="w-25 text-center" th:text="${softwareSales.software.developDate}"></td>
+            <td class="w-25 text-center" th:text="${softwareSales.software.price}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">판매일</td>
+            <td class="table-active w-25 text-center">판매개수</td>
+            <td class="table-active w-25 text-center">총계</td>
+            <td class="table-active w-25"></td>
+        </tr>
+        <tr>
+            <td class="w-25 text-center" th:text="${softwareSales.salesDate}"></td>
+            <td class="w-25 text-center" th:text="${softwareSales.quantity}"></td>
+            <td class="w-25 text-center" th:text="${softwareSales.total}"></td>
+            <td class="w-25"></td>
+        </tr>
+    </div>
+</div>
+
+<div layout:fragment="input-hidden-data">
+    <input type="hidden" name="draftStaff" th:value="${draftStaff.staffName}">
+</div>
+</body>
+</html>

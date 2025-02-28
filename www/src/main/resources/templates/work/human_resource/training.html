@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrag.net/nz/thymeleaf/layout"
+      layout:decorate="~{layouts/work}">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${headerTitle}">Title</title>
+</head>
+<body>
+<div layout:fragment="create">
+    <tr>
+        <td class="table-active w-25 text-center"><label for="name">프로그램명</label></td>
+        <td class="w-25">
+            <input type="text" id="name" class="inner-width form-control" name="name">
+        </td>
+        <td class="table-active w-25 text-center"><label for="trainingDay">교육 일수</label></td>
+        <td class="w-25">
+            <input type="text" id="trainingDay" class="inner-width form-control" name="trainingDay">
+        </td>
+    </tr>
+    <tr>
+        <td class="table-active w-25 text-center"><label for="content">교육 내용</label></td>
+        <td class="w-75" colspan="3">
+            <textarea id="content" class="inner-width form-control" name="content"></textarea>
+        </td>
+    </tr>
+    <tr>
+        <td class="table-active w-25 text-center"><label for="statement">비고</label></td>
+        <td class="w-75" colspan="3">
+            <textarea id="statement" class="inner-width form-control" name="statement"></textarea>
+        </td>
+    </tr>
+    <tr>
+        <td class="table-active w-25 text-center"><label for="startDate">시작일</label></td>
+        <td class="w-25">
+            <input type="date" id="startDate" class="inner-width form-control" name="startDate">
+        </td>
+        <td class="table-active w-25 text-center"><label for="endDate">종료일</label></td>
+        <td class="w-25">
+            <input type="date" id="endDate" class="inner-width form-control" name="endDate">
+        </td>
+    </tr>
+</div>
+
+<div layout:fragment="view-update">
+    <div th:if="${isUpdate}">
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uName">프로그램명</label></td>
+            <td class="w-25">
+                <input type="text" id="uName" class="inner-width form-control" name="name" th:value="${training.name}">
+            </td>
+            <td class="table-active w-25 text-center"><label for="uTrainingDay">교육 일수</label></td>
+            <td class="w-25">
+                <input type="text" id="uTrainingDay" class="inner-width form-control" name="trainingDay" th:value="${training.trainingDay}">
+            </td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uContent">교육 내용</label></td>
+            <td class="w-75" colspan="3">
+                <textarea id="uContent" class="inner-width form-control" name="content" th:text="${training.content}"></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uStatement">비고</label></td>
+            <td class="w-75" colspan="3">
+                <textarea id="uStatement" class="inner-width form-control" name="statement" th:text="${training.statement}"></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uStartDate">시작일</label></td>
+            <td class="w-25">
+                <input type="date" id="uStartDate" class="inner-width form-control" name="startDate" th:value="${training.startDate}">
+            </td>
+            <td class="table-active w-25 text-center"><label for="uEndDate">종료일</label></td>
+            <td class="w-25">
+                <input type="date" id="uEndDate" class="inner-width form-control" name="endDate" th:value="${training.endDate}">
+            </td>
+        </tr>
+    </div>
+    <div th:unless="${isUpdate}">
+        <tr>
+            <td class="table-active w-25 text-center">프로그램명</td>
+            <td class="w-25" th:text="${training.name}"></td>
+            <td class="table-active w-25 text-center">>교육 일수</td>
+            <td class="w-25" th:text="${training.trainingDay}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">교육 내용</td>
+            <td class="w-75" colspan="3" th:text="${training.content}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">비고</td>
+            <td class="w-75" colspan="3" th:text="${training.statement}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">시작일</td>
+            <td class="w-25" th:text="${training.startDate}"></td>
+            <td class="table-active w-25 text-center">종료일</td>
+            <td class="w-25" th:text="${training.endDate}"></td>
+        </tr>
+    </div>
+</div>
+
+<div layout:fragment="input-hidden-data">
+    <input type="hidden" name="draftStaff" th:value="${draftStaff.staffName}">
+</div>
+</body>
+</html>

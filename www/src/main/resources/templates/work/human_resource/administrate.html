@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrag.net/nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${headerTitle}">Title</title>
+    <link rel="stylesheet" th:href="@{/css/board.css}">
+    <link rel="stylesheet" th:href="@{/css/button.css}">
+    <link rel="stylesheet" th:href="@{/css/write.css}">
+</head>
+<body>
+<div class="board-container" layout:fragment="content">
+    <div class="work-header">
+        <div class="header-title" th:text="${headerTitle}"></div>
+    </div>
+    <hr>
+    <form th:action="@{${link}}" method="post">
+        <div class="mb-3 write-space">
+            <a th:href="@{${backLink}}" class="btn btn-secondary btn-margin btn-right">뒤로가기</a>
+            <a th:href="@{/administrate/employee/delete}" class="btn btn-secondary btn-margin btn-right" th:if="${isDelete}">삭제</a>
+            <button type="submit" class="btn btn-secondary btn-margin btn-right" th:if="${isUpdate}">수정</button>
+            <a th:href="@{${link}}" class="btn btn-secondary btn-margin btn-right" th:unless="${isUpdate}">수정</a>
+        </div>
+        <table class="table table-light">
+            <tbody>
+            <div th:if="${isUpdate}">
+                <tr>
+                    <td class="table-active w-25 text-center"><label for="staffName">직원명</label></td>
+                    <td class="w-25">
+                        <input type="text" id="staffName" class="inner-width form-control" name="staffName" th:value="${staff.staffName}">
+                    </td>
+                    <td class="table-active w-25 text-center">아이디</td>
+                    <td class="w-25" th:text="${staff.userId}"></td>
+                </tr>
+                <tr>
+                    <td class="table-active w-25 text-center"><label for="gender">성별</label></td>
+                    <td class="table-active w-25 text-center"><label for="birthDate">생년월일</label></td>
+                    <td class="table-active w-25 text-center"><label for="email">이메일</label></td>
+                    <td class="table-active w-25 text-center"><label for="contact">연락처</label></td>
+                </tr>
+                <tr>
+                    <td class="w-25">
+                        <input type="text" id="gender" class="inner-width form-control" name="gender" th:value="${staff.gender}">
+                    </td>
+                    <td class="w-25">
+                        <input type="date" id="birthDate" class="inner-width form-control" name="birthDate" th:value="${staff.birthDate}">
+                    </td>
+                    <td class="w-25">
+                        <input type="text" id="email" class="inner-width form-control" name="email" th:value="${staff.email}">
+                    </td>
+                    <td class="w-25">
+                        <input type="text" id="contact" class="inner-width form-control" name="contact" th:value="${staff.contact}">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="table-active w-25 text-center"><label for="address">주소</label></td>
+                    <td class="w-75" colspan="3">
+                        <input type="text" id="address" class="inner-width form-control" name="address" th:value="${staff.address}">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="table-active w-25 text-center"><label for="position">직위</label></td>
+                    <td class="table-active w-25 text-center"><label for="role">직무</label></td>
+                    <td class="table-active w-25 text-center"><label for="department">부서</label></td>
+                    <td class="table-active w-25 text-center"><label for="section">과</label></td>
+                </tr>
+                <tr>
+                    <td class="w-25">
+                        <input type="text" id="position" class="inner-width form-control" name="position" th:value="${staff.position.positionName}">
+                    </td>
+                    <td class="w-25">
+                        <input type="text" id="role" class="inner-width form-control" name="role" th:value="${staff.role.roleName}">
+                    </td>
+                    <td class="w-25">
+                        <input type="text" id="department" class="inner-width form-control" name="department" th:value="${staff.department.departmentName}">
+                    </td>
+                    <td class="w-25">
+                        <input type="text" id="section" class="inner-width form-control" name="section"  th:value="${staff.section.sectionName}">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="table-active w-25 text-center"><label for="employDate">입사일</label></td>
+                    <td class="table-active w-25 text-center">퇴사일</td>
+                    <td class="table-active w-25 text-center">퇴사처리여부</td>
+                    <td class="table-active w-25"></td>
+                </tr>
+                <tr>
+                    <td class="w-25 text-center">
+                        <input type="date" id="employDate" class="inner-width form-control" name="employDate" th:value="${staff.employDate}">
+                    </td>
+                    <div th:if="${staff.resign} != null">
+                        <td class="w-25 text-center" th:text="${resignDate}"></td>
+                        <td class="w-25 text-center" th:text="${staff.resign.resignState}"></td>
+                    </div>
+                    <div th:unless="${staff.resign} != null">
+                        <td class="w-25">비대상</td>
+                        <td class="w-25">비대상</td>
+                    </div>
+                    <td class="w-25"></td>
+                </tr>
+            </div>
+            <div th:unless="${isUpdate}">
+                <tr>
+                    <td class="table-active w-25 text-center">직원명</td>
+                    <td class="w-25 text-center" th:text="${staff.staffName}"></td>
+                    <td class="table-active w-25 text-center">아이디</td>
+                    <td class="w-25 text-center" th:text="${staff.userId}"></td>
+                </tr>
+                <tr>
+                    <td class="table-active w-25 text-center">성별</td>
+                    <td class="table-active w-25 text-center">생년월일</td>
+                    <td class="table-active w-25 text-center">이메일</td>
+                    <td class="table-active w-25 text-center">연락처</td>
+                </tr>
+                <tr>
+                    <td class="w-25 text-center" th:text="${staff.gender}"></td>
+                    <td class="w-25 text-center" th:text="${staff.birthDate}"></td>
+                    <td class="w-25 text-center" th:text="${staff.email}"></td>
+                    <td class="w-25 text-center" th:text="${staff.contact}"></td>
+                </tr>
+                <tr>
+                    <td class="table-active w-25 text-center">주소</td>
+                    <td class="w-75 text-center" colspan="3" th:text="${staff.address}"></td>
+                </tr>
+                <tr>
+                    <td class="table-active w-25 text-center">부서</td>
+                    <td class="table-active w-25 text-center">과</td>
+                    <td class="table-active w-25 text-center">직위</td>
+                    <td class="table-active w-25 text-center">직무</td>
+                </tr>
+                <tr>
+                    <td class="w-25 text-center" th:text="${staff.position.positionName}"></td>
+                    <td class="w-25 text-center" th:text="${staff.role.roleName}"></td>
+                    <td class="w-25 text-center" th:text="${staff.department.departmentName}"></td>
+                    <td class="w-25 text-center" th:text="${staff.section.sectionName}"></td>
+                </tr>
+                <tr>
+                    <td class="table-active w-25 text-center">입사일</td>
+                    <td class="table-active w-25 text-center">퇴사일</td>
+                    <td class="table-active w-25 text-center">퇴사처리여부</td>
+                    <td class="table-active w-25"></td>
+                </tr>
+                <tr>
+                    <td class="w-25 text-center" th:text="${staff.employDate}"></td>
+                    <div th:if="${staff.resign} != null">
+                        <td class="w-25 text-center" th:text="${resignDate}"></td>
+                        <td class="w-25 text-center" th:text="${staff.resign.resignState}"></td>
+                    </div>
+                    <div th:unless="${staff.resign} != null">
+                        <td class="w-25">비대상</td>
+                        <td class="w-25">비대상</td>
+                    </div>
+                    <td class="w-25"></td>
+                </tr>
+            </div>
+            </tbody>
+        </table>
+    </form>
+</div>
+</body>
+</html>

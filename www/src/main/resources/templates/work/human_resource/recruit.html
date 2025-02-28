@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrag.net/nz/thymeleaf/layout"
+      layout:decorate="~{layouts/work}">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${headerTitle}">Title</title>
+</head>
+<body>
+<div layout:fragment="create">
+    <tr>
+        <td class="table-active w-25 text-center"><label for="role">분야</label></td>
+        <td class="w-25">
+            <input type="text" id="role" class="inner-width form-control" name="role">
+        </td>
+        <td class="table-active w-25 text-center"><label for="recruit_number">채용인원</label></td>
+        <td class="w-25">
+            <input type="text" id="recruit_number" class="inner-width form-control" name="recruitNumber">
+        </td>
+    </tr>
+    <tr>
+        <td class="table-active w-25 text-center"><label for="position">직급</label></td>
+        <td class="w-25">
+            <input type="text" id="position" class="inner-width form-control" name="position">
+        </td>
+        <td class="table-active w-25 text-center"><label for="pay">연봉</label></td>
+        <td class="w-25">
+            <input type="text" id="pay" class="inner-width form-control" name="pay">
+        </td>
+    </tr>
+    <tr>
+        <td class="table-active w-25 text-center"><label for="employment_status">고용형태</label></td>
+        <td class="w-25">
+            <input type="text" id="employment_status" class="inner-width form-control" name="employmentStatus">
+        </td>
+        <td class="table-active w-25 text-center"><label for="place">근무지</label></td>
+        <td class="w-25">
+            <input type="text" id="place" class="inner-width form-control" name="place">
+        </td>
+    </tr>
+    <tr>
+        <td class="table-active w-25 text-center"><label for="qualification">자격요건</label></td>
+        <td class="w-75" colspan="3">
+            <textarea id="qualification" class="inner-width form-control" name="qualification"></textarea>
+        </td>
+    </tr>
+    <tr>
+        <td class="table-active w-25 text-center"><label for="preference">우대사항</label></td>
+        <td class="w-75" colspan="3">
+            <textarea id="preference" class="inner-width form-control" name="preference"></textarea>
+        </td>
+    </tr>
+    <tr>
+        <td class="table-active w-25 text-center"><label for="process">전형절차</label></td>
+        <td class="w-75" colspan="3">
+            <textarea id="process" class="inner-width form-control" name="process"></textarea>
+        </td>
+    </tr>
+    <tr>
+        <td class="table-active w-25 text-center"><label for="document">제출서류</label></td>
+        <td class="w-25">
+            <input type="text" id="document" class="inner-width form-control" name="document">
+        </td>
+        <td class="table-active w-25 text-center"><label for="means">제출방식</label></td>
+        <td class="w-25">
+            <input type="text" id="means" class="inner-width form-control" name="means">
+        </td>
+    </tr>
+    <tr>
+        <td class="table-active w-25 text-center"><label for="startDate">시작일</label></td>
+        <td class="w-25">
+            <input type="date" id="startDate" class="inner-width form-control" name="startDate">
+        </td>
+        <td class="table-active w-25 text-center"><label for="endDate">종료일</label></td>
+        <td class="w-25">
+            <input type="date" id="endDate" class="inner-width form-control" name="endDate">
+        </td>
+    </tr>
+</div>
+
+<div layout:fragment="view-update">
+    <div th:if="${isUpdate}">
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uRole">분야</label></td>
+            <td class="w-25">
+                <input type="text" id="uRole" class="inner-width form-control" th:value="${recruit.role.roleName}" name="role">
+            </td>
+            <td class="table-active w-25 text-center"><label for="uRecruit_number">채용인원</label></td>
+            <td class="w-25">
+                <input type="text" id="uRecruit_number" class="inner-width form-control" th:value="${recruit.recruitNumber}" name="recruitNumber">
+            </td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uPosition">직급</label></td>
+            <td class="w-25">
+                <input type="text" id="uPosition" class="inner-width form-control" th:value="${recruit.position.positionName}" name="position">
+            </td>
+            <td class="table-active w-25 text-center"><label for="uPay">연봉</label></td>
+            <td class="w-25">
+                <input type="text" id="uPay" class="inner-width form-control" th:value="${recruit.pay}" name="pay">
+            </td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uEmployment_status">고용형태</label></td>
+            <td class="w-25">
+                <input type="text" id="uEmployment_status" class="inner-width form-control" th:value="${recruit.employmentStatus}" name="employmentStatus">
+            </td>
+            <td class="table-active w-25 text-center"><label for="uPlace">근무지</label></td>
+            <td class="w-25">
+                <input type="text" id="uPlace" class="inner-width form-control" th:value="${recruit.place}" name="place">
+            </td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uQualification">자격요건</label></td>
+            <td class="w-75" colspan="3">
+                <textarea id="uQualification" class="inner-width form-control" th:text="${recruit.qualification}" name="qualification"></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uPreference">우대사항</label></td>
+            <td class="w-75" colspan="3">
+                <textarea id="uPreference" class="inner-width form-control" th:text="${recruit.preference}" name="preference"></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uProcess">전형절차</label></td>
+            <td class="w-75" colspan="3">
+                <textarea id="uProcess" class="inner-width form-control" th:text="${recruit.process}" name="process"></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uDocument">제출서류</label></td>
+            <td class="w-25">
+                <input type="text" id="uDocument" class="inner-width form-control" th:value="${recruit.document}" name="document">
+            </td>
+            <td class="table-active w-25 text-center"><label for="uMeans">제출방식</label></td>
+            <td class="w-25">
+                <input type="text" id="uMeans" class="inner-width form-control" th:value="${recruit.means}" name="means">
+            </td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uStartDate">시작일</label></td>
+            <td class="w-25">
+                <input type="date" id="uStartDate" class="inner-width form-control" th:value="${recruit.startDate}" name="startDate">
+            </td>
+            <td class="table-active w-25 text-center"><label for="uEndDate">종료일</label></td>
+            <td class="w-25">
+                <input type="date" id="uEndDate" class="inner-width form-control" th:value="${recruit.endDate}" name="endDate">
+            </td>
+        </tr>
+    </div>
+    <div th:unless="${isUpdate}">
+        <tr>
+            <td class="table-active w-25 text-center">분야</td>
+            <td class="w-25" th:text="${recruit?.role?.roleName}"></td>
+            <td class="table-active w-25 text-center">채용인원</td>
+            <td class="w-25" th:text="${recruit?.recruitNumber}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">직급</td>
+            <td class="w-25" th:text="${recruit?.position?.positionName}"></td>
+            <td class="table-active w-25 text-center">연봉</td>
+            <td class="w-25" th:text="${recruit?.pay}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">고용형태</td>
+            <td class="w-25" th:text="${recruit?.employmentStatus}"></td>
+            <td class="table-active w-25 text-center">근무지</td>
+            <td class="w-25" th:text="${recruit?.place}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">자격요건</td>
+            <td class="w-75" colspan="3" th:text="${recruit?.qualification}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">우대사항</td>
+            <td class="w-75" colspan="3" th:text="${recruit?.preference}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">전형절차</td>
+            <td class="w-75" colspan="3" th:text="${recruit?.process}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">제출서류</td>
+            <td class="w-25" th:text="${recruit?.document}"></td>
+            <td class="table-active w-25 text-center">제출방식</td>
+            <td class="w-25" th:text="${recruit?.means}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">시작일</td>
+            <td class="w-25" th:text="${recruit?.startDate}"></td>
+            <td class="table-active w-25 text-center">종료일</td>
+            <td class="w-25" th:text="${recruit?.endDate}"></td>
+        </tr>
+    </div>
+</div>
+
+<div layout:fragment="input-hidden-data">
+    <input type="hidden" name="draftStaff" th:value="${draftStaff.staffName}">
+</div>
+
+</body>
+</html>

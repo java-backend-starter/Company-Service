@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrag.net/nz/thymeleaf/layout"
+      layout:decorate="~{layouts/work}">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${headerTitle}">Title</title>
+</head>
+<body>
+<div layout:fragment="create">
+    <tr>
+        <td class="table-active w-25 text-center"><label for="name">이름</label></td>
+        <td class="table-active w-25  text-center"><label for="type">업종</label></td>
+        <td class="table-active w-25  text-center"><label for="location">위치</label></td>
+        <td class="table-active w-25  text-center"><label for="contact">연락처</label></td>
+    </tr>
+    <tr>
+        <td class="w-25 ">
+            <input type="text" id="name" class="inner-width form-control" name="name">
+        </td>
+        <td class="w-25 ">
+            <input type="text" id="type" class="inner-width form-control" name="type">
+        </td>
+        <td class="w-25 ">
+            <input type="text" id="location" class="inner-width form-control" name="location">
+        </td>
+        <td class="w-25 ">
+            <input type="text" id="contact" class="inner-width form-control" name="contact">
+        </td>
+    </tr>
+    <tr>
+        <td class="table-active w-25 text-center"><label for="statement">비고</label></td>
+        <td class="w-75" colspan="3">
+            <textarea id="statement" class="inner-width form-control" name="statement"></textarea>
+        </td>
+    </tr>
+</div>
+
+<div layout:fragment="view-update">
+    <div th:if="${isUpdate}">
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uName">이름</label></td>
+            <td class="table-active w-25 text-center"><label for="uType">업종</label></td>
+            <td class="table-active w-25 text-center"><label for="uLocation">위치</label></td>
+            <td class="table-active w-256 text-center"><label for="uContact">연락처</label></td>
+        </tr>
+        <tr>
+            <td class="w-25">
+                <input type="text" id="uName" class="inner-width form-control" name="name" th:value="${patron.name}">
+            </td>
+            <td class="w-25">
+                <input type="text" id="uType" class="inner-width form-control" name="type" th:value="${patron.type}">
+            </td>
+            <td class="w-25">
+                <input type="text" id="uLocation" class="inner-width form-control" name="location" th:value="${patron.location}">
+            </td>
+            <td class="w-25">
+                <input type="text" id="uContact" class="inner-width form-control" name="contact" th:value="${patron.contact}">
+            </td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uStatement">비고</label></td>
+            <td class="w-75" colspan="3">
+                <textarea id="uStatement" class="inner-width form-control" name="statement" th:text="${patron.statement}"></textarea>
+            </td>
+        </tr>
+    </div>
+    <div th:unless="${isUpdate}">
+        <tr>
+            <td class="table-active w-25 text-center">이름</td>
+            <td class="table-active w-25 text-center">업종</td>
+            <td class="table-active w-25 text-center">위치</td>
+            <td class="table-active w-25 text-center">연락처</td>
+        </tr>
+        <tr>
+            <td class="w-25 text-center" th:text="${patron.name}"></td>
+            <td class="w-25 text-center" th:text="${patron.type}"></td>
+            <td class="w-25 text-center" th:text="${patron.location}"></td>
+            <td class="w-25 text-center" th:text="${patron.contact}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">비고</td>
+            <td class="w-75" colspan="3" th:text="${patron.statement}"></td>
+        </tr>
+    </div>
+</div>
+
+<div layout:fragment="input-hidden-data">
+    <input type="hidden" name="draftStaff" th:value="${draftStaff.staffName}">
+</div>
+</body>
+</html>

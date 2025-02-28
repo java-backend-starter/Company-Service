@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrag.net/nz/thymeleaf/layout"
+      layout:decorate="~{layouts/mail}">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${headerTitle}">Title</title>
+    <link rel="stylesheet" th:href="@{/css/board.css}">
+    <link rel="stylesheet" th:href="@{/css/button.css}">
+    <link rel="stylesheet" th:href="@{/css/page.css}">
+</head>
+<body>
+    <div layout:fragment="content">
+        <form action="#" method="post" style="float: right">
+            <input class="search-content" type="text" placeholder="검색어를 입력하세요.">
+            <button class="btn btn-secondary btn-margin" type="submit">검색</button>
+        </form>
+        <table class="table w-100 table-striped table-light">
+            <thead>
+                <tr>
+                    <th scope="col" class="board-info">번호</th>
+                    <th scope="col" class="board-title">제목</th>
+                    <th scope="col" class="board-info">보낸 사람</th>
+                    <th scope="col" class="board-info">부서</th>
+                    <th scope="col" class="board-info">직위</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="mail, status: ${paging}">
+                    <th scope="row" class="board-info" th:text="${mail?.mailId}"></th>
+                    <td class="board-title"><a th:href="@{/mail/mailId={mailId}(mailId = ${mail?.mailId})}" th:text="${mail?.title}"></a></td>
+                    <td class="board-info" th:text="${mail?.sendStaff?.staffInfo?.staffName}">작성자</td>
+                    <td class="board-info" th:text="${mail?.sendStaff?.staffWorkInfo?.department?.departmentName}"></td>
+                    <td class="board-info" th:text="${mail?.sendStaff?.staffWorkInfo?.position?.positionName}"></td>
+                </tr>
+            </tbody>
+        </table>
+        <nav aria-label="Page navigation example" th:if="${!paging.isEmpty()}">
+            <ul class="pagination justify-content-center">
+                <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Previous"
+                       th:classappend="${!paging.hasPrevious} ? 'disabled'"
+                       th:href="@{|?page=${paging.number-1}|}">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li class="page-item" th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}">
+                    <a class="page-link" th:text="${page+1}" th:href="@{|?page=${page}|}"
+                       th:if="${page >= paging.number-5 and page <= paging.number+5}"
+                       th:classappend="${page == paging.number} ? 'active'">1</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Next"
+                       th:classappend="${!paging.hasNext} ? 'disabled'"
+                       th:href="@{|?page=${paging.number+1}|}">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</body>
+</html>

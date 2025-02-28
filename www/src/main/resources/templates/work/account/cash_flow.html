@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrag.net/nz/thymeleaf/layout"
+      layout:decorate="~{layouts/work}">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${headerTitle}">Title</title>
+</head>
+<body>
+<div layout:fragment="create">
+    <tr>
+        <td class="table-active w-25 text-center"><label for="startDate">결산 시작일</label></td>
+        <td class="w-25">
+            <input type="date" id="startDate" class="inner-width form-control" name="startDate" th:value="${cashFlowStatement?.startDate}">
+        </td>
+        <td class="table-active w-25 text-center"><label for="endDate">결산 종료일</label></td>
+        <td class="w-25">
+            <input type="date" id="endDate" class="inner-width form-control" name="endDate" th:value="${cashFlowStatement?.endDate}">
+        </td>
+    </tr>
+    <tr>
+        <td class="table-active w-25 text-center"><label for="stage">당기</label></td>
+        <td class="w-25">
+            <input type="text" id="stage" class="inner-width form-control" name="stage" th:value="${cashFlowStatement?.stage}">
+        </td>
+        <td class="w-50" colspan="2"></td>
+    </tr>
+    <tr>
+        <th class="table-active w-25 text-center">유형</th>
+        <th class="table-active w-25 text-center">세부유형</th>
+        <th class="table-active w-25 text-center">금액</th>
+        <th class="table-active w-25 text-center">
+            <button type="button" class="btn btn-secondary inner-width" onclick="insertMenuEvent(1, 0)">행 추가</button>
+        </th>
+    </tr>
+
+    <tr>
+        <td class="table-active w-25 text-center"><label for="statement">비고</label></td>
+        <td class="w-75" colspan="3">
+            <textarea id="statement" class="inner-width form-control" name="statement" th:text="${cashFlowStatement?.statement}"></textarea>
+        </td>
+    </tr>
+</div>
+
+<div layout:fragment="view-update">
+    <div th:if="${isUpdate}">
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uStartDate">결산 시작일</label></td>
+            <td class="w-25 text-center">
+                <input type="date" id="uStartDate" class="inner-width form-control" name="startDate" th:value="${cashFlowStatement.startDate}">
+            </td>
+            <td class="table-active w-25 text-center"><label for="uEndDate">결산 종료일</label></td>
+            <td class="w-25 text-center">
+                <input type="date" id="uEndDate" class="inner-width form-control" name="endDate" th:value="${cashFlowStatement.endDate}">
+            </td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uStage">당기</label></td>
+            <td class="w-25">
+                <input type="text" id="uStage" class="inner-width form-control" name="stage" th:value="${cashFlowStatement.stage}">
+            </td>
+            <td class="w-50" colspan="2"></td>
+        </tr>
+        <tr>
+            <th class="table-active w-25 text-center">유형</th>
+            <th class="table-active w-25 text-center">세부유형</th>
+            <th class="table-active w-25 text-center">금액</th>
+            <th class="table-active w-25 text-center">
+                <button type="button" class="btn btn-secondary inner-width" onclick="insertMenuEvent(1, 0)">행 추가</button>
+            </th>
+        </tr>
+        <tr th:each="cashFlow, status:${cashFlowStatement.cashFlow}">
+            <td class='w-25'>
+                <select class='inner-width form-control' name='type' th:value="${cashFlow.type}">
+                    <option th:selected="${cashFlow.type}=='영업활동'" value='영업활동'>영업활동</option>
+                    <option th:selected="${cashFlow.type}=='투자활동'" value='투자활동'>투자활동</option>
+                    <option th:selected="${cashFlow.type}=='재무활동'" value='재무활동'>재무활동</option>
+                </select>
+            </td>
+            <td class="w-25 text-center">
+                <input type='text' class='inner-width form-control' name='detailedType' th:value='${cashFlow.detailedType}'>
+            </td>
+            <td class="w-25 text-center">
+                <input type='text' class='inner-width form-control' name='amount' th:value='${cashFlow.amount}'>
+            </td>
+            <td class="w-25"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center"><label for="uStatement">비고</label></td>
+            <td class="w-75" colspan="3">
+                <textarea id="uStatement" class="inner-width form-control" name="statement" th:text="${cashFlowStatement.statement}"></textarea>
+            </td>
+        </tr>
+    </div>
+    <div th:unless="${isUpdate}">
+        <tr>
+            <td class="table-active w-25 text-center">결산 시작일</td>
+            <td class="w-25 text-center" th:text="${cashFlowStatement.startDate}"></td>
+            <td class="table-active w-25 text-center">결산 종료일</td>
+            <td class="w-25 text-center" th:text="${cashFlowStatement.endDate}"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">당기</td>
+            <td class="w-25 text-center" th:text="${cashFlowStatement.stage}"></td>
+            <td class="w-50" colspan="2"></td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">유형</td>
+            <td class="table-active w-25 text-center">세부유형</td>
+            <td class="table-active w-25 text-center">금액</td>
+            <td class="table-active w-25"></td>
+        </tr>
+        <tr th:each="cashFlow, status:${cashFlowStatement.cashFlow}">
+            <td class="w-25 text-center" th:text="${cashFlow.type}"></td>
+            <td class="w-25 text-center" th:text="${cashFlow.detailedType}"></td>
+            <td class="w-25 text-center" th:text="${cashFlow.amount}"></td>
+            <td class="table-active w-25">
+                <a class="btn btn-secondary inner-width text-center" th:href="@{${dataDeleteLink} + ${cashFlow.cashFlowDataId}}">삭제</a>
+            </td>
+        </tr>
+        <tr>
+            <td class="table-active w-25 text-center">비고</td>
+            <td class="w-75" colspan="3" th:text="${cashFlowStatement.statement}"></td>
+        </tr>
+    </div>
+</div>
+
+<div layout:fragment="input-hidden-data">
+    <input type="hidden" name="draftStaff" th:value="${draftStaff.staffName}">
+</div>
+</body>
+</html>

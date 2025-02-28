@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrag.net/nz/thymeleaf/layout"
+      layout:decorate="~{layouts/work}">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${headerTitle}">Title</title>
+</head>
+<body>
+<div layout:fragment="create">
+    <tr>
+        <td class="table-active width-16 text-center"><label for="date">작성일</label></td>
+        <td class="width-16">
+            <input type="text" id="date" class="inner-width form-control" name="date">
+        </td>
+        <td class="table-active width-16 text-center"><label for="name">재무상태표 이름</label></td>
+        <td class="width-16">
+            <input type="text" id="name" class="inner-width form-control" name="name">
+        </td>
+        <td class="table-active width-33" colspan="2"></td>
+    </tr>
+    <tr>
+        <th class="table-active width-33 text-center" colspan="2">자산</th>
+        <th class="table-active width-33 text-center" colspan="2">부채</th>
+        <th class="table-active width-33 text-center" colspan="2">자본</th>
+    </tr>
+    <tr>
+        <th class="table-active width-33 text-center" colspan="2">유동자산</th>
+        <th class="table-active width-33 text-center" colspan="2">유동부채</th>
+        <th class="table-active width-33 text-center" colspan="2"></th>
+    </tr>
+    <tr>
+        <td class="table-active width-16 text-center"><label for="cash">현금</label></td>
+        <td class="width-16">
+            <input type="text" id="cash" class="inner-width form-control" name="cash">
+        </td>
+        <td class="table-active width-16 text-center"><label for="shortTermBorrowing">단기차입금</label></td>
+        <td class="width-16">
+            <input type="text" id="shortTermBorrowing" class="inner-width form-control" name="shortTermBorrowing">
+        </td>
+        <td class="table-active width-16 text-center"><label for="capital">자본금</label></td>
+        <td class="width-16">
+            <input type="text" id="capital" class="inner-width form-control" name="capital">
+        </td>
+    </tr>
+    <tr>
+        <td class="table-active width-16 text-center"><label for="securities">유가증권</label></td>
+        <td class="width-16">
+            <input type="text" id="securities" class="inner-width form-control" name="securities">
+        </td>
+        <td class="table-active width-16 text-center"><label for="payable">외상매입금</label></td>
+        <td class="width-16">
+            <input type="text" id="payable" class="inner-width form-control" name="payable">
+        </td>
+        <td class="table-active width-16 text-center"><label for="surplus">자본잉여금</label></td>
+        <td class="width-16">
+            <input type="text" id="surplus" class="inner-width form-control" name="surplus">
+        </td>
+    </tr>
+    <tr>
+        <td class="table-active width-16 text-center"><label for="receivable">외상매출금</label></td>
+        <td class="width-16">
+            <input type="text" id="receivable" class="inner-width form-control" name="receivable">
+        </td>
+        <td class="table-active width-16 text-center"><label for="payableAccount">미지급금</label></td>
+        <td class="width-16">
+            <input type="text" id="payableAccount" class="inner-width form-control" name="payableAccount">
+        </td>
+        <td class="table-active width-16 text-center"><label for="adjustment">자본조정</label></td>
+        <td class="width-16">
+            <input type="text" id="adjustment" class="inner-width form-control" name="adjustment">
+        </td>
+    </tr>
+    <tr>
+        <td class="table-active width-16 text-center"><label for="receivableAccount">미수금</label></td>
+        <td class="width-16">
+            <input type="text" id="receivableAccount" class="inner-width form-control" name="receivableAccount">
+        </td>
+        <td class="table-active width-16 text-center"><label for="advanceReceived">선수금</label></td>
+        <td class="width-16">
+            <input type="text" id="advanceReceived" class="inner-width form-control" name="advanceReceived">
+        </td>
+        <td class="table-active width-16 text-center"><label for="unappropriated">미처분이익잉여금</label></td>
+        <td class="width-16">
+            <input type="text" id="unappropriated" class="inner-width form-control" name="unappropriated">
+        </td>
+    </tr>
+    <tr>
+        <td class="table-active width-16 text-center"><label for="otherLiquidAsset">기타 유동자산</label></td>
+        <td class="width-16">
+            <input type="text" id="otherLiquidAsset" class="inner-width form-control" name="otherLiquidAsset">
+        </td>
+        <td class="table-active width-16 text-center"><label for="otherLiquid">기타 유동부채</label></td>
+        <td class="width-16">
+            <input type="text" id="otherLiquid" class="inner-width form-control" name="otherLiquid">
+        </td>
+        <td class="table-active width-16 text-center"><label for="comprehensive">기타포괄손익누계액</label></td>
+        <td class="width-16">
+            <input type="text" id="comprehensive" class="inner-width form-control" name="comprehensive">
+        </td>
+    </tr>
+    <tr>
+        <th class="table-active width-33 text-center" colspan="2">비유동자산</th>
+        <th class="table-active width-33 text-center" colspan="2">비유동부채</th>
+        <th class="table-active width-33 text-center" colspan="2"></th>
+    </tr>
+    <tr>
+        <td class="table-active width-16 text-center"><label for="longTermDeposit">장기성 예금</label></td>
+        <td class="width-16">
+            <input type="text" id="longTermDeposit" class="inner-width form-control" name="longTermDeposit">
+        </td>
+        <td class="table-active width-16 text-center"><label for="privateLoan">사채</label></td>
+        <td class="width-16">
+            <input type="text" id="privateLoan" class="inner-width form-control" name="privateLoan">
+        </td>
+        <td class="width-33" colspan="2">
+        </td>
+    </tr>
+    <tr>
+        <td class="table-active width-16 text-center"><label for="stock">투자주식</label></td>
+        <td class="width-16">
+            <input type="text" id="stock" class="inner-width form-control" name="stock">
+        </td>
+        <td class="table-active width-16 text-center"><label for="longTermBorrowing">장기차입금</label></td>
+        <td class="width-16">
+            <input type="text" id="longTermBorrowing" class="inner-width form-control" name="longTermBorrowing">
+        </td>
+        <td class="width-33" colspan="2">
+    </tr>
+    <tr>
+        <td class="table-active width-16 text-center"><label for="property">투자부동산</label></td>
+        <td class="width-16">
+            <input type="text" id="property" class="inner-width form-control" name="property">
+        </td>
+        <td class="table-active width-16 text-center"><label for="severancePay">퇴직금급여충당부채</label></td>
+        <td class="width-16">
+            <input type="text" id="severancePay" class="inner-width form-control" name="severancePay">
+        </td>
+        <td class="width-33" colspan="2">
+    </tr>
+    <tr>
+        <td class="table-active width-16 text-center"><label for="ground">토지</label></td>
+        <td class="width-16">
+            <input type="text" id="ground" class="inner-width form-control" name="ground">
+        </td>
+        <td class="table-active width-16 text-center"><label for="otherFixed">기타 비유동부채</label></td>
+        <td class="width-16">
+            <input type="text" id="otherFixed" class="inner-width form-control" name="otherFixed">
+        </td>
+        <td class="width-33" colspan="2">
+    </tr>
+    <tr>
+        <td class="table-active width-16 text-center"><label for="building">건물</label></td>
+        <td class="width-16">
+            <input type="text" id="building" class="inner-width form-control" name="building">
+        </td>
+        <td class="width-66" colspan="4"></td>
+    </tr>
+    <tr>
+        <td class="table-active width-16 text-center"><label for="machine">기계장치</label></td>
+        <td class="width-16">
+            <input type="text" id="machine" class="inner-width form-control" name="machine">
+        </td>
+        <td class="width-66" colspan="4"></td>
+    </tr>
+    <tr>
+        <td class="table-active width-16 text-center"><label for="equipment">비품</label></td>
+        <td class="width-16">
+            <input type="text" id="equipment" class="inner-width form-control" name="equipment">
+        </td>
+        <td class="width-66" colspan="4"></td>
+    </tr>
+    <tr>
+        <td class="table-active width-16 text-center"><label for="product">제품</label></td>
+        <td class="width-16">
+            <input type="text" id="product" class="inner-width form-control" name="product">
+        </td>
+        <td class="width-66" colspan="4"></td>
+    </tr>
+    <tr>
+        <td class="table-active width-16 text-center"><label for="otherFixedAsset">기타 비유동자산</label></td>
+        <td class="width-16">
+            <input type="text" id="otherFixedAsset" class="inner-width form-control" name="otherFixedAsset">
+        </td>
+        <td class="width-66" colspan="4"></td>
+    </tr>
+</div>
+
+<div layout:fragment="view-update">
+    <div th:if="${isUpdate}">
+        <tr>
+            <td class="table-active width-16 text-center"><label for="uDate">작성일</label></td>
+            <td class="width-16">
+                <input type="text" id="uDate" class="inner-width form-control" name="date" th:value="${balanceSheet.date}">
+            </td>
+            <td class="table-active width-16 text-center"><label for="uName">재무상태표 이름</label></td>
+            <td class="width-16">
+                <input type="text" id="uName" class="inner-width form-control" name="name" th:value="${balanceSheet.name}">
+            </td>
+            <td class="table-active width-33" colspan="2"></td>
+        </tr>
+        <tr>
+            <th class="table-active width-33 text-center" colspan="2">자산</th>
+            <th class="table-active width-33 text-center" colspan="2">부채</th>
+            <th class="table-active width-33 text-center" colspan="2">자본</th>
+        </tr>
+        <tr>
+            <th class="table-active width-33 text-center" colspan="2">유동자산</th>
+            <th class="table-active width-33 text-center" colspan="2">유동부채</th>
+            <th class="table-active width-33 text-center" colspan="2"></th>
+        </tr>
+        <tr>
+            <td class="table-active width-16 text-center"><label for="uCash">현금</label></td>
+            <td class="width-16">
+                <input type="text" id="uCash" class="inner-width form-control" name="cash" th:value="${balanceSheet.cash}">
+            </td>
+            <td class="table-active width-16 text-center"><label for="uShortTermBorrowing">단기차입금</label></td>
+            <td class="width-16">
+                <input type="text" id="uShortTermBorrowing" class="inner-width form-control" name="shortTermBorrowing" th:value="${balanceSheet.shortTermBorrowing}">
+            </td>
+            <td class="table-active width-16 text-center"><label for="uCapital">자본금</label></td>
+            <td class="width-16">
+                <input type="text" id="uCapital" class="inner-width form-control" name="capital" th:value="${balanceSheet.capital}">
+            </td>
+        </tr>
+        <tr>
+            <td class="table-active width-16 text-center"><label for="uSecurities">유가증권</label></td>
+            <td class="width-16">
+                <input type="text" id="uSecurities" class="inner-width form-control" name="securities" th:value="${balanceSheet.securities}">
+            </td>
+            <td class="table-active width-16 text-center"><label for="uPayable">외상매입금</label></td>
+            <td class="width-16">
+                <input type="text" id="uPayable" class="inner-width form-control" name="payable" th:value="${balanceSheet.payable}">
+            </td>
+            <td class="table-active width-16 text-center"><label for="uSurplus">자본잉여금</label></td>
+            <td class="width-16">
+                <input type="text" id="uSurplus" class="inner-width form-control" name="surplus" th:value="${balanceSheet.surplus}">
+            </td>
+        </tr>
+        <tr>
+            <td class="table-active width-16 text-center"><label for="uReceivable">외상매출금</label></td>
+            <td class="width-16">
+                <input type="text" id="uReceivable" class="inner-width form-control" name="receivable" th:value="${balanceSheet.receivable}">
+            </td>
+            <td class="table-active width-16 text-center"><label for="uPayableAccount">미지급금</label></td>
+            <td class="width-16">
+                <input type="text" id="uPayableAccount" class="inner-width form-control" name="payableAccount" th:value="${balanceSheet.payableAccount}">
+            </td>
+            <td class="table-active width-16 text-center"><label for="uAdjustment">자본조정</label></td>
+            <td class="width-16">
+                <input type="text" id="uAdjustment" class="inner-width form-control" name="adjustment" th:value="${balanceSheet.adjustment}">
+            </td>
+        </tr>
+        <tr>
+            <td class="table-active width-16 text-center"><label for="uReceivableAccount">미수금</label></td>
+            <td class="width-16">
+                <input type="text" id="uReceivableAccount" class="inner-width form-control" name="receivableAccount" th:value="${balanceSheet.receivableAccount}">
+            </td>
+            <td class="table-active width-16 text-center"><label for="uAdvanceReceived">선수금</label></td>
+            <td class="width-16">
+                <input type="text" id="uAdvanceReceived" class="inner-width form-control" name="advanceReceived" th:value="${balanceSheet.advanceReceived}">
+            s</td>
+            <td class="table-active width-16 text-center"><label for="uUnappropriated">미처분이익잉여금</label></td>
+            <td class="width-16">
+                <input type="text" id="uUnappropriated" class="inner-width form-control" name="unappropriated" th:value="${balanceSheet.unappropriated}">
+            </td>
+        </tr>
+        <tr>
+            <td class="table-active width-16 text-center"><label for="uOtherLiquidAsset">기타 유동자산</label></td>
+            <td class="width-16">
+                <input type="text" id="uOtherLiquidAsset" class="inner-width form-control" name="otherLiquidAsset" th:value="${balanceSheet.otherLiquidAsset}">
+            </td>
+            <td class="table-active width-16 text-center"><label for="uOtherLiquid">기타 유동부채</label></td>
+            <td class="width-16">
+                <input type="text" id="uOtherLiquid" class="inner-width form-control" name="otherLiquid" th:value="${balanceSheet.otherLiquid}">
+            </td>
+            <td class="table-active width-16 text-center"><label for="uComprehensive">기타포괄손익누계액</label></td>
+            <td class="width-16">
+                <input type="text" id="uComprehensive" class="inner-width form-control" name="comprehensive" th:value="${balanceSheet.comprehensive}">
+            </td>
+        </tr>
+        <tr>
+            <th class="table-active width-33 text-center" colspan="2">비유동자산</th>
+            <th class="table-active width-33 text-center" colspan="2">비유동부채</th>
+            <th class="table-active width-33 text-center" colspan="2"></th>
+        </tr>
+        <tr>
+            <td class="table-active width-16 text-center"><label for="uLongTermDeposit">장기성 예금</label></td>
+            <td class="width-16">
+                <input type="text" id="uLongTermDeposit" class="inner-width form-control" name="longTermDeposit" th:value="${balanceSheet.longTermDeposit}">
+            </td>
+            <td class="table-active width-16 text-center"><label for="uPrivateLoan">사채</label></td>
+            <td class="width-16">
+                <input type="text" id="uPrivateLoan" class="inner-width form-control" name="privateLoan" th:value="${balanceSheet.privateLoan}">
+            </td>
+            <td class="width-33" colspan="2">
+            </td>
+        </tr>
+        <tr>
+            <td class="table-active width-16 text-center"><label for="uStock">투자주식</label></td>
+            <td class="width-16">
+                <input type="text" id="uStock" class="inner-width form-control" name="stock" th:value="${balanceSheet.stock}">
+            </td>
+            <td class="table-active width-16 text-center"><label for="uLongTermBorrowing">장기차입금</label></td>
+            <td class="width-16">
+                <input type="text" id="uLongTermBorrowing" class="inner-width form-control" name="longTermBorrowing" th:value="${balanceSheet.longTermBorrowing}">
+            </td>
+            <td class="width-33" colspan="2">
+        </tr>
+        <tr>
+            <td class="table-active width-16 text-center"><label for="uProperty">투자부동산</label></td>
+            <td class="width-16">
+                <input type="text" id="uProperty" class="inner-width form-control" name="property" th:value="${balanceSheet.property}">
+            </td>
+            <td class="table-active width-16 text-center"><label for="uSeverancePay">퇴직금급여충당부채</label></td>
+            <td class="width-16">
+                <input type="text" id="uSeverancePay" class="inner-width form-control" name="severancePay" th:value="${balanceSheet.severancePay}">
+            </td>
+            <td class="width-33" colspan="2">
+        </tr>
+        <tr>
+            <td class="table-active width-16 text-center"><label for="uGround">토지</label></td>
+            <td class="width-16">
+                <input type="text" id="uGround" class="inner-width form-control" name="ground" th:value="${balanceSheet.ground}">
+            </td>
+            <td class="table-active width-16 text-center"><label for="uOtherFixed">기타 비유동부채</label></td>
+            <td class="width-16">
+                <input type="text" id="uOtherFixed" class="inner-width form-control" name="otherFixed" th:value="${balanceSheet.otherFixed}">
+            </td>
+            <td class="width-33" colspan="2">
+        </tr>
+        <tr>
+            <td class="table-active width-16 text-center"><label for="uBuilding">건물</label></td>
+            <td class="width-16">
+                <input type="text" id="uBuilding" class="inner-width form-control" name="building" th:value="${balanceSheet.building}">
+            </td>
+            <td class="width-66" colspan="4"></td>
+        </tr>
+        <tr>
+            <td class="table-active width-16 text-center"><label for="uMachine">기계장치</label></td>
+            <td class="width-16">
+                <input type="text" id="uMachine" class="inner-width form-control" name="machine" th:value="${balanceSheet.machine}">
+            </td>
+            <td class="width-66" colspan="4"></td>
+        </tr>
+        <tr>
+            <td class="table-active width-16 text-center"><label for="uEquipment">비품</label></td>
+            <td class="width-16">
+                <input type="text" id="uEquipment" class="inner-width form-control" name="equipment" th:value="${balanceSheet.equipment}">
+            </td>
+            <td class="width-66" colspan="4"></td>
+        </tr>
+        <tr>
+            <td class="table-active width-16 text-center"><label for="uProduct">제품</label></td>
+            <td class="width-16">
+                <input type="text" id="uProduct" class="inner-width form-control" name="product" th:value="${balanceSheet.product}">
+            </td>
+            <td class="width-66" colspan="4"></td>
+        </tr>
+        <tr>
+            <td class="table-active width-16 text-center"><label for="uOtherFixedAsset">기타 비유동자산</label></td>
+            <td class="width-16">
+                <input type="text" id="uOtherFixedAsset" class="inner-width form-control" name="otherFixedAsset" th:value="${balanceSheet.otherFixedAsset}">
+            </td>
+            <td class="width-66" colspan="4"></td>
+        </tr>
+    </div>
+    <div th:unless="${isUpdate}">
+        <tr>
+            <td class="table-active width-16 text-center">작성일</td>
+            <td class="width-16" th:text="${balanceSheet.date}"></td>
+            <td class="table-active width-16 text-center">재무상태표 이름</td>
+            <td class="width-16" th:text="${balanceSheet.name}"></td>
+            <td class="table-active width-33" colspan="2"></td>
+        </tr>
+        <tr>
+            <th class="table-active width-33 text-center" colspan="2">자산</th>
+            <th class="table-active width-33 text-center" colspan="2">부채</th>
+            <th class="table-active width-33 text-center" colspan="2">자본</th>
+        </tr>
+        <tr>
+            <th class="table-active width-33 text-center" colspan="2">유동자산</th>
+            <th class="table-active width-33 text-center" colspan="2">유동부채</th>
+            <th class="table-active width-33 text-center" colspan="2"></th>
+        </tr>
+        <tr>
+            <td class="table-active width-16 text-center">현금</td>
+            <td class="width-16" th:text="${balanceSheet.cash}"></td>
+            <td class="table-active width-16 text-center">단기차입금</td>
+            <td class="width-16" th:text="${balanceSheet.shortTermBorrowing}"></td>
+            <td class="table-active width-16 text-center">자본금</td>
+            <td class="width-16" th:text="${balanceSheet.capital}"></td>
+        </tr>
+        <tr>
+            <td class="table-active width-16 text-center">유가증권</td>
+            <td class="width-16" th:text="${balanceSheet.securities}"></td>
+            <td class="table-active width-16 text-center">외상매입금</td>
+            <td class="width-16" th:text="${balanceSheet.payable}"></td>
+            <td class="table-active width-16 text-center">자본잉여금</td>
+            <td class="width-16" th:text="${balanceSheet.surplus}"></td>
+        </tr>
+        <tr>
+            <td class="table-active width-16 text-center"><label for="uReceivable">외상매출금</label></td>
+            <td class="width-16" th:text="${balanceSheet.receivable}"> </td>
+            <td class="table-active width-16 text-center"><label for="uPayableAccount">미지급금</label></td>
+            <td class="width-16" th:text="${balanceSheet.payableAccount}"></td>
+            <td class="table-active width-16 text-center"><label for="uAdjustment">자본조정</label></td>
+            <td class="width-16" th:text="${balanceSheet.adjustment}"></td>
+        </tr>
+        <tr>
+            <td class="table-active width-16 text-center">미수금</td>
+            <td class="width-16" th:text="${balanceSheet.receivableAccount}"> </td>
+            <td class="table-active width-16 text-center">선수금</td>
+            <td class="width-16" th:text="${balanceSheet.advanceReceived}"></td>
+            <td class="table-active width-16 text-center">미처분이익잉여금</td>
+            <td class="width-16" th:text="${balanceSheet.unappropriated}"></td>
+        </tr>
+        <tr>
+            <td class="table-active width-16 text-center">기타 유동자산</td>
+            <td class="width-16" th:text="${balanceSheet.otherLiquidAsset}"></td>
+            <td class="table-active width-16 text-center">기타 유동부채</td>
+            <td class="width-16" th:text="${balanceSheet.otherLiquid}"></td>
+            <td class="table-active width-16 text-center">기타포괄손익누계액</td>
+            <td class="width-16" th:text="${balanceSheet.comprehensive}"></td>
+        </tr>
+        <tr>
+            <th class="table-active width-33 text-center" colspan="2">비유동자산</th>
+            <th class="table-active width-33 text-center" colspan="2">비유동부채</th>
+            <th class="table-active width-33 text-center" colspan="2"></th>
+        </tr>
+        <tr>
+            <td class="table-active width-16 text-center">장기성 예금</td>
+            <td class="width-16" th:text="${balanceSheet.longTermDeposit}"></td>
+            <td class="table-active width-16 text-center">사채</td>
+            <td class="width-16" th:text="${balanceSheet.privateLoan}"></td>
+            <td class="width-33" colspan="2"></td>
+        </tr>
+        <tr>
+            <td class="table-active width-16 text-center">투자주식</td>
+            <td class="width-16" th:text="${balanceSheet.stock}"></td>
+            <td class="table-active width-16 text-center">장기차입금</td>
+            <td class="width-16" th:text="${balanceSheet.longTermBorrowing}"></td>
+            <td class="width-33" colspan="2">
+        </tr>
+        <tr>
+            <td class="table-active width-16 text-center">투자부동산</td>
+            <td class="width-16" th:text="${balanceSheet.property}"></td>
+            <td class="table-active width-16 text-center">퇴직금급여충당부채></td>
+            <td class="width-16" th:text="${balanceSheet.severancePay}"></td>
+            <td class="width-33" colspan="2">
+        </tr>
+        <tr>
+            <td class="table-active width-16 text-center">토지</td>
+            <td class="width-16" th:text="${balanceSheet.ground}"></td>
+            <td class="table-active width-16 text-center">기타 비유동부채</td>
+            <td class="width-16" th:text="${balanceSheet.otherFixed}"></td>
+            <td class="width-33" colspan="2"></td>
+        </tr>
+        <tr>
+            <td class="table-active width-16 text-center">건물</td>
+            <td class="width-16" th:text="${balanceSheet.building}"></td>
+            <td class="width-66" colspan="4"></td>
+        </tr>
+        <tr>
+            <td class="table-active width-16 text-center">기계장치</td>
+            <td class="width-16" th:text="${balanceSheet.machine}"></td>
+            <td class="width-66" colspan="4"></td>
+        </tr>
+        <tr>
+            <td class="table-active width-16 text-center">비품</td>
+            <td class="width-16" th:text="${balanceSheet.equipment}"></td>
+            <td class="width-66" colspan="4"></td>
+        </tr>
+        <tr>
+            <td class="table-active width-16 text-center">제품</td>
+            <td class="width-16" th:text="${balanceSheet.product}"></td>
+            <td class="width-66" colspan="4"></td>
+        </tr>
+        <tr>
+            <td class="table-active width-16 text-center">기타 비유동자산</td>
+            <td class="width-16" th:text="${balanceSheet.otherFixedAsset}"></td>
+            <td class="width-66" colspan="4"></td>
+        </tr>
+    </div>
+</div>
+
+<div layout:fragment="input-hidden-data">
+    <input type="hidden" name="draftStaff" th:value="${draftStaff.staffName}">
+</div>
+</body>
+</html>
