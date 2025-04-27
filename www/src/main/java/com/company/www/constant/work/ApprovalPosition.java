@@ -19,8 +19,8 @@ public enum ApprovalPosition {
     ASSISTANT_MANAGER(40), // 대리
     ASSOCIATE(30), // 주임
     STAFF(20), // 사원
-    INTERN(10),
-    NOT_POSITION(0); // 인턴
+    INTERN(10), // 인턴
+    NOT_POSITION(0);
 
     private final int code;
 }

@@ -131,7 +131,6 @@ class WorkServiceTest {
     // 매개변수에 들어올 값의 정보
     // 0 : 미정, 100 : 사장, 90 : 부사장, 80 : 상무이사
     // 70 : 부장, 60 : 차장, 50 : 과장, 40 : 대리, 30 : 주임, 20 : 사원,  10 : 인턴
-
     private boolean higherThanPrior(int prior, int staff){
         return (prior < staff);
     }
@@ -175,12 +174,12 @@ class WorkServiceTest {
         return hasApprovalAuthority(priorAuthority, approvalAuthority, staffAuthority, approvalState) || hasDirectorProxyAuthority(work, approvalState);
     }
 
-    // 결재 라인 설정
+    // 결재 라인 설정(기본값)
     public ApprovalLine makeDefaultApprovalLine(WorkType workType, Staff draftStaff){
         String positionName = draftStaff.getPosition().getPositionName();
         List<ApprovalPosition> positions;
         switch(positionName){
-            case "사장", "부장" -> {
+            case "사장" -> {
                 positions = List.of(ApprovalPosition.MANAGING_DIRECTOR, ApprovalPosition.VICE_PRESIDENT);
             }
             case "부사장" -> {
@@ -189,11 +188,17 @@ class WorkServiceTest {
             case "상무이사"-> {
                 positions = List.of(ApprovalPosition.VICE_PRESIDENT, ApprovalPosition.PRESIDENT);
             }
+            case "부장" -> {
+                positions = List.of(ApprovalPosition.MANAGING_DIRECTOR, ApprovalPosition.VICE_PRESIDENT, ApprovalPosition.PRESIDENT);
+            }
             case "차장", "과장" -> {
-                positions = List.of(ApprovalPosition.GENERAL_MANAGER, ApprovalPosition.MANAGING_DIRECTOR, ApprovalPosition.VICE_PRESIDENT);
+                positions = List.of(ApprovalPosition.GENERAL_MANAGER, ApprovalPosition.MANAGING_DIRECTOR, ApprovalPosition.PRESIDENT);
+            }
+            case "대리", "주임", "사원" -> {
+                positions = List.of(ApprovalPosition.MANAGER, ApprovalPosition.GENERAL_MANAGER, ApprovalPosition.MANAGING_DIRECTOR, ApprovalPosition.PRESIDENT);
             }
             default -> {
-                positions = List.of(ApprovalPosition.MANAGER, ApprovalPosition.GENERAL_MANAGER, ApprovalPosition.MANAGING_DIRECTOR);
+                positions = List.of();
             }
         }
 
@@ -206,6 +211,7 @@ class WorkServiceTest {
         return approvalLineRepository.save(approvalLine);
     }
 
+    // 결재라인 설정(직접 설정)
     public ApprovalLine makeApprovalLine(String ... approvalPositions){
         ApprovalLine approvalLine = new ApprovalLine();
         List<ApprovalPosition> positions = new ArrayList<>();
@@ -300,13 +306,11 @@ class WorkServiceTest {
             approver.setApprovalState(approvalState);
             approvers.add(approverRepository.save(approver));
 
-            boolean isCompleted = work.getApprovalLine().getApprovalPositions().size() == approvers.size();
-
             boolean isTopLevelApproval = approvalStaff.getPosition().getPositionRank() >= 80 && approvalState.equals(ApprovalState.PROXY);
 
             boolean isHandling = approvalState.equals(ApprovalState.APPROVE) || approvalState.equals(ApprovalState.DEFER) || approvalState.equals(ApprovalState.PROXY);
 
-            boolean finalCheck = isTopLevelApproval || !isHandling || isCompleted;
+            boolean finalCheck = isTopLevelApproval || !isHandling;
 
             work.setDraftState(finalCheck ? WorkState.COMPLETED : WorkState.HANDLING);
             work.setApprovers(approvers);
@@ -357,10 +361,6 @@ class WorkServiceTest {
         System.out.println("보존년한 : " + work.getRetentionPeriod());
         System.out.println("보안등급 : " + work.getSecurityLevel());
         System.out.println("-----");
-        int count = 1;
-        for(ApprovalPosition position : work.getApprovalLine().getApprovalPositions()){
-            System.out.println((count++) + "차 결재 직급 " + Converter.convertToApprovalPositionString(position));
-        }
         System.out.println("-----");
         System.out.println("기안자명 : " + work.getDraftStaff().getStaffName());
         System.out.println("부 : " + work.getDraftStaff().getDepartment().getDepartmentName());
@@ -633,7 +633,6 @@ class WorkServiceTest {
             String massage = e.getMessage();
             if (massage.equals("결재 권한이 없습니다.")) {
                 int index = work.getApprovers().size();
-                System.out.println("요구되는 권한 : " + work.getApprovalLine().getApprovalPositions().get(index));
                 System.out.println("결재자 권한 : " + firstApprovalStaff.getPosition().getPositionName());
             } else {
                 System.out.println("기타 예외");
@@ -666,7 +665,6 @@ class WorkServiceTest {
             String massage = e.getMessage();
             if (massage.equals("결재 권한이 없습니다.")) {
                 int index = work.getApprovers().size();
-                System.out.println("요구되는 권한 : " + work.getApprovalLine().getApprovalPositions().get(index));
                 System.out.println("결재자 권한 : " + firstApprovalStaff.getPosition().getPositionName());
             } else {
                 System.out.println("기타 예외");
@@ -698,7 +696,6 @@ class WorkServiceTest {
             String massage = e.getMessage();
             if (massage.equals("결재 권한이 없습니다.")) {
                 int index = work.getApprovers().size();
-                System.out.println("요구되는 권한 : " + work.getApprovalLine().getApprovalPositions().get(index));
                 System.out.println("결재자 권한 : " + firstApprovalStaff.getPosition().getPositionName());
             } else {
                 System.out.println("기타 예외");
@@ -731,7 +728,6 @@ class WorkServiceTest {
             String massage = e.getMessage();
             if (massage.equals("결재 권한이 없습니다.")) {
                 int index = work.getApprovers().size();
-                System.out.println("요구되는 권한 : " + work.getApprovalLine().getApprovalPositions().get(index));
                 System.out.println("결재자 권한 : " + firstApprovalStaff.getPosition().getPositionName());
             } else {
                 System.out.println("기타 예외");
@@ -764,7 +760,6 @@ class WorkServiceTest {
             String massage = e.getMessage();
             if (massage.equals("결재 권한이 없습니다.")) {
                 int index = work.getApprovers().size();
-                System.out.println("요구되는 권한 : " + work.getApprovalLine().getApprovalPositions().get(index));
                 System.out.println("결재자 권한 : " + firstApprovalStaff.getPosition().getPositionName());
             } else {
                 System.out.println("기타 예외");
@@ -796,7 +791,6 @@ class WorkServiceTest {
             String massage = e.getMessage();
             if (massage.equals("결재 권한이 없습니다.")) {
                 int index = work.getApprovers().size();
-                System.out.println("요구되는 권한 : " + work.getApprovalLine().getApprovalPositions().get(index));
                 System.out.println("결재자 권한 : " + firstApprovalStaff.getPosition().getPositionName());
             } else {
                 System.out.println("기타 예외");
@@ -829,7 +823,6 @@ class WorkServiceTest {
             String massage = e.getMessage();
             if (massage.equals("결재 권한이 없습니다.")) {
                 int index = work.getApprovers().size();
-                System.out.println("요구되는 권한 : " + work.getApprovalLine().getApprovalPositions().get(index));
                 System.out.println("결재하려는 사람의 권한 : " + firstApprovalStaff.getPosition().getPositionName());
             } else {
                 System.out.println("기타 예외");

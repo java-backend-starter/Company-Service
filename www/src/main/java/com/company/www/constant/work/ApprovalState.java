@@ -6,6 +6,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum ApprovalState {
+    FINALIZATION("최종결재"),
     APPROVE("결재"),
     DEFER("보류"),
     REJECT("반려"),
