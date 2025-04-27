@@ -131,100 +131,153 @@ class WorkServiceTest {
     // 매개변수에 들어올 값의 정보
     // 0 : 미정, 100 : 사장, 90 : 부사장, 80 : 상무이사
     // 70 : 부장, 60 : 차장, 50 : 과장, 40 : 대리, 30 : 주임, 20 : 사원,  10 : 인턴
-    private boolean higherThanPrior(int prior, int staff){
-        return (prior < staff);
+    // 직급 우선순위 비교
+    // prior (이전 결재자의 직급)과 staff (현재 결재자의 직급)을 비교하여, staff가 우선순위가 높은지 확인
+    private boolean higherThanPrior(int prior, int staff) {
+        // 이전 결재자의 직급(prior)보다 staff의 직급이 높은 경우 true를 반환
+        return prior < staff;
     }
 
-    private boolean isProxy(ApprovalState approvalState){
-        return approvalState.getCode().equals("대결") || approvalState.getCode().equals("전대결");
+    // Proxy 상태 체크
+    // ApprovalState가 "대결" 또는 "전대결"일 경우 Proxy 상태로 간주
+    private boolean isProxy(ApprovalState approvalState) {
+        // ApprovalState 코드가 "대결" 또는 "전대결"이면 Proxy로 간주
+        return "대결".equals(approvalState.getCode()) || "전대결".equals(approvalState.getCode());
     }
 
     // 최종 권한 체크
+    // prior : 이전 결재자의 직급
+    // approval : 결재선의 직급 코드 (결재 대기 중인 직급)
+    // staff : 현재 결재자의 직급
+    // state : ApprovalState (결재 상태)
     private boolean hasApprovalAuthority(int prior, int approval, int staff, ApprovalState state) {
-        if(isProxy(state)){
-            return staff >= 80 && approval > 70 || (higherThanPrior(prior, staff) && (approval >= staff));
+        // Proxy 상태일 경우
+        if (isProxy(state)) {
+            // Proxy 상태일 때는 특정 직급 이상일 경우 (staff >= 80 && approval > 70)
+            // 또는 prior < staff 이고 approval이 staff 이상인 경우 권한이 있다고 판단
+            return (staff >= 80 && approval > 70) || (higherThanPrior(prior, staff) && approval >= staff);
         }
-        return higherThanPrior(prior, staff) && (approval == staff);
+        // Proxy가 아닐 경우, 단순히 prior보다 staff가 우선순위가 높고, approval이 staff와 동일해야 권한이 있다고 판단
+        return higherThanPrior(prior, staff) && approval == staff;
     }
 
-    public boolean hasDirectorProxyAuthority(Work work, ApprovalState approvalState){
-        // 직급에 부여된 우선순위 번호
-        // 0 : 미정, 100 : 사장, 90 : 부사장, 80 : 상무이사
-        // 70 : 부장, 60 : 차장, 50 : 과장, 40 : 대리, 30 : 주임, 20 : 사원,  10 : 인턴
+    // 상무이사 이상 Proxy 권한 체크
+    // 상무이사 이상 직급의 경우, Proxy 상태와 결재자가 있는지를 확인하여 권한을 부여
+    public boolean hasDirectorProxyAuthority(Work work, ApprovalState approvalState) {
+        // 결재자가 Draft로 지정한 직원의 직급을 가져옴
         Position draftPosition = work.getDraftStaff().getPosition();
+        // 결재자 리스트를 가져옴
         List<Approver> approvers = work.getApprovers();
 
+        // 상무이사 이상 직급이고, Proxy 상태일 때 결재자가 있다면 권한을 부여
         return draftPosition.getPositionRank() >= 80 && isProxy(approvalState) && !approvers.isEmpty();
     }
 
-    public boolean checkApprovalAuthority(Work work, Staff approvalStaff, ApprovalState approvalState){
+    // 결재 권한 확인
+// 결재자가 결재선에서 통과할 차례인지, 그리고 결재 권한을 가지고 있는지 확인
+    public boolean checkApprovalAuthority(Work work, Staff approvalStaff, ApprovalState approvalState) {
+        // 결재자 리스트를 가져옴
         List<Approver> approvers = work.getApprovers();
+        // 결재선에서 각 결재자의 직급을 가져옴
         List<ApprovalPosition> approvalPositions = work.getApprovalLine().getApprovalPositions();
 
-        if(approvers.size() == approvalPositions.size()){
+        // 결재자가 모든 결재선을 이미 통과한 경우, 추가적인 권한 체크는 불필요
+        if (approvers.size() == approvalPositions.size()) {
             return false;
         }
 
-        int priorAuthority = (approvers.isEmpty()) ?
-                work.getDraftStaff().getPosition().getPositionRank() : approvers.get(approvers.size()-1).getApprovalStaff().getPosition().getPositionRank();
+        // priorAuthority : 이전 결재자의 직급 (approvers 리스트에서 마지막 결재자의 직급)
+        // approvalAuthority : 현재 결재선의 직급 코드
+        // staffAuthority : 현재 결재자의 직급
+        int priorAuthority = approvers.isEmpty() ?
+                work.getDraftStaff().getPosition().getPositionRank() :
+                approvers.get(approvers.size() - 1).getApprovalStaff().getPosition().getPositionRank();
 
         int approvalAuthority = approvalPositions.get(approvers.size()).getCode();
         int staffAuthority = approvalStaff.getPosition().getPositionRank();
 
-        return hasApprovalAuthority(priorAuthority, approvalAuthority, staffAuthority, approvalState) || hasDirectorProxyAuthority(work, approvalState);
+        // 결재 권한 확인 : 권한이 있거나 상무이사 이상의 Proxy 권한이 있는 경우 true
+        return hasApprovalAuthority(priorAuthority, approvalAuthority, staffAuthority, approvalState) ||
+                hasDirectorProxyAuthority(work, approvalState);
     }
 
     // 결재 라인 설정(기본값)
-    public ApprovalLine makeDefaultApprovalLine(WorkType workType, Staff draftStaff){
+// 주어진 직원의 직급에 따라 기본 결재 라인을 설정하는 메서드
+    public ApprovalLine makeDefaultApprovalLine(WorkType workType, Staff draftStaff) {
+        // 직원의 직급명 가져오기
         String positionName = draftStaff.getPosition().getPositionName();
         List<ApprovalPosition> positions;
+
+        // 직급에 따라 결재 라인 설정
         switch(positionName){
             case "사장" -> {
+                // 사장은 상무이사, 부사장을 결재자로 설정
                 positions = List.of(ApprovalPosition.MANAGING_DIRECTOR, ApprovalPosition.VICE_PRESIDENT);
             }
             case "부사장" -> {
+                // 부사장은 상무이사, 사장을 결재자로 설정
                 positions = List.of(ApprovalPosition.MANAGING_DIRECTOR, ApprovalPosition.PRESIDENT);
             }
-            case "상무이사"-> {
+            case "상무이사" -> {
+                // 상무이사는 부사장, 사장을 결재자로 설정
                 positions = List.of(ApprovalPosition.VICE_PRESIDENT, ApprovalPosition.PRESIDENT);
             }
             case "부장" -> {
+                // 부장은 상무이사, 부사장, 사장을 결재자로 설정
                 positions = List.of(ApprovalPosition.MANAGING_DIRECTOR, ApprovalPosition.VICE_PRESIDENT, ApprovalPosition.PRESIDENT);
             }
             case "차장", "과장" -> {
+                // 차장과 과장은 부장, 상무이사, 사장을 결재자로 설정
                 positions = List.of(ApprovalPosition.GENERAL_MANAGER, ApprovalPosition.MANAGING_DIRECTOR, ApprovalPosition.PRESIDENT);
             }
             case "대리", "주임", "사원" -> {
+                // 대리, 주임, 사원은 과장, 부장, 상무이사, 사장을 결재자로 설정
                 positions = List.of(ApprovalPosition.MANAGER, ApprovalPosition.GENERAL_MANAGER, ApprovalPosition.MANAGING_DIRECTOR, ApprovalPosition.PRESIDENT);
             }
             default -> {
+                // 그 외 직급은 결재 라인이 없음
                 positions = List.of();
             }
         }
 
+        // 결재 역할 설정: 작업 타입이 "공통"이면 직원의 역할을 사용, 아니면 작업 타입의 역할 사용
         Role role = workType.getRole().getRoleName().equals("공통") ? draftStaff.getRole() : workType.getRole();
 
+        // 결재 라인 객체 생성
         ApprovalLine approvalLine = new ApprovalLine();
-        approvalLine.setApprovalPositions(positions);
-        approvalLine.setRole(role);
-        approvalLine.setApproverSize(positions.size());
+        approvalLine.setApprovalPositions(positions); // 설정된 결재 직급들
+        approvalLine.setRole(role); // 역할 설정
+        approvalLine.setApproverSize(positions.size()); // 결재자가 몇 명인지 설정
+
+        // 결재 라인을 데이터베이스에 저장하고 반환
         return approvalLineRepository.save(approvalLine);
     }
 
     // 결재라인 설정(직접 설정)
-    public ApprovalLine makeApprovalLine(String ... approvalPositions){
+// 주어진 결재 직급 리스트에 맞춰 결재 라인을 설정하는 메서드
+    public ApprovalLine makeApprovalLine(String ... approvalPositions) {
+        // 결재 라인 객체 생성
         ApprovalLine approvalLine = new ApprovalLine();
         List<ApprovalPosition> positions = new ArrayList<>();
+
+        // 결재 직급 리스트를 받아서 해당 직급의 ApprovalPosition을 찾아서 추가
         for(String approvalPosition : approvalPositions){
+            // 결재 직급 이름에 해당하는 Position 객체를 조회
             Position position = positionRepository.findByPositionName(approvalPosition);
             if(position != null){
+                // 직급에 해당하는 ApprovalPosition을 맵에서 찾기
                 ApprovalPosition ap = APPROVAL_POSITION_MAP.get(position.getPositionRank());
                 if(ap != null){
+                    // 해당 직급이 존재하면 결재 직급 리스트에 추가
                     positions.add(ap);
                 }
             }
         }
+
+        // 결재자 수 설정
         approvalLine.setApproverSize(positions.size());
+
+        // 결재 라인을 데이터베이스에 저장하고 반환
         return approvalLineRepository.save(approvalLine);
     }
 
@@ -401,7 +454,7 @@ class WorkServiceTest {
         assertTrue(staff.getPosition().getPositionId() != 1, "권한이 없습니다.");
     }
 
-    @DisplayName("기안서 작성 테스트1")
+    @DisplayName("기안서 작성 테스트1 : 사원이 기안서 작성")
     @Test
     @Transactional
     public void createDraft1(){
@@ -412,9 +465,14 @@ class WorkServiceTest {
         Staff staff = makeStaff("asica3", "홍길동", Gender.MALE, STAFF_INFO[8]);
         Work work = createWork(workType, staff, "제목", "보존년한", "보안등급");
         displayDraftWork(work);
+        ApprovalLine al = work.getApprovalLine();
+        System.out.println("결재권자 직급 리스트");
+        for(ApprovalPosition position : al.getApprovalPositions()){
+            System.out.println(position);
+        }
     }
 
-    @DisplayName("기안서 작성 테스트2")
+    @DisplayName("기안서 작성 테스트2 : 과장이 기안서 작성")
     @Test
     @Transactional
     public void createDraft2(){
@@ -425,9 +483,14 @@ class WorkServiceTest {
         Staff staff = makeStaff("asica3", "홍길동", Gender.MALE, STAFF_INFO[5]);
         Work work = createWork(workType, staff, "제목", "보존년한", "보안등급");
         displayDraftWork(work);
+        ApprovalLine al = work.getApprovalLine();
+        System.out.println("결재권자 직급 리스트");
+        for(ApprovalPosition position : al.getApprovalPositions()){
+            System.out.println(position);
+        }
     }
 
-    @DisplayName("기안서 작성 테스트3")
+    @DisplayName("기안서 작성 테스트3 : 부장이 작성")
     @Test
     @Transactional
     public void createDraft3(){
@@ -438,6 +501,11 @@ class WorkServiceTest {
         Staff staff = makeStaff("asica3", "홍길동", Gender.MALE, STAFF_INFO[3]);
         Work work = createWork(workType, staff, "제목", "보존년한", "보안등급");
         displayDraftWork(work);
+        ApprovalLine al = work.getApprovalLine();
+        System.out.println("결재권자 직급 리스트");
+        for(ApprovalPosition position : al.getApprovalPositions()){
+            System.out.println(position);
+        }
     }
 
     @DisplayName("기안서 작성 테스트4")
