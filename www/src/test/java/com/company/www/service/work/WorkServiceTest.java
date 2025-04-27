@@ -202,7 +202,7 @@ class WorkServiceTest {
     }
 
     // 결재 라인 설정(기본값)
-// 주어진 직원의 직급에 따라 기본 결재 라인을 설정하는 메서드
+    // 주어진 직원의 직급에 따라 기본 결재 라인을 설정하는 메서드
     public ApprovalLine makeDefaultApprovalLine(WorkType workType, Staff draftStaff) {
         // 직원의 직급명 가져오기
         String positionName = draftStaff.getPosition().getPositionName();
@@ -254,7 +254,7 @@ class WorkServiceTest {
     }
 
     // 결재라인 설정(직접 설정)
-// 주어진 결재 직급 리스트에 맞춰 결재 라인을 설정하는 메서드
+    // 주어진 결재 직급 리스트에 맞춰 결재 라인을 설정하는 메서드
     public ApprovalLine makeApprovalLine(String ... approvalPositions) {
         // 결재 라인 객체 생성
         ApprovalLine approvalLine = new ApprovalLine();
@@ -508,7 +508,7 @@ class WorkServiceTest {
         }
     }
 
-    @DisplayName("기안서 작성 테스트4")
+    @DisplayName("기안서 작성 테스트4 : 상무이사가 작성")
     @Test
     @Transactional
     public void createDraft4(){
@@ -519,6 +519,11 @@ class WorkServiceTest {
         Staff staff = makeStaff("asica3", "홍길동", Gender.MALE, STAFF_INFO[2]);
         Work work = createWork(workType, staff, "제목", "보존년한", "보안등급");
         displayDraftWork(work);
+        ApprovalLine al = work.getApprovalLine();
+        System.out.println("결재권자 직급 리스트");
+        for(ApprovalPosition position : al.getApprovalPositions()){
+            System.out.println(position);
+        }
     }
 
     @DisplayName("기안서 작성 테스트5")

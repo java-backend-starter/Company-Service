@@ -24,15 +24,21 @@ public class Converter {
 
     // 결재 상태
     public static ApprovalState convertToApprovalState(String approvalState){
-        switch(approvalState){
-            case "승인" -> { return ApprovalState.APPROVE; }
-            case "보류" -> { return ApprovalState.DEFER; }
-            case "반려" -> { return ApprovalState.REJECT; }
-            case "전결" -> { return ApprovalState.ARBITRARY; }
-            case "대결" -> { return ApprovalState.PROXY; }
-            case "전대결" -> { return ApprovalState.ARBITRARY_PROXY; }
-            default -> { return null; }
+        if (approvalState == null) {
+            return null;
         }
+
+        return switch(approvalState.trim()){
+            case "최종결재" -> ApprovalState.FINALIZATION;
+            case "결재" -> ApprovalState.APPROVE;
+            case "보류" -> ApprovalState.DEFER;
+            case "반려" -> ApprovalState.REJECT;
+            case "전결" -> ApprovalState.ARBITRARY;
+            case "대결" -> ApprovalState.PROXY;
+            case "전대결" -> ApprovalState.ARBITRARY_PROXY;
+            default -> null;
+        };
+
     }
 
     public static String convertToApprovalStateString(ApprovalState approvalState){
@@ -42,7 +48,7 @@ public class Converter {
     // 결재 상태
     public static WorkState convertToWorkState(String workState){
         switch (workState){
-            case "결재대개" -> { return WorkState.PENDING; }
+            case "결재대기" -> { return WorkState.PENDING; }
             case "결재중" -> { return  WorkState.HANDLING; }
             case "결재완료" -> { return WorkState.COMPLETED; }
             case "공람" -> { return WorkState.DISPLAY; }
