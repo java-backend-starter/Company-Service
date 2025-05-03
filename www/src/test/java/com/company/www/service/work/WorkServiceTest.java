@@ -1453,7 +1453,7 @@ class WorkServiceTest {
 
     // 3차 결재
 
-    @DisplayName("3차 결재 권한 테스트1")
+    @DisplayName("3차 결재 권한 테스트1 : 사원 기안, 과장 1차 결재, 부장 2차 결재, 상무이사 3차 결재")
     @Test
     @Transactional
     public void checkFinalLevelAuthority1(){
@@ -1480,11 +1480,12 @@ class WorkServiceTest {
         System.out.println("-----");
         System.out.println("3차 결재자 직급 : " + finalApprovalStaff.getPosition().getPositionName() + ", 우선순위 : " +  finalApprovalStaff.getPosition().getPositionRank());
         System.out.println("3차 결재 상태 : " + ApprovalState.APPROVE.getCode());
-        System.out.println("3차 결재 권한 여부 : " + checkApprovalAuthority(work, finalApprovalStaff, ApprovalState.APPROVE));
+        String hasAuthority = checkApprovalAuthority(work, finalApprovalStaff, ApprovalState.APPROVE) ? "존재" : "부존재";
+        System.out.println("3차 결재 권한 여부 : " + hasAuthority);
         assertTrue(checkApprovalAuthority(work, finalApprovalStaff, ApprovalState.APPROVE), "결재 권한이 없습니다.");
     }
 
-    @DisplayName("3차 결재 권한 테스트2")
+    @DisplayName("3차 결재 권한 테스트2 : 과장 기안, 부장 1차 결재, 상무이사 2차 결재, 사장 3차 결재")
     @Test
     @Transactional
     public void checkFinalLevelAuthority2(){
@@ -1495,7 +1496,7 @@ class WorkServiceTest {
         Staff draftStaff = makeStaff("asica3", "홍길동", Gender.MALE, STAFF_INFO[5]);
         Staff firstApprovalStaff = makeStaff("asica4", "홍길순", Gender.FEMALE, STAFF_INFO[3]);
         Staff secondApprovalStaff = makeStaff("asica5", "홍길강", Gender.MALE, STAFF_INFO[2]);
-        Staff finalApprovalStaff = makeStaff("asica6", "홍대장", Gender.MALE, STAFF_INFO[1]);
+        Staff finalApprovalStaff = makeStaff("asica6", "홍대장", Gender.MALE, STAFF_INFO[0]);
 
         Work work = createWork(workType, draftStaff, "제목", "보존년한", "보안등급");
         work = approveWork(work, firstApprovalStaff);
@@ -1511,11 +1512,12 @@ class WorkServiceTest {
         System.out.println("-----");
         System.out.println("3차 결재자 직급 : " + finalApprovalStaff.getPosition().getPositionName() + ", 우선순위 : " +  finalApprovalStaff.getPosition().getPositionRank());
         System.out.println("3차 결재 상태 : " + ApprovalState.APPROVE.getCode());
-        System.out.println("3차 결재 권한 여부 : " + checkApprovalAuthority(work, finalApprovalStaff, ApprovalState.APPROVE));
+        String hasAuthority = checkApprovalAuthority(work, finalApprovalStaff, ApprovalState.APPROVE) ? "존재" : "부존재";
+        System.out.println("3차 결재 권한 여부 : " + hasAuthority);
         assertTrue(checkApprovalAuthority(work, finalApprovalStaff, ApprovalState.APPROVE), "결재가 불가능합니다.");
     }
 
-    @DisplayName("3차 결재 권한 테스트3")
+    @DisplayName("3차 결재 권한 테스트3 : 사원 기안, 과장 1차 결재, 차장 대결, 상무이사 3차 결재")
     @Test
     @Transactional
     public void checkFinalLevelAuthority3(){
@@ -1526,7 +1528,7 @@ class WorkServiceTest {
         Staff draftStaff = makeStaff("asica3", "홍길동", Gender.MALE, STAFF_INFO[8]);
         Staff firstApprovalStaff = makeStaff("asica4", "홍길순", Gender.FEMALE, STAFF_INFO[5]);
         Staff secondApprovalStaff = makeStaff("asica5", "홍길강", Gender.MALE, STAFF_INFO[4]);
-        Staff finalApprovalStaff = makeStaff("asica6", "홍대장", Gender.MALE, STAFF_INFO[1]);
+        Staff finalApprovalStaff = makeStaff("asica6", "홍대장", Gender.MALE, STAFF_INFO[2]);
 
         Work work = createWork(workType, draftStaff, "제목", "보존년한", "보안등급");
         work = approveWork(work, firstApprovalStaff);
@@ -1542,11 +1544,12 @@ class WorkServiceTest {
         System.out.println("-----");
         System.out.println("3차 결재자 직급 : " + finalApprovalStaff.getPosition().getPositionName() + ", 우선순위 : " +  finalApprovalStaff.getPosition().getPositionRank());
         System.out.println("3차 결재 상태 : " + ApprovalState.APPROVE.getCode());
-        System.out.println("3차 결재 권한 여부 : " + checkApprovalAuthority(work, finalApprovalStaff, ApprovalState.APPROVE));
-        assertFalse(checkApprovalAuthority(work, finalApprovalStaff, ApprovalState.APPROVE), "결재 권한이 있습니다.");
+        String hasAuthority = checkApprovalAuthority(work, finalApprovalStaff, ApprovalState.APPROVE) ? "존재" : "부존재";
+        System.out.println("3차 결재 권한 여부 : " + hasAuthority);
+        assertTrue(checkApprovalAuthority(work, finalApprovalStaff, ApprovalState.APPROVE), "결재 권한이 없습니다.");
     }
 
-    @DisplayName("3차 결재 권한 테스트4")
+    @DisplayName("3차 결재 권한 테스트4 : 과장 기안 부장 1차 결재, 부사장 대결, 사장 3차 결재")
     @Test
     @Transactional
     public void checkFinalLevelAuthority4(){
@@ -1573,11 +1576,12 @@ class WorkServiceTest {
         System.out.println("-----");
         System.out.println("3차 결재자 직급 : " + finalApprovalStaff.getPosition().getPositionName() + ", 우선순위 : " +  finalApprovalStaff.getPosition().getPositionRank());
         System.out.println("3차 결재 상태 : " + ApprovalState.APPROVE.getCode());
-        System.out.println("3차 결재 권한 여부 : " + checkApprovalAuthority(work, finalApprovalStaff, ApprovalState.APPROVE));
-        assertFalse(checkApprovalAuthority(work, finalApprovalStaff, ApprovalState.APPROVE), "결재가 가능합니다.");
+        String hasAuthority = checkApprovalAuthority(work, finalApprovalStaff, ApprovalState.APPROVE) ? "존재" : "부존재";
+        System.out.println("3차 결재 권한 여부 : " + hasAuthority);
+        assertTrue(checkApprovalAuthority(work, finalApprovalStaff, ApprovalState.APPROVE), "결재가 불가능합니다.");
     }
 
-    @DisplayName("3차 결재 권한 테스트5")
+    @DisplayName("4차 결재 권한 테스트1 : 사원 기안, 과장 1차 결재, 부장 2차 결재, 상무 이사 3차 결재, 부사장 최종 결재")
     @Test
     @Transactional
     public void checkFinalLevelAuthority5(){
@@ -1609,11 +1613,12 @@ class WorkServiceTest {
         System.out.println("-----");
         System.out.println("4차 결재자 직급 : " + finalApprovalStaff.getPosition().getPositionName() + ", 우선순위 : " +  finalApprovalStaff.getPosition().getPositionRank());
         System.out.println("4차 결재 상태 : " + ApprovalState.APPROVE.getCode());
-        System.out.println("4차 결재 권한 여부 : " + checkApprovalAuthority(work, thirdApprovalStaff, ApprovalState.APPROVE));
+        String hasAuthority = checkApprovalAuthority(work, finalApprovalStaff, ApprovalState.APPROVE) ? "존재" : "부존재";
+        System.out.println("3차 결재 권한 여부 : " + hasAuthority);
         assertFalse(checkApprovalAuthority(work, finalApprovalStaff, ApprovalState.APPROVE), "결재 권한이 있습니다.");
     }
 
-    @DisplayName("3차 결재 테스트 1")
+    @DisplayName("3차 결재 테스트 1 : 주임 기안, 과장 1차 결재, 부장 2차 결재, 상무이사 3차 결재")
     @Test
     @Transactional
     public void thirdLevelApproval1(){
