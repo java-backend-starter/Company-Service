@@ -174,7 +174,7 @@ class WorkServiceTest {
     }
 
     // 결재 권한 확인
-// 결재자가 결재선에서 통과할 차례인지, 그리고 결재 권한을 가지고 있는지 확인
+    // 결재자가 결재선에서 통과할 차례인지, 그리고 결재 권한을 가지고 있는지 확인
     public boolean checkApprovalAuthority(Work work, Staff approvalStaff, ApprovalState approvalState) {
         // 결재자 리스트를 가져옴
         List<Approver> approvers = work.getApprovers();
@@ -405,7 +405,6 @@ class WorkServiceTest {
         return approvalWork(work, approvalStaff, ApprovalState.ARBITRARY_PROXY);
     }
 
-
     public void displayDraftWork(Work work){
         System.out.println("-----");
         System.out.println("업무 이름 : " + work.getWorkType().getWorkName());
@@ -441,6 +440,121 @@ class WorkServiceTest {
         }
     }
 
+    public void displayApprovalLine(ApprovalLine approvalLine){
+        List<ApprovalPosition> positions = approvalLine.getApprovalPositions();
+        if(positions.isEmpty()){
+            System.out.println("설정된 결재라인이 없습니다.");
+        }
+        for(ApprovalPosition position : positions){
+            System.out.println(position);
+        }
+    }
+
+    // 결재라인 출력
+    @DisplayName("결재라인 출력 테스트1 : 인턴")
+    @Test
+    @Transactional
+    public void printApprovalLine1(){
+        // 0 : 사장, 1 : 부사장, 2 : 상무이사
+        // 3 : 부장, 4 : 차장, 5 : 과장, 6 : 대리, 7 : 주임, 8 : 사원, 9 : 인턴
+        WorkType workType = workTypeRepository.findByWorkName("휴가관리");
+        Staff staff = makeStaff("asica3", "홍길동", Gender.MALE, STAFF_INFO[9]);
+        ApprovalLine al = makeDefaultApprovalLine(workType, staff);
+
+        displayApprovalLine(al);
+    }
+
+    @DisplayName("결재라인 출력 테스트2 : 사원")
+    @Test
+    @Transactional
+    public void printApprovalLine2(){
+        // 0 : 사장, 1 : 부사장, 2 : 상무이사
+        // 3 : 부장, 4 : 차장, 5 : 과장, 6 : 대리, 7 : 주임, 8 : 사원, 9 : 인턴
+        WorkType workType = workTypeRepository.findByWorkName("휴가관리");
+        Staff staff = makeStaff("asica3", "홍길동", Gender.MALE, STAFF_INFO[8]);
+        ApprovalLine al = makeDefaultApprovalLine(workType, staff);
+
+        displayApprovalLine(al);
+    }
+
+    @DisplayName("결재라인 출력 테스트3 : 대리")
+    @Test
+    @Transactional
+    public void printApprovalLine3(){
+        // 0 : 사장, 1 : 부사장, 2 : 상무이사
+        // 3 : 부장, 4 : 차장, 5 : 과장, 6 : 대리, 7 : 주임, 8 : 사원, 9 : 인턴
+        WorkType workType = workTypeRepository.findByWorkName("휴가관리");
+        Staff staff = makeStaff("asica3", "홍길동", Gender.MALE, STAFF_INFO[6]);
+        ApprovalLine al = makeDefaultApprovalLine(workType, staff);
+
+        displayApprovalLine(al);
+    }
+
+    @DisplayName("결재라인 출력 테스트4 : 과장")
+    @Test
+    @Transactional
+    public void printApprovalLine4(){
+        // 0 : 사장, 1 : 부사장, 2 : 상무이사
+        // 3 : 부장, 4 : 차장, 5 : 과장, 6 : 대리, 7 : 주임, 8 : 사원, 9 : 인턴
+        WorkType workType = workTypeRepository.findByWorkName("휴가관리");
+        Staff staff = makeStaff("asica3", "홍길동", Gender.MALE, STAFF_INFO[5]);
+        ApprovalLine al = makeDefaultApprovalLine(workType, staff);
+
+        displayApprovalLine(al);
+    }
+
+    @DisplayName("결재라인 출력 테스트5 : 부장")
+    @Test
+    @Transactional
+    public void printApprovalLine5(){
+        // 0 : 사장, 1 : 부사장, 2 : 상무이사
+        // 3 : 부장, 4 : 차장, 5 : 과장, 6 : 대리, 7 : 주임, 8 : 사원, 9 : 인턴
+        WorkType workType = workTypeRepository.findByWorkName("휴가관리");
+        Staff staff = makeStaff("asica3", "홍길동", Gender.MALE, STAFF_INFO[3]);
+        ApprovalLine al = makeDefaultApprovalLine(workType, staff);
+
+        displayApprovalLine(al);
+    }
+
+    @DisplayName("결재라인 출력 테스트6 : 상무이사")
+    @Test
+    @Transactional
+    public void printApprovalLine6(){
+        // 0 : 사장, 1 : 부사장, 2 : 상무이사
+        // 3 : 부장, 4 : 차장, 5 : 과장, 6 : 대리, 7 : 주임, 8 : 사원, 9 : 인턴
+        WorkType workType = workTypeRepository.findByWorkName("휴가관리");
+        Staff staff = makeStaff("asica3", "홍길동", Gender.MALE, STAFF_INFO[2]);
+        ApprovalLine al = makeDefaultApprovalLine(workType, staff);
+
+        displayApprovalLine(al);
+    }
+
+    @DisplayName("결재라인 출력 테스트7 : 부사장")
+    @Test
+    @Transactional
+    public void printApprovalLine7(){
+        // 0 : 사장, 1 : 부사장, 2 : 상무이사
+        // 3 : 부장, 4 : 차장, 5 : 과장, 6 : 대리, 7 : 주임, 8 : 사원, 9 : 인턴
+        WorkType workType = workTypeRepository.findByWorkName("휴가관리");
+        Staff staff = makeStaff("asica3", "홍길동", Gender.MALE, STAFF_INFO[1]);
+        ApprovalLine al = makeDefaultApprovalLine(workType, staff);
+
+        displayApprovalLine(al);
+    }
+
+    @DisplayName("결재라인 출력 테스트8 : 사장")
+    @Test
+    @Transactional
+    public void printApprovalLine8(){
+        // 0 : 사장, 1 : 부사장, 2 : 상무이사
+        // 3 : 부장, 4 : 차장, 5 : 과장, 6 : 대리, 7 : 주임, 8 : 사원, 9 : 인턴
+        WorkType workType = workTypeRepository.findByWorkName("휴가관리");
+        Staff staff = makeStaff("asica3", "홍길동", Gender.MALE, STAFF_INFO[0]);
+        ApprovalLine al = makeDefaultApprovalLine(workType, staff);
+
+        displayApprovalLine(al);
+    }
+
     // 기안서
     @DisplayName("기안서 작성 권한 테스트")
     @Test
@@ -450,9 +564,9 @@ class WorkServiceTest {
         // 3 : 부장, 4 : 차장, 5 : 과장, 6 : 대리, 7 : 주임, 8 : 사원, 9 : 인턴
         WorkType workType = workTypeRepository.findByWorkName("휴가관리");
         Staff staff = makeStaff("asica3", "홍길동", Gender.MALE, STAFF_INFO[8]);
-        System.out.println("기안서 작성자 직급 : " + staff.getPosition().getPositionName() + ", 번호 : " +  staff.getPosition().getPositionId());
+        System.out.println("기안서 작성자 직급 : " + staff.getPosition().getPositionName() + ", 우선순위 : "+  staff.getPosition().getPositionRank());
         assertNotNull(staff, "직원이 생성되지 않았습니다.");
-        assertTrue(staff.getPosition().getPositionId() != 1, "권한이 없습니다.");
+        assertTrue(staff.getPosition().getPositionRank() != 1, "권한이 없습니다.");
     }
 
     @DisplayName("기안서 작성 테스트1 : 사원이 기안서 작성")
@@ -598,9 +712,9 @@ class WorkServiceTest {
         Staff firstApprovalStaff = makeStaff("asica4", "홍길순", Gender.FEMALE, STAFF_INFO[6]);
         Work work = createWork(workType, draftStaff, "제목", "보존년한", "보안등급");
 
-        System.out.println("기안서 작성자 직급 : " + draftStaff.getPosition().getPositionName() + ", 번호 : " +  draftStaff.getPosition().getPositionId());
+        System.out.println("기안서 작성자 직급 : " + draftStaff.getPosition().getPositionName() + ", 우선순위 : "+  draftStaff.getPosition().getPositionRank());
         System.out.println("-----");
-        System.out.println("1차 결재자 직급 : " + firstApprovalStaff.getPosition().getPositionName() + ", 번호 : " +  firstApprovalStaff.getPosition().getPositionId());
+        System.out.println("1차 결재자 직급 : " + firstApprovalStaff.getPosition().getPositionName() + ", 우선순위 : "+  firstApprovalStaff.getPosition().getPositionRank());
         System.out.println("결재 예정 상태 : " + ApprovalState.APPROVE.getCode());
         String hasAuthority = checkApprovalAuthority(work, firstApprovalStaff, ApprovalState.APPROVE) ? "존재" : "부존재";
         System.out.println("1차 결재 권한 여부 : " + hasAuthority);
@@ -618,9 +732,9 @@ class WorkServiceTest {
         Staff firstApprovalStaff = makeStaff("asica4", "홍길순", Gender.FEMALE, STAFF_INFO[5]);
         Work work = createWork(workType, draftStaff, "제목", "보존년한", "보안등급");
 
-        System.out.println("기안서 작성자 직급 : " + draftStaff.getPosition().getPositionName() + ", 번호 : " +  draftStaff.getPosition().getPositionId());
+        System.out.println("기안서 작성자 직급 : " + draftStaff.getPosition().getPositionName() + ", 우선순위 : "+  draftStaff.getPosition().getPositionRank());
         System.out.println("-----");
-        System.out.println("1차 결재자 직급 : " + firstApprovalStaff.getPosition().getPositionName() + ", 번호 : " +  firstApprovalStaff.getPosition().getPositionId());
+        System.out.println("1차 결재자 직급 : " + firstApprovalStaff.getPosition().getPositionName() + ", 우선순위 : "+  firstApprovalStaff.getPosition().getPositionRank());
         System.out.println("결재 예정 상태 : " + ApprovalState.APPROVE.getCode());
         String hasAuthority = checkApprovalAuthority(work, firstApprovalStaff, ApprovalState.APPROVE) ? "존재" : "부존재";
         System.out.println("1차 결재 권한 여부 : " + hasAuthority);
@@ -638,9 +752,9 @@ class WorkServiceTest {
         Staff firstApprovalStaff = makeStaff("asica4", "홍길순", Gender.FEMALE, STAFF_INFO[4]);
         Work work = createWork(workType, draftStaff, "제목", "보존년한", "보안등급");
 
-        System.out.println("기안서 작성자 직급 : " + draftStaff.getPosition().getPositionName() + ", 번호 : " +  draftStaff.getPosition().getPositionId());
+        System.out.println("기안서 작성자 직급 : " + draftStaff.getPosition().getPositionName() + ", 우선순위 : "+  draftStaff.getPosition().getPositionRank());
         System.out.println("-----");
-        System.out.println("1차 결재자 직급 : " + firstApprovalStaff.getPosition().getPositionName() + ", 번호 : " +  firstApprovalStaff.getPosition().getPositionId());
+        System.out.println("1차 결재자 직급 : " + firstApprovalStaff.getPosition().getPositionName() + ", 우선순위 : "+  firstApprovalStaff.getPosition().getPositionRank());
         System.out.println("결재 예정 상태 : " + ApprovalState.APPROVE.getCode());
         String hasAuthority = checkApprovalAuthority(work, firstApprovalStaff, ApprovalState.APPROVE) ? "존재" : "부존재";
         System.out.println("1차 결재 권한 여부 : " + hasAuthority);
@@ -658,9 +772,9 @@ class WorkServiceTest {
         Staff firstApprovalStaff = makeStaff("asica4", "홍길순", Gender.FEMALE, STAFF_INFO[6]);
         Work work = createWork(workType, draftStaff, "제목", "보존년한", "보안등급");
 
-        System.out.println("기안서 작성자 직급 : " + draftStaff.getPosition().getPositionName() + ", 번호 : " +  draftStaff.getPosition().getPositionId());
+        System.out.println("기안서 작성자 직급 : " + draftStaff.getPosition().getPositionName() + ", 우선순위 : "+  draftStaff.getPosition().getPositionRank());
         System.out.println("-----");
-        System.out.println("1차 결재자 직급 : " + firstApprovalStaff.getPosition().getPositionName() + ", 번호 : " +  firstApprovalStaff.getPosition().getPositionId());
+        System.out.println("1차 결재자 직급 : " + firstApprovalStaff.getPosition().getPositionName() + ", 우선순위 : "+  firstApprovalStaff.getPosition().getPositionRank());
         System.out.println("결재 예정 상태 : " + ApprovalState.PROXY.getCode());
         String hasAuthority = checkApprovalAuthority(work, firstApprovalStaff, ApprovalState.PROXY) ? "대결 가능" : " 대결 불가능";
         System.out.println("1차 결재 권한 여부 : " + hasAuthority);
@@ -678,9 +792,9 @@ class WorkServiceTest {
         Staff firstApprovalStaff = makeStaff("asica4", "홍길순", Gender.FEMALE, STAFF_INFO[7]);
         Work work = createWork(workType, draftStaff, "제목", "보존년한", "보안등급");
 
-        System.out.println("기안서 작성자 직급 : " + draftStaff.getPosition().getPositionName() + ", 번호 : " +  draftStaff.getPosition().getPositionId());
+        System.out.println("기안서 작성자 직급 : " + draftStaff.getPosition().getPositionName() + ", 우선순위 : "+  draftStaff.getPosition().getPositionRank());
         System.out.println("-----");
-        System.out.println("1차 결재자 직급 : " + firstApprovalStaff.getPosition().getPositionName() + ", 번호 : " +  firstApprovalStaff.getPosition().getPositionId());
+        System.out.println("1차 결재자 직급 : " + firstApprovalStaff.getPosition().getPositionName() + ", 우선순위 : "+  firstApprovalStaff.getPosition().getPositionRank());
         System.out.println("결재 예정 상태 : " + ApprovalState.PROXY.getCode());
         String hasAuthority = checkApprovalAuthority(work, firstApprovalStaff, ApprovalState.PROXY) ? "대결 가능" : " 대결 불가능";
         System.out.println("1차 결재 권한 여부 : " + hasAuthority);
@@ -697,9 +811,9 @@ class WorkServiceTest {
         Staff firstApprovalStaff = makeStaff("asica4", "홍길순", Gender.FEMALE, STAFF_INFO[8]);
         Work work = createWork(workType, draftStaff, "제목", "보존년한", "보안등급");
 
-        System.out.println("기안서 작성자 직급 : " + draftStaff.getPosition().getPositionName() + ", 번호 : " +  draftStaff.getPosition().getPositionId());
+        System.out.println("기안서 작성자 직급 : " + draftStaff.getPosition().getPositionName() + ", 우선순위 : "+  draftStaff.getPosition().getPositionRank());
         System.out.println("-----");
-        System.out.println("1차 결재자 직급 : " + firstApprovalStaff.getPosition().getPositionName() + ", 번호 : " +  firstApprovalStaff.getPosition().getPositionId());
+        System.out.println("1차 결재자 직급 : " + firstApprovalStaff.getPosition().getPositionName() + ", 우선순위 : "+  firstApprovalStaff.getPosition().getPositionRank());
         System.out.println("결재 예정 상태 : " + ApprovalState.PROXY.getCode());
         String hasAuthority = checkApprovalAuthority(work, firstApprovalStaff, ApprovalState.PROXY) ? "대결 가능" : " 대결 불가능";
         System.out.println("1차 결재 권한 여부 : " + hasAuthority);
@@ -1000,12 +1114,12 @@ class WorkServiceTest {
         Staff secondApprovalStaff = makeStaff("asica5", "홍길강", Gender.MALE, STAFF_INFO[3]);
         Work work = createWork(workType, draftStaff, "제목", "보존년한", "보안등급");
         work = approveWork(work, firstApprovalStaff);
-        System.out.println("기안서 작성자 직급 : " + draftStaff.getPosition().getPositionName() + ", 번호 : " +  draftStaff.getPosition().getPositionId());
+        System.out.println("기안서 작성자 직급 : " + draftStaff.getPosition().getPositionName() + ", 우선순위 : "+  draftStaff.getPosition().getPositionRank());
         System.out.println("-----");
-        System.out.println("1차 결재자 직급 : " + firstApprovalStaff.getPosition().getPositionName() + ", 번호 : " +  firstApprovalStaff.getPosition().getPositionId());
+        System.out.println("1차 결재자 직급 : " + firstApprovalStaff.getPosition().getPositionName() + ", 우선순위 : "+  firstApprovalStaff.getPosition().getPositionRank());
         System.out.println("1차 결재 상태 : " + work.getApprovers().get(0).getApprovalState().getCode());
         System.out.println("-----");
-        System.out.println("2차 결재자 직급 : " + secondApprovalStaff.getPosition().getPositionName() + ", 번호 : " +  secondApprovalStaff.getPosition().getPositionId());
+        System.out.println("2차 결재자 직급 : " + secondApprovalStaff.getPosition().getPositionName() + ", 우선순위 : "+  secondApprovalStaff.getPosition().getPositionRank());
         System.out.println("결재 예정 상태 : " + ApprovalState.APPROVE.getCode());
         System.out.println("2차 결재 권한 여부 : " + checkApprovalAuthority(work, secondApprovalStaff, ApprovalState.APPROVE));
         assertTrue(checkApprovalAuthority(work, secondApprovalStaff, ApprovalState.APPROVE), "결재 권한이 없습니다.");
@@ -1025,12 +1139,12 @@ class WorkServiceTest {
         Work work = createWork(workType, draftStaff, "제목", "보존년한", "보안등급");
         work = approveWork(work, firstApprovalStaff);
 
-        System.out.println("기안서 작성자 직급 : " + draftStaff.getPosition().getPositionName() + ", 번호 : " +  draftStaff.getPosition().getPositionId());
+        System.out.println("기안서 작성자 직급 : " + draftStaff.getPosition().getPositionName() + ", 우선순위 : "+  draftStaff.getPosition().getPositionRank());
         System.out.println("-----");
-        System.out.println("1차 결재자 직급 : " + firstApprovalStaff.getPosition().getPositionName() + ", 번호 : " +  firstApprovalStaff.getPosition().getPositionId());
+        System.out.println("1차 결재자 직급 : " + firstApprovalStaff.getPosition().getPositionName() + ", 우선순위 : "+  firstApprovalStaff.getPosition().getPositionRank());
         System.out.println("1차 결재 상태 : " + work.getApprovers().get(0).getApprovalState().getCode());
         System.out.println("-----");
-        System.out.println("2차 결재자 직급 : " + secondApprovalStaff.getPosition().getPositionName() + ", 번호 : " +  secondApprovalStaff.getPosition().getPositionId());
+        System.out.println("2차 결재자 직급 : " + secondApprovalStaff.getPosition().getPositionName() + ", 우선순위 : "+  secondApprovalStaff.getPosition().getPositionRank());
         System.out.println("결재 예정 상태 : " + ApprovalState.APPROVE.getCode());
         String hasAuthority = checkApprovalAuthority(work, secondApprovalStaff, ApprovalState.APPROVE) ? "존재" : "부존재";
         System.out.println("2차 결재 권한 여부 : " + hasAuthority);
@@ -1051,12 +1165,12 @@ class WorkServiceTest {
         Work work = createWork(workType, draftStaff, "제목", "보존년한", "보안등급");
         work = approveWork(work, firstApprovalStaff);
 
-        System.out.println("기안서 작성자 직급 : " + draftStaff.getPosition().getPositionName() + ", 번호 : " +  draftStaff.getPosition().getPositionId());
+        System.out.println("기안서 작성자 직급 : " + draftStaff.getPosition().getPositionName() + ", 우선순위 : "+  draftStaff.getPosition().getPositionRank());
         System.out.println("-----");
-        System.out.println("1차 결재자 직급 : " + firstApprovalStaff.getPosition().getPositionName() + ", 번호 : " +  firstApprovalStaff.getPosition().getPositionId());
+        System.out.println("1차 결재자 직급 : " + firstApprovalStaff.getPosition().getPositionName() + ", 우선순위 : "+  firstApprovalStaff.getPosition().getPositionRank());
         System.out.println("1차 결재 상태 : " + work.getApprovers().get(0).getApprovalState().getCode());
         System.out.println("-----");
-        System.out.println("2차 결재자 직급 : " + secondApprovalStaff.getPosition().getPositionName() + ", 번호 : " +  secondApprovalStaff.getPosition().getPositionId());
+        System.out.println("2차 결재자 직급 : " + secondApprovalStaff.getPosition().getPositionName() + ", 우선순위 : "+  secondApprovalStaff.getPosition().getPositionRank());
         System.out.println("결재 예정 상태 : " + ApprovalState.APPROVE.getCode());
         String hasAuthority = checkApprovalAuthority(work, secondApprovalStaff, ApprovalState.APPROVE) ? "존재" : "부존재";
         System.out.println("2차 결재 권한 여부 : " + hasAuthority);
@@ -1077,12 +1191,12 @@ class WorkServiceTest {
         Work work = createWork(workType, draftStaff, "제목", "보존년한", "보안등급");
         work = approveWork(work, firstApprovalStaff);
 
-        System.out.println("기안서 작성자 직급 : " + draftStaff.getPosition().getPositionName() + ", 번호 : " +  draftStaff.getPosition().getPositionId());
+        System.out.println("기안서 작성자 직급 : " + draftStaff.getPosition().getPositionName() + ", 우선순위 : "+  draftStaff.getPosition().getPositionRank());
         System.out.println("-----");
-        System.out.println("1차 결재자 직급 : " + firstApprovalStaff.getPosition().getPositionName() + ", 번호 : " +  firstApprovalStaff.getPosition().getPositionId());
+        System.out.println("1차 결재자 직급 : " + firstApprovalStaff.getPosition().getPositionName() + ", 우선순위 : "+  firstApprovalStaff.getPosition().getPositionRank());
         System.out.println("1차 결재 상태 : " + work.getApprovers().get(0).getApprovalState().getCode());
         System.out.println("-----");
-        System.out.println("2차 결재자 직급 : " + secondApprovalStaff.getPosition().getPositionName() + ", 번호 : " +  secondApprovalStaff.getPosition().getPositionId());
+        System.out.println("2차 결재자 직급 : " + secondApprovalStaff.getPosition().getPositionName() + ", 우선순위 : "+  secondApprovalStaff.getPosition().getPositionRank());
         System.out.println("결재 예정 상태 : " + ApprovalState.APPROVE.getCode());
         String hasAuthority = checkApprovalAuthority(work, secondApprovalStaff, ApprovalState.APPROVE) ? "존재" : "부존재";
         System.out.println("2차 결재 권한 여부 : " + hasAuthority);
@@ -1103,12 +1217,12 @@ class WorkServiceTest {
         Work work = createWork(workType, draftStaff, "제목", "보존년한", "보안등급");
         work = approveWork(work, firstApprovalStaff);
 
-        System.out.println("기안서 작성자 직급 : " + draftStaff.getPosition().getPositionName() + ", 번호 : " +  draftStaff.getPosition().getPositionId());
+        System.out.println("기안서 작성자 직급 : " + draftStaff.getPosition().getPositionName() + ", 우선순위 : "+  draftStaff.getPosition().getPositionRank());
         System.out.println("-----");
-        System.out.println("1차 결재자 직급 : " + firstApprovalStaff.getPosition().getPositionName() + ", 번호 : " +  firstApprovalStaff.getPosition().getPositionId());
+        System.out.println("1차 결재자 직급 : " + firstApprovalStaff.getPosition().getPositionName() + ", 우선순위 : "+  firstApprovalStaff.getPosition().getPositionRank());
         System.out.println("1차 결재 상태 : " + work.getApprovers().get(0).getApprovalState().getCode());
         System.out.println("-----");
-        System.out.println("2차 결재자 직급 : " + secondApprovalStaff.getPosition().getPositionName() + ", 번호 : " +  secondApprovalStaff.getPosition().getPositionId());
+        System.out.println("2차 결재자 직급 : " + secondApprovalStaff.getPosition().getPositionName() + ", 우선순위 : "+  secondApprovalStaff.getPosition().getPositionRank());
         System.out.println("결재 예정 상태 : " + ApprovalState.APPROVE.getCode());
         String hasAuthority = checkApprovalAuthority(work, secondApprovalStaff, ApprovalState.APPROVE) ? "존재" : "부존재";
         System.out.println("2차 결재 권한 여부 : " + hasAuthority);
@@ -1129,12 +1243,12 @@ class WorkServiceTest {
         Work work = createWork(workType, draftStaff, "제목", "보존년한", "보안등급");
         work = approveWork(work, firstApprovalStaff);
 
-        System.out.println("기안서 작성자 직급 : " + draftStaff.getPosition().getPositionName() + ", 번호 : " +  draftStaff.getPosition().getPositionId());
+        System.out.println("기안서 작성자 직급 : " + draftStaff.getPosition().getPositionName() + ", 우선순위 : "+  draftStaff.getPosition().getPositionRank());
         System.out.println("-----");
-        System.out.println("1차 결재자 직급 : " + firstApprovalStaff.getPosition().getPositionName() + ", 번호 : " +  firstApprovalStaff.getPosition().getPositionId());
+        System.out.println("1차 결재자 직급 : " + firstApprovalStaff.getPosition().getPositionName() + ", 우선순위 : "+  firstApprovalStaff.getPosition().getPositionRank());
         System.out.println("1차 결재 상태 : " + work.getApprovers().get(0).getApprovalState().getCode());
         System.out.println("-----");
-        System.out.println("2차 결재자 직급 : " + secondApprovalStaff.getPosition().getPositionName() + ", 번호 : " +  secondApprovalStaff.getPosition().getPositionId());
+        System.out.println("2차 결재자 직급 : " + secondApprovalStaff.getPosition().getPositionName() + ", 우선순위 : "+  secondApprovalStaff.getPosition().getPositionRank());
         System.out.println("결재 예정 상태 : " + ApprovalState.PROXY.getCode());
         String hasAuthority = checkApprovalAuthority(work, secondApprovalStaff, ApprovalState.PROXY) ? "대결 가능" : "대결 불가능";
         System.out.println("2차 결재 권한 여부 : " + hasAuthority);
@@ -1155,12 +1269,12 @@ class WorkServiceTest {
         Work work = createWork(workType, draftStaff, "제목", "보존년한", "보안등급");
         work = approveWork(work, firstApprovalStaff);
 
-        System.out.println("기안서 작성자 직급 : " + draftStaff.getPosition().getPositionName() + ", 번호 : " +  draftStaff.getPosition().getPositionId());
+        System.out.println("기안서 작성자 직급 : " + draftStaff.getPosition().getPositionName() + ", 우선순위 : "+  draftStaff.getPosition().getPositionRank());
         System.out.println("-----");
-        System.out.println("1차 결재자 직급 : " + firstApprovalStaff.getPosition().getPositionName() + ", 번호 : " +  firstApprovalStaff.getPosition().getPositionId());
+        System.out.println("1차 결재자 직급 : " + firstApprovalStaff.getPosition().getPositionName() + ", 우선순위 : "+  firstApprovalStaff.getPosition().getPositionRank());
         System.out.println("1차 결재 상태 : " + work.getApprovers().get(0).getApprovalState().getCode());
         System.out.println("-----");
-        System.out.println("2차 결재자 직급 : " + secondApprovalStaff.getPosition().getPositionName() + ", 번호 : " +  secondApprovalStaff.getPosition().getPositionId());
+        System.out.println("2차 결재자 직급 : " + secondApprovalStaff.getPosition().getPositionName() + ", 우선순위 : "+  secondApprovalStaff.getPosition().getPositionRank());
         System.out.println("결재 예정 상태 : " + ApprovalState.PROXY.getCode());
         String hasAuthority = checkApprovalAuthority(work, secondApprovalStaff, ApprovalState.PROXY) ? "대결 가능" : "대결 불가능";
         System.out.println("2차 결재 권한 여부 : " + hasAuthority);
@@ -1181,12 +1295,12 @@ class WorkServiceTest {
         Work work = createWork(workType, draftStaff, "제목", "보존년한", "보안등급");
         work = approveWork(work, firstApprovalStaff);
 
-        System.out.println("기안서 작성자 직급 : " + draftStaff.getPosition().getPositionName() + ", 번호 : " +  draftStaff.getPosition().getPositionId());
+        System.out.println("기안서 작성자 직급 : " + draftStaff.getPosition().getPositionName() + ", 우선순위 : "+  draftStaff.getPosition().getPositionRank());
         System.out.println("-----");
-        System.out.println("1차 결재자 직급 : " + firstApprovalStaff.getPosition().getPositionName() + ", 번호 : " +  firstApprovalStaff.getPosition().getPositionId());
+        System.out.println("1차 결재자 직급 : " + firstApprovalStaff.getPosition().getPositionName() + ", 우선순위 : "+  firstApprovalStaff.getPosition().getPositionRank());
         System.out.println("1차 결재 상태 : " + work.getApprovers().get(0).getApprovalState().getCode());
         System.out.println("-----");
-        System.out.println("2차 결재자 직급 : " + secondApprovalStaff.getPosition().getPositionName() + ", 번호 : " +  secondApprovalStaff.getPosition().getPositionId());
+        System.out.println("2차 결재자 직급 : " + secondApprovalStaff.getPosition().getPositionName() + ", 우선순위 : "+  secondApprovalStaff.getPosition().getPositionRank());
         System.out.println("결재 예정 상태 : " + ApprovalState.PROXY.getCode());
         String hasAuthority = checkApprovalAuthority(work, secondApprovalStaff, ApprovalState.PROXY) ? "대결 가능" : "대결 불가능";
         System.out.println("2차 결재 권한 여부 : " + hasAuthority);
@@ -1207,12 +1321,12 @@ class WorkServiceTest {
         Work work = createWork(workType, draftStaff, "제목", "보존년한", "보안등급");
         work = approveWork(work, firstApprovalStaff);
 
-        System.out.println("기안서 작성자 직급 : " + draftStaff.getPosition().getPositionName() + ", 번호 : " +  draftStaff.getPosition().getPositionId());
+        System.out.println("기안서 작성자 직급 : " + draftStaff.getPosition().getPositionName() + ", 우선순위 : "+  draftStaff.getPosition().getPositionRank());
         System.out.println("-----");
-        System.out.println("1차 결재자 직급 : " + firstApprovalStaff.getPosition().getPositionName() + ", 번호 : " +  firstApprovalStaff.getPosition().getPositionId());
+        System.out.println("1차 결재자 직급 : " + firstApprovalStaff.getPosition().getPositionName() + ", 우선순위 : "+  firstApprovalStaff.getPosition().getPositionRank());
         System.out.println("1차 결재 상태 : " + work.getApprovers().get(0).getApprovalState().getCode());
         System.out.println("-----");
-        System.out.println("2차 결재자 직급 : " + secondApprovalStaff.getPosition().getPositionName() + ", 번호 : " +  secondApprovalStaff.getPosition().getPositionId());
+        System.out.println("2차 결재자 직급 : " + secondApprovalStaff.getPosition().getPositionName() + ", 우선순위 : "+  secondApprovalStaff.getPosition().getPositionRank());
         System.out.println("결재 예정 상태 : " + ApprovalState.PROXY.getCode());
         String hasAuthority = checkApprovalAuthority(work, secondApprovalStaff, ApprovalState.PROXY) ? "대결 가능" : "대결 불가능";
         System.out.println("2차 결재 권한 여부 : " + hasAuthority);
@@ -1456,7 +1570,7 @@ class WorkServiceTest {
     @DisplayName("3차 결재 권한 테스트1 : 사원 기안, 과장 1차 결재, 부장 2차 결재, 상무이사 3차 결재")
     @Test
     @Transactional
-    public void checkFinalLevelAuthority1(){
+    public void checkThirdLevelAuthority1(){
         // STAFF_INFO 인덱스에 해당하는 직위
         // 0 : 사장, 1 : 부사장, 2 : 상무이사
         // 3 : 부장, 4 : 차장, 5 : 과장, 6 : 대리, 7 : 주임, 8 : 사원, 9 : 인턴
@@ -1488,7 +1602,7 @@ class WorkServiceTest {
     @DisplayName("3차 결재 권한 테스트2 : 과장 기안, 부장 1차 결재, 상무이사 2차 결재, 사장 3차 결재")
     @Test
     @Transactional
-    public void checkFinalLevelAuthority2(){
+    public void checkThirdLevelAuthority2(){
         // STAFF_INFO 인덱스에 해당하는 직위
         // 0 : 사장, 1 : 부사장, 2 : 상무이사
         // 3 : 부장, 4 : 차장, 5 : 과장, 6 : 대리, 7 : 주임, 8 : 사원, 9 : 인턴
@@ -1520,7 +1634,7 @@ class WorkServiceTest {
     @DisplayName("3차 결재 권한 테스트3 : 사원 기안, 과장 1차 결재, 차장 대결, 상무이사 3차 결재")
     @Test
     @Transactional
-    public void checkFinalLevelAuthority3(){
+    public void checkThirdLevelAuthority3(){
         // STAFF_INFO 인덱스에 해당하는 직위
         // 0 : 사장, 1 : 부사장, 2 : 상무이사
         // 3 : 부장, 4 : 차장, 5 : 과장, 6 : 대리, 7 : 주임, 8 : 사원, 9 : 인턴
@@ -1552,7 +1666,7 @@ class WorkServiceTest {
     @DisplayName("3차 결재 권한 테스트4 : 과장 기안 부장 1차 결재, 부사장 대결, 사장 3차 결재")
     @Test
     @Transactional
-    public void checkFinalLevelAuthority4(){
+    public void checkThirdLevelAuthority4(){
         // STAFF_INFO 인덱스에 해당하는 직위
         // 0 : 사장, 1 : 부사장, 2 : 상무이사
         // 3 : 부장, 4 : 차장, 5 : 과장, 6 : 대리, 7 : 주임, 8 : 사원, 9 : 인턴
@@ -1579,43 +1693,6 @@ class WorkServiceTest {
         String hasAuthority = checkApprovalAuthority(work, finalApprovalStaff, ApprovalState.APPROVE) ? "존재" : "부존재";
         System.out.println("3차 결재 권한 여부 : " + hasAuthority);
         assertTrue(checkApprovalAuthority(work, finalApprovalStaff, ApprovalState.APPROVE), "결재가 불가능합니다.");
-    }
-
-    @DisplayName("4차 결재 권한 테스트1 : 사원 기안, 과장 1차 결재, 부장 2차 결재, 상무 이사 3차 결재, 부사장 최종 결재")
-    @Test
-    @Transactional
-    public void checkFinalLevelAuthority5(){
-        // STAFF_INFO 인덱스에 해당하는 직위
-        // 0 : 사장, 1 : 부사장, 2 : 상무이사
-        // 3 : 부장, 4 : 차장, 5 : 과장, 6 : 대리, 7 : 주임, 8 : 사원, 9 : 인턴
-        WorkType workType = workTypeRepository.findByWorkName("휴가관리");
-        Staff draftStaff = makeStaff("asica3", "홍길동", Gender.MALE, STAFF_INFO[8]);
-        Staff firstApprovalStaff = makeStaff("asica4", "홍길순", Gender.FEMALE, STAFF_INFO[5]);
-        Staff secondApprovalStaff = makeStaff("asica5", "홍길강", Gender.MALE, STAFF_INFO[3]);
-        Staff thirdApprovalStaff = makeStaff("asica6", "홍이사", Gender.MALE, STAFF_INFO[2]);
-        Staff finalApprovalStaff = makeStaff("asica7", "홍부사장", Gender.MALE, STAFF_INFO[1]);
-
-        Work work = createWork(workType, draftStaff, "제목", "보존년한", "보안등급");
-        work = approveWork(work, firstApprovalStaff);
-        work = approveWork(work, secondApprovalStaff);
-        work = approveWork(work, thirdApprovalStaff);
-
-        System.out.println("기안서 작성자 직급 : " + draftStaff.getPosition().getPositionName() + ", 우선순위 : " +  draftStaff.getPosition().getPositionRank());
-        System.out.println("-----");
-        System.out.println("1차 결재자 직급 : " + firstApprovalStaff.getPosition().getPositionName() + ", 우선순위 : " +  firstApprovalStaff.getPosition().getPositionRank());
-        System.out.println("1차 결재 상태 : " + work.getApprovers().get(0).getApprovalState().getCode());
-        System.out.println("-----");
-        System.out.println("2차 결재자 직급 : " + secondApprovalStaff.getPosition().getPositionName() + ", 우선순위 : " +  secondApprovalStaff.getPosition().getPositionRank());
-        System.out.println("2차 결재 상태 : " + work.getApprovers().get(1).getApprovalState().getCode());
-        System.out.println("-----");
-        System.out.println("3차 결재자 직급 : " + thirdApprovalStaff.getPosition().getPositionName() + ", 우선순위 : " +  thirdApprovalStaff.getPosition().getPositionRank());
-        System.out.println("3차 결재 상태 : " + work.getApprovers().get(2).getApprovalState().getCode());
-        System.out.println("-----");
-        System.out.println("4차 결재자 직급 : " + finalApprovalStaff.getPosition().getPositionName() + ", 우선순위 : " +  finalApprovalStaff.getPosition().getPositionRank());
-        System.out.println("4차 결재 상태 : " + ApprovalState.APPROVE.getCode());
-        String hasAuthority = checkApprovalAuthority(work, finalApprovalStaff, ApprovalState.APPROVE) ? "존재" : "부존재";
-        System.out.println("3차 결재 권한 여부 : " + hasAuthority);
-        assertFalse(checkApprovalAuthority(work, finalApprovalStaff, ApprovalState.APPROVE), "결재 권한이 있습니다.");
     }
 
     @DisplayName("3차 결재 테스트 1 : 주임 기안, 과장 1차 결재, 부장 2차 결재, 상무이사 3차 결재")
@@ -1719,6 +1796,191 @@ class WorkServiceTest {
             assertEquals(firstApprovalStaff.getPosition(), positionRepository.findByPositionName("상무이사"), "상무이사가 아닙니다.");
             assertEquals(secondApprovalStaff.getPosition(), positionRepository.findByPositionName("부사장"), "부사장가 아닙니다.");
             assertEquals(thirdApprovalStaff.getPosition(), positionRepository.findByPositionName("사장"), "사장이 아닙니다.");
+            assertNotNull(work);
+        }
+    }
+
+    // 4차 결재
+    // 사원, 주임, 대리가 기안한 케이스
+
+    @DisplayName("4차 결재 권한 테스트1 : 사원 기안, 과장 1차 결재, 부장 2차 결재, 상무 이사 3차 결재, 부사장 최종 결재")
+    @Test
+    @Transactional
+    public void checkFourthLevelAuthority1(){
+        // STAFF_INFO 인덱스에 해당하는 직위
+        // 0 : 사장, 1 : 부사장, 2 : 상무이사
+        // 3 : 부장, 4 : 차장, 5 : 과장, 6 : 대리, 7 : 주임, 8 : 사원, 9 : 인턴
+        WorkType workType = workTypeRepository.findByWorkName("휴가관리");
+        Staff draftStaff = makeStaff("asica3", "홍길동", Gender.MALE, STAFF_INFO[8]);
+        Staff firstApprovalStaff = makeStaff("asica4", "홍길순", Gender.FEMALE, STAFF_INFO[5]);
+        Staff secondApprovalStaff = makeStaff("asica5", "홍길강", Gender.MALE, STAFF_INFO[3]);
+        Staff thirdApprovalStaff = makeStaff("asica6", "홍이사", Gender.MALE, STAFF_INFO[2]);
+        Staff finalApprovalStaff = makeStaff("asica7", "홍부사장", Gender.MALE, STAFF_INFO[1]);
+
+        Work work = createWork(workType, draftStaff, "제목", "보존년한", "보안등급");
+        work = approveWork(work, firstApprovalStaff);
+        work = approveWork(work, secondApprovalStaff);
+        work = approveWork(work, thirdApprovalStaff);
+
+        System.out.println("기안서 작성자 직급 : " + draftStaff.getPosition().getPositionName() + ", 우선순위 : " +  draftStaff.getPosition().getPositionRank());
+        System.out.println("-----");
+        System.out.println("1차 결재자 직급 : " + firstApprovalStaff.getPosition().getPositionName() + ", 우선순위 : " +  firstApprovalStaff.getPosition().getPositionRank());
+        System.out.println("1차 결재 상태 : " + work.getApprovers().get(0).getApprovalState().getCode());
+        System.out.println("-----");
+        System.out.println("2차 결재자 직급 : " + secondApprovalStaff.getPosition().getPositionName() + ", 우선순위 : " +  secondApprovalStaff.getPosition().getPositionRank());
+        System.out.println("2차 결재 상태 : " + work.getApprovers().get(1).getApprovalState().getCode());
+        System.out.println("-----");
+        System.out.println("3차 결재자 직급 : " + thirdApprovalStaff.getPosition().getPositionName() + ", 우선순위 : " +  thirdApprovalStaff.getPosition().getPositionRank());
+        System.out.println("3차 결재 상태 : " + work.getApprovers().get(2).getApprovalState().getCode());
+        System.out.println("-----");
+        System.out.println("4차 결재자 직급 : " + finalApprovalStaff.getPosition().getPositionName() + ", 우선순위 : " +  finalApprovalStaff.getPosition().getPositionRank());
+        System.out.println("4차 결재 상태 : " + ApprovalState.APPROVE.getCode());
+        String hasAuthority = checkApprovalAuthority(work, finalApprovalStaff, ApprovalState.APPROVE) ? "존재" : "부존재";
+        System.out.println("4차 결재 권한 여부 : " + hasAuthority);
+        assertFalse(checkApprovalAuthority(work, finalApprovalStaff, ApprovalState.APPROVE), "결재 권한이 있습니다.");
+    }
+
+    @DisplayName("4차 결재 권한 테스트2 : 주임 기안, 과장 1차 결재, 부장 2차 결재, 상무 이사 3차 결재, 사장 최종 결재")
+    @Test
+    @Transactional
+    public void checkFourthLevelAuthority2(){
+        // STAFF_INFO 인덱스에 해당하는 직위
+        // 0 : 사장, 1 : 부사장, 2 : 상무이사
+        // 3 : 부장, 4 : 차장, 5 : 과장, 6 : 대리, 7 : 주임, 8 : 사원, 9 : 인턴
+        WorkType workType = workTypeRepository.findByWorkName("휴가관리");
+        Staff draftStaff = makeStaff("asica3", "홍길동", Gender.MALE, STAFF_INFO[7]);
+        Staff firstApprovalStaff = makeStaff("asica4", "홍길순", Gender.FEMALE, STAFF_INFO[5]);
+        Staff secondApprovalStaff = makeStaff("asica5", "홍길강", Gender.MALE, STAFF_INFO[3]);
+        Staff thirdApprovalStaff = makeStaff("asica6", "홍이사", Gender.MALE, STAFF_INFO[2]);
+        Staff finalApprovalStaff = makeStaff("asica7", "홍사장", Gender.MALE, STAFF_INFO[0]);
+
+        Work work = createWork(workType, draftStaff, "제목", "보존년한", "보안등급");
+        work = approveWork(work, firstApprovalStaff);
+        work = approveWork(work, secondApprovalStaff);
+        work = approveWork(work, thirdApprovalStaff);
+
+        System.out.println("기안서 작성자 직급 : " + draftStaff.getPosition().getPositionName() + ", 우선순위 : " +  draftStaff.getPosition().getPositionRank());
+        System.out.println("-----");
+        System.out.println("1차 결재자 직급 : " + firstApprovalStaff.getPosition().getPositionName() + ", 우선순위 : " +  firstApprovalStaff.getPosition().getPositionRank());
+        System.out.println("1차 결재 상태 : " + work.getApprovers().get(0).getApprovalState().getCode());
+        System.out.println("-----");
+        System.out.println("2차 결재자 직급 : " + secondApprovalStaff.getPosition().getPositionName() + ", 우선순위 : " +  secondApprovalStaff.getPosition().getPositionRank());
+        System.out.println("2차 결재 상태 : " + work.getApprovers().get(1).getApprovalState().getCode());
+        System.out.println("-----");
+        System.out.println("3차 결재자 직급 : " + thirdApprovalStaff.getPosition().getPositionName() + ", 우선순위 : " +  thirdApprovalStaff.getPosition().getPositionRank());
+        System.out.println("3차 결재 상태 : " + work.getApprovers().get(2).getApprovalState().getCode());
+        System.out.println("-----");
+        System.out.println("4차 결재자 직급 : " + finalApprovalStaff.getPosition().getPositionName() + ", 우선순위 : " +  finalApprovalStaff.getPosition().getPositionRank());
+        System.out.println("4차 결재 상태 : " + ApprovalState.APPROVE.getCode());
+        String hasAuthority = checkApprovalAuthority(work, finalApprovalStaff, ApprovalState.APPROVE) ? "존재" : "부존재";
+        System.out.println("4차 결재 권한 여부 : " + hasAuthority);
+        assertTrue(checkApprovalAuthority(work, finalApprovalStaff, ApprovalState.APPROVE), "결재 권한이 없습니다.");
+    }
+
+    @DisplayName("4차 결재 권한 테스트3 : 대리 기안, 과장 1차 결재, 부장 2차 결재, 상무 이사 3차 결재, 사장 최종 결재")
+    @Test
+    @Transactional
+    public void checkFourthLevelAuthority3(){
+        // STAFF_INFO 인덱스에 해당하는 직위
+        // 0 : 사장, 1 : 부사장, 2 : 상무이사
+        // 3 : 부장, 4 : 차장, 5 : 과장, 6 : 대리, 7 : 주임, 8 : 사원, 9 : 인턴
+        WorkType workType = workTypeRepository.findByWorkName("휴가관리");
+        Staff draftStaff = makeStaff("asica3", "홍길동", Gender.MALE, STAFF_INFO[6]);
+        Staff firstApprovalStaff = makeStaff("asica4", "홍길순", Gender.FEMALE, STAFF_INFO[5]);
+        Staff secondApprovalStaff = makeStaff("asica5", "홍길강", Gender.MALE, STAFF_INFO[3]);
+        Staff thirdApprovalStaff = makeStaff("asica6", "홍이사", Gender.MALE, STAFF_INFO[2]);
+        Staff finalApprovalStaff = makeStaff("asica7", "홍사장", Gender.MALE, STAFF_INFO[0]);
+
+        Work work = createWork(workType, draftStaff, "제목", "보존년한", "보안등급");
+        work = approveWork(work, firstApprovalStaff);
+        work = approveWork(work, secondApprovalStaff);
+        work = approveWork(work, thirdApprovalStaff);
+
+        System.out.println("기안서 작성자 직급 : " + draftStaff.getPosition().getPositionName() + ", 우선순위 : " +  draftStaff.getPosition().getPositionRank());
+        System.out.println("-----");
+        System.out.println("1차 결재자 직급 : " + firstApprovalStaff.getPosition().getPositionName() + ", 우선순위 : " +  firstApprovalStaff.getPosition().getPositionRank());
+        System.out.println("1차 결재 상태 : " + work.getApprovers().get(0).getApprovalState().getCode());
+        System.out.println("-----");
+        System.out.println("2차 결재자 직급 : " + secondApprovalStaff.getPosition().getPositionName() + ", 우선순위 : " +  secondApprovalStaff.getPosition().getPositionRank());
+        System.out.println("2차 결재 상태 : " + work.getApprovers().get(1).getApprovalState().getCode());
+        System.out.println("-----");
+        System.out.println("3차 결재자 직급 : " + thirdApprovalStaff.getPosition().getPositionName() + ", 우선순위 : " +  thirdApprovalStaff.getPosition().getPositionRank());
+        System.out.println("3차 결재 상태 : " + work.getApprovers().get(2).getApprovalState().getCode());
+        System.out.println("-----");
+        System.out.println("4차 결재자 직급 : " + finalApprovalStaff.getPosition().getPositionName() + ", 우선순위 : " +  finalApprovalStaff.getPosition().getPositionRank());
+        System.out.println("4차 결재 상태 : " + ApprovalState.APPROVE.getCode());
+        String hasAuthority = checkApprovalAuthority(work, finalApprovalStaff, ApprovalState.APPROVE) ? "존재" : "부존재";
+        System.out.println("4차 결재 권한 여부 : " + hasAuthority);
+        assertTrue(checkApprovalAuthority(work, finalApprovalStaff, ApprovalState.APPROVE), "결재 권한이 없습니다.");
+    }
+
+    @DisplayName("4차 결재 테스트 1 : 주임 기안, 과장 1차 결재, 부장 2차 결재, 상무이사 3차 결재, 사장 최종결재")
+    @Test
+    @Transactional
+    public void fourthLevelApproval1(){
+        // STAFF_INFO 인덱스에 해당하는 직위
+        // 0 : 사장, 1 : 부사장, 2 : 상무이사
+        // 3 : 부장, 4 : 차장, 5 : 과장, 6 : 대리, 7 : 주임, 8 : 사원, 9 : 인턴
+        WorkType workType = workTypeRepository.findByWorkName("휴가관리");
+        Staff draftStaff = makeStaff("asica3", "홍길동", Gender.MALE, STAFF_INFO[7]);
+        Staff firstApprovalStaff = makeStaff("asica4", "홍길순", Gender.FEMALE, STAFF_INFO[5]);
+        Staff secondApprovalStaff = makeStaff("asica5", "홍길강", Gender.MALE, STAFF_INFO[3]);
+        Staff thirdApprovalStaff = makeStaff("asica6", "홍경영", Gender.MALE, STAFF_INFO[2]);
+        Staff finalApprovalStaff = makeStaff("asica7", "홍사장", Gender.MALE, STAFF_INFO[0]);
+
+        Work work = createWork(workType, draftStaff, "제목", "보존년한", "보안등급");
+        try {
+            work = approveWork(work, firstApprovalStaff);
+            work = approveWork(work, secondApprovalStaff);
+            work = approveWork(work, thirdApprovalStaff);
+            work = approveWork(work, finalApprovalStaff);
+
+            displayApprovalWork(work);
+        }
+        catch (UnauthorizedException e){
+            System.out.println(e.getMessage());
+        }
+        finally {
+            assertEquals(draftStaff.getPosition(), positionRepository.findByPositionName("주임"), "주임이 아닙니다.");
+            assertEquals(firstApprovalStaff.getPosition(), positionRepository.findByPositionName("과장"), "과장이 아닙니다.");
+            assertEquals(secondApprovalStaff.getPosition(), positionRepository.findByPositionName("부장"), "부장이 아닙니다.");
+            assertEquals(thirdApprovalStaff.getPosition(), positionRepository.findByPositionName("상무이사"), "상무이사가 아닙니다.");
+            assertEquals(finalApprovalStaff.getPosition(), positionRepository.findByPositionName("사장"), "사장이 아닙니다.");
+            assertNotNull(work);
+        }
+    }
+    @DisplayName("4차 결재 테스트 2 : 대리 기안, 과장 1차 결재, 부장 2차 결재, 상무이사 3차 결재, 부사장 대결")
+    @Test
+    @Transactional
+    public void fourthLevelApproval2(){
+        // STAFF_INFO 인덱스에 해당하는 직위
+        // 0 : 사장, 1 : 부사장, 2 : 상무이사
+        // 3 : 부장, 4 : 차장, 5 : 과장, 6 : 대리, 7 : 주임, 8 : 사원, 9 : 인턴
+        WorkType workType = workTypeRepository.findByWorkName("휴가관리");
+        Staff draftStaff = makeStaff("asica3", "홍길동", Gender.MALE, STAFF_INFO[6]);
+        Staff firstApprovalStaff = makeStaff("asica4", "홍길순", Gender.FEMALE, STAFF_INFO[5]);
+        Staff secondApprovalStaff = makeStaff("asica5", "홍길강", Gender.MALE, STAFF_INFO[3]);
+        Staff thirdApprovalStaff = makeStaff("asica6", "홍경영", Gender.MALE, STAFF_INFO[2]);
+        Staff finalApprovalStaff = makeStaff("asica7", "홍부사장", Gender.MALE, STAFF_INFO[1]);
+
+        Work work = createWork(workType, draftStaff, "제목", "보존년한", "보안등급");
+        try {
+            work = approveWork(work, firstApprovalStaff);
+            work = approveWork(work, secondApprovalStaff);
+            work = approveWork(work, thirdApprovalStaff);
+            work = proxyWork(work, finalApprovalStaff);
+
+            displayApprovalWork(work);
+        }
+        catch (UnauthorizedException e){
+            System.out.println(e.getMessage());
+        }
+        finally {
+            assertEquals(draftStaff.getPosition(), positionRepository.findByPositionName("대리"), "대리가 아닙니다.");
+            assertEquals(firstApprovalStaff.getPosition(), positionRepository.findByPositionName("과장"), "과장이 아닙니다.");
+            assertEquals(secondApprovalStaff.getPosition(), positionRepository.findByPositionName("부장"), "부장이 아닙니다.");
+            assertEquals(thirdApprovalStaff.getPosition(), positionRepository.findByPositionName("상무이사"), "상무이사가 아닙니다.");
+            assertEquals(finalApprovalStaff.getPosition(), positionRepository.findByPositionName("부사장"), "부사장이 아닙니다.");
             assertNotNull(work);
         }
     }
