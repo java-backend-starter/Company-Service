@@ -1651,7 +1651,7 @@ class WorkServiceTest {
         }
     }
 
-    @DisplayName("3차 결재 테스트 2")
+    @DisplayName("3차 결재 테스트 2 : 차장 기안, 부장 1차 결재, 상무이사 2차 결재, 부사장 3차 결재")
     @Test
     @Transactional
     public void thirdLevelApproval2(){
@@ -1684,7 +1684,7 @@ class WorkServiceTest {
         }
     }
 
-    @DisplayName("3차 결재 테스트 3")
+    @DisplayName("3차 결재 테스트 3 : 부장 기안, 상무이사 1차 결재, 부사장 2차 결재, 사장 3차 결재")
     @Test
     @Transactional
     public void thirdLevelApproval3(){
