@@ -28,7 +28,15 @@ public class Converter {
             return null;
         }
 
-        return switch(approvalState.trim()){
+        String trimmed = approvalState.trim();
+        for (ApprovalState state : ApprovalState.values()) {
+            if (state.getCode().equals(trimmed)) {
+                return state;
+            }
+        }
+        return null;
+        /*
+        return switch(approvalState){
             case "최종결재" -> ApprovalState.FINALIZATION;
             case "결재" -> ApprovalState.APPROVE;
             case "보류" -> ApprovalState.DEFER;
@@ -38,7 +46,7 @@ public class Converter {
             case "전대결" -> ApprovalState.ARBITRARY_PROXY;
             default -> null;
         };
-
+        */
     }
 
     public static String convertToApprovalStateString(ApprovalState approvalState){
@@ -47,7 +55,8 @@ public class Converter {
 
     // 결재 상태
     public static WorkState convertToWorkState(String workState){
-        switch (workState){
+        String trimmed = workState.trim();
+        switch (trimmed){
             case "결재대기" -> { return WorkState.PENDING; }
             case "결재중" -> { return  WorkState.HANDLING; }
             case "결재완료" -> { return WorkState.COMPLETED; }
