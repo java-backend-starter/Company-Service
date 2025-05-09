@@ -26,6 +26,7 @@ import com.company.www.repository.work.account.AdditionalBudgetRepository;
 import com.company.www.repository.work.account.BudgetItemRepository;
 import com.company.www.repository.work.account.BudgetPlanRepository;
 import com.company.www.repository.work.human_resource.*;
+import com.company.www.service.work.WorkServiceForTest;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -59,7 +60,7 @@ class CommonWorkControllerTest {
     @Autowired
     WorkRepository workRepository;
     @Autowired
-    WorkServiceTest workServiceForTest;
+    WorkServiceForTest workServiceForTest;
 
     @Autowired
     HolidayRepository holidayRepository;
