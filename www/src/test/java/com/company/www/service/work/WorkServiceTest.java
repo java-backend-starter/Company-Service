@@ -217,7 +217,7 @@ class WorkServiceTest {
                 "사원", List.of(ApprovalPosition.MANAGER, ApprovalPosition.GENERAL_MANAGER, ApprovalPosition.MANAGING_DIRECTOR, ApprovalPosition.PRESIDENT)
         );
 
-        List<ApprovalPosition> positions = defaultApprovalMap.get(positionName);
+        List<ApprovalPosition> positions = defaultApprovalMap.getOrDefault(positionName, List.of());
 
         // 직급에 따라 결재 라인 설정
 
