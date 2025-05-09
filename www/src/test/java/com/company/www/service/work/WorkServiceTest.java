@@ -4,7 +4,6 @@ import com.company.www.constant.staff.Gender;
 import com.company.www.constant.work.ApprovalPosition;
 import com.company.www.constant.work.ApprovalState;
 import com.company.www.constant.work.WorkState;
-import com.company.www.converter.Converter;
 import com.company.www.entity.belong.Department;
 import com.company.www.entity.belong.Position;
 import com.company.www.entity.belong.Role;
@@ -161,15 +160,15 @@ class WorkServiceTest {
         return higherThanPrior(prior, staff) && approval == staff;
     }
 
-    // 상무이사 이상 Proxy 권한 체크
-    // 상무이사 이상 직급의 경우, Proxy 상태와 결재자가 있는지를 확인하여 권한을 부여
+    // 이사 이상 Proxy 권한 체크
+    // 이사 이상 직급의 경우, Proxy 상태와 결재자가 있는지를 확인하여 권한을 부여
     public boolean hasDirectorProxyAuthority(Work work, ApprovalState approvalState) {
         // 결재자가 Draft로 지정한 직원의 직급을 가져옴
         Position draftPosition = work.getDraftStaff().getPosition();
         // 결재자 리스트를 가져옴
         List<Approver> approvers = work.getApprovers();
 
-        // 상무이사 이상 직급이고, Proxy 상태일 때 결재자가 있다면 권한을 부여
+        // 이사 이상 직급이고, Proxy 상태일 때 결재자가 있다면 권한을 부여
         return draftPosition.getPositionRank() >= 80 && isProxy(approvalState) && !approvers.isEmpty();
     }
 
@@ -205,40 +204,22 @@ class WorkServiceTest {
     // 주어진 직원의 직급에 따라 기본 결재 라인을 설정하는 메서드
     public ApprovalLine makeDefaultApprovalLine(WorkType workType, Staff draftStaff) {
         // 직원의 직급명 가져오기
-        String positionName = draftStaff.getPosition().getPositionName();
-        List<ApprovalPosition> positions;
+        String positionName = draftStaff.getPosition().getPositionName().trim();
+        Map<String, List<ApprovalPosition>> defaultApprovalMap = Map.of(
+                "사장", List.of(ApprovalPosition.MANAGING_DIRECTOR, ApprovalPosition.VICE_PRESIDENT),
+                "부사장", List.of(ApprovalPosition.MANAGING_DIRECTOR, ApprovalPosition.PRESIDENT),
+                "상무이사", List.of(ApprovalPosition.VICE_PRESIDENT, ApprovalPosition.PRESIDENT),
+                "부장", List.of(ApprovalPosition.MANAGING_DIRECTOR, ApprovalPosition.VICE_PRESIDENT, ApprovalPosition.PRESIDENT),
+                "차장", List.of(ApprovalPosition.MANAGING_DIRECTOR, ApprovalPosition.VICE_PRESIDENT, ApprovalPosition.PRESIDENT),
+                "과장", List.of(ApprovalPosition.GENERAL_MANAGER, ApprovalPosition.MANAGING_DIRECTOR, ApprovalPosition.PRESIDENT),
+                "대리", List.of(ApprovalPosition.MANAGER, ApprovalPosition.GENERAL_MANAGER, ApprovalPosition.MANAGING_DIRECTOR, ApprovalPosition.PRESIDENT),
+                "주임", List.of(ApprovalPosition.MANAGER, ApprovalPosition.GENERAL_MANAGER, ApprovalPosition.MANAGING_DIRECTOR, ApprovalPosition.PRESIDENT),
+                "사원", List.of(ApprovalPosition.MANAGER, ApprovalPosition.GENERAL_MANAGER, ApprovalPosition.MANAGING_DIRECTOR, ApprovalPosition.PRESIDENT)
+        );
+
+        List<ApprovalPosition> positions = defaultApprovalMap.get(positionName);
 
         // 직급에 따라 결재 라인 설정
-        switch(positionName){
-            case "사장" -> {
-                // 사장은 상무이사, 부사장을 결재자로 설정
-                positions = List.of(ApprovalPosition.MANAGING_DIRECTOR, ApprovalPosition.VICE_PRESIDENT);
-            }
-            case "부사장" -> {
-                // 부사장은 상무이사, 사장을 결재자로 설정
-                positions = List.of(ApprovalPosition.MANAGING_DIRECTOR, ApprovalPosition.PRESIDENT);
-            }
-            case "상무이사" -> {
-                // 상무이사는 부사장, 사장을 결재자로 설정
-                positions = List.of(ApprovalPosition.VICE_PRESIDENT, ApprovalPosition.PRESIDENT);
-            }
-            case "부장" -> {
-                // 부장은 상무이사, 부사장, 사장을 결재자로 설정
-                positions = List.of(ApprovalPosition.MANAGING_DIRECTOR, ApprovalPosition.VICE_PRESIDENT, ApprovalPosition.PRESIDENT);
-            }
-            case "차장", "과장" -> {
-                // 차장과 과장은 부장, 상무이사, 사장을 결재자로 설정
-                positions = List.of(ApprovalPosition.GENERAL_MANAGER, ApprovalPosition.MANAGING_DIRECTOR, ApprovalPosition.PRESIDENT);
-            }
-            case "대리", "주임", "사원" -> {
-                // 대리, 주임, 사원은 과장, 부장, 상무이사, 사장을 결재자로 설정
-                positions = List.of(ApprovalPosition.MANAGER, ApprovalPosition.GENERAL_MANAGER, ApprovalPosition.MANAGING_DIRECTOR, ApprovalPosition.PRESIDENT);
-            }
-            default -> {
-                // 그 외 직급은 결재 라인이 없음
-                positions = List.of();
-            }
-        }
 
         // 결재 역할 설정: 작업 타입이 "공통"이면 직원의 역할을 사용, 아니면 작업 타입의 역할 사용
         Role role = workType.getRole().getRoleName().equals("공통") ? draftStaff.getRole() : workType.getRole();
@@ -262,14 +243,10 @@ class WorkServiceTest {
 
         // 결재 직급 리스트를 받아서 해당 직급의 ApprovalPosition을 찾아서 추가
         for(String approvalPosition : approvalPositions){
-            // 결재 직급 이름에 해당하는 Position 객체를 조회
-            Position position = positionRepository.findByPositionName(approvalPosition);
-            if(position != null){
-                // 직급에 해당하는 ApprovalPosition을 맵에서 찾기
-                ApprovalPosition ap = APPROVAL_POSITION_MAP.get(position.getPositionRank());
-                if(ap != null){
-                    // 해당 직급이 존재하면 결재 직급 리스트에 추가
-                    positions.add(ap);
+            for (ApprovalPosition pos : ApprovalPosition.values()) {
+                if (pos.getPosition().equals(approvalPosition)) {
+                    positions.add(pos);
+                    break;
                 }
             }
         }
@@ -446,7 +423,7 @@ class WorkServiceTest {
             System.out.println("설정된 결재라인이 없습니다.");
         }
         for(ApprovalPosition position : positions){
-            System.out.println(position);
+            System.out.println(position.getPosition());
         }
     }
 
@@ -583,7 +560,7 @@ class WorkServiceTest {
         ApprovalLine al = work.getApprovalLine();
         System.out.println("결재권자 직급 리스트");
         for(ApprovalPosition position : al.getApprovalPositions()){
-            System.out.println(position);
+            System.out.println(position.getPosition());
         }
     }
 
@@ -601,7 +578,7 @@ class WorkServiceTest {
         ApprovalLine al = work.getApprovalLine();
         System.out.println("결재권자 직급 리스트");
         for(ApprovalPosition position : al.getApprovalPositions()){
-            System.out.println(position);
+            System.out.println(position.getPosition());
         }
     }
 
@@ -619,7 +596,7 @@ class WorkServiceTest {
         ApprovalLine al = work.getApprovalLine();
         System.out.println("결재권자 직급 리스트");
         for(ApprovalPosition position : al.getApprovalPositions()){
-            System.out.println(position);
+            System.out.println(position.getPosition());
         }
     }
 
@@ -637,7 +614,7 @@ class WorkServiceTest {
         ApprovalLine al = work.getApprovalLine();
         System.out.println("결재권자 직급 리스트");
         for(ApprovalPosition position : al.getApprovalPositions()){
-            System.out.println(position);
+            System.out.println(position.getPosition());
         }
     }
 
@@ -655,7 +632,7 @@ class WorkServiceTest {
         ApprovalLine al = work.getApprovalLine();
         System.out.println("결재권자 직급 리스트");
         for(ApprovalPosition position : al.getApprovalPositions()){
-            System.out.println(position);
+            System.out.println(position.getPosition());
         }
     }
 
@@ -673,7 +650,7 @@ class WorkServiceTest {
         ApprovalLine al = work.getApprovalLine();
         System.out.println("결재권자 직급 리스트");
         for(ApprovalPosition position : al.getApprovalPositions()){
-            System.out.println(position);
+            System.out.println(position.getPosition());
         }
     }
 
@@ -695,7 +672,7 @@ class WorkServiceTest {
         ApprovalLine al = work.getApprovalLine();
         System.out.println("결재권자 직급 리스트");
         for(ApprovalPosition position : al.getApprovalPositions()){
-            System.out.println(position);
+            System.out.println(position.getPosition());
         }
     }
 
