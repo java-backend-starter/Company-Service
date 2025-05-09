@@ -100,6 +100,22 @@ class CommonWorkControllerTest {
             { "인사", "인턴", "인사부", "인사 1과" }
     };
 
+    private final static String [][] ACCOUNT_INFO = {
+            // ACCOUNT_INFO 인덱스에 해당하는 직위
+            // 0 : 사장, 1 : 부사장, 2 : 상무이사
+            // 3 : 부장, 4 : 차장, 5 : 과장, 6 : 대리, 7 : 주임, 8 : 사원, 9 : 인턴
+            { "경영진", "사장", "경영진", "경영진" },
+            { "경영진", "부사장", "경영진", "경영진" },
+            { "재무회계", "상무이사", "경영진", "경영진" },
+            { "재무회계", "부장", "재무회계부", "미정" },
+            { "재무회계", "차장", "재무회계부", "미정" },
+            { "재무회계", "과장", "재무회계부", "재무과" },
+            { "재무회계", "대리", "재무회계부", "재무과" },
+            { "재무회계", "주임", "재무회계부", "재무과" },
+            { "재무회계", "사원", "재무회계부", "재무과" },
+            { "재무회계", "인턴", "재무회계부", "재무과" }
+    };
+
     // 0 : 연차, 1. 보상, 2. 가족돌봄, 3. 유산&사산, 4. 출산
     // 5 : 배우자 출산, 6 : 난임치료, 7 : 공가, 8 : 병가, 9 : 경조사
     // 10 : 여름휴가, 11 : 기타
@@ -264,7 +280,47 @@ class CommonWorkControllerTest {
         work = workServiceForTest.approveWork(work, finalApprovalStaff);
 
         workServiceForTest.displayApprovalWork(work);
-        
+
+        assertEquals(draftStaff.getPosition(), positionRepository.findByPositionName("사원"), "사원이 아닙니다.");
+        assertEquals(firstApprovalStaff.getPosition(), positionRepository.findByPositionName("과장"), "과장이 아닙니다.");
+        assertEquals(secondApprovalStaff.getPosition(), positionRepository.findByPositionName("부장"), "부장이 아닙니다.");
+        assertEquals(thirdApprovalStaff.getPosition(), positionRepository.findByPositionName("상무이사"), "상무이사가 아닙니다.");
+        assertEquals(finalApprovalStaff.getPosition(), positionRepository.findByPositionName("사장"), "상무이사가 아닙니다.");
+        assertNotNull(work);
+        assertNotNull(holiday);
+    }
+
+    @DisplayName("휴가 결재2")
+    @Test
+    @Transactional
+    public void holidayApprovalTest2(){
+        // HOLIDAY_TYPES 인덱스 정보(인덱스 : HOLIDAY_TYPE)
+        // 0 : 연차, 1. 보상, 2. 가족돌봄, 3. 유산&사산, 4. 출산
+        // 5 : 배우자 출산, 6 : 난임치료, 7 : 공가, 8 : 병가, 9 : 경조사
+        // 10 : 여름휴가, 11 : 기타
+        WorkType workType = workTypeRepository.findByWorkName("휴가");
+
+        Staff draftStaff = makeStaff("asica3", "홍길동", Gender.MALE, ACCOUNT_INFO[8]);
+        Staff firstApprovalStaff = makeStaff("asica4", "홍길순", Gender.FEMALE, ACCOUNT_INFO[5]);
+        Staff secondApprovalStaff = makeStaff("asica5", "홍길강", Gender.MALE, ACCOUNT_INFO[3]);
+        Staff thirdApprovalStaff = makeStaff("asica6", "홍대장", Gender.MALE, ACCOUNT_INFO[2]);
+        Staff finalApprovalStaff = makeStaff("asica7", "홍사장", Gender.MALE, ACCOUNT_INFO[0]);
+
+        Work work = workServiceForTest.createWork(workType, draftStaff, "휴가 신청", "보존기간", "보안등급");
+
+        Holiday holiday = createHoliday(work, HOLIDAY_TYPES[0].getCode(),
+                "사유",
+                LocalDate.of(2024, 10, 16),
+                LocalDate.of(2024, 10, 16)
+        );
+
+        work = workServiceForTest.approveWork(work, firstApprovalStaff);
+        work = workServiceForTest.approveWork(work, secondApprovalStaff);
+        work = workServiceForTest.approveWork(work, thirdApprovalStaff);
+        work = workServiceForTest.approveWork(work, finalApprovalStaff);
+
+        workServiceForTest.displayApprovalWork(work);
+
         assertEquals(draftStaff.getPosition(), positionRepository.findByPositionName("사원"), "사원이 아닙니다.");
         assertEquals(firstApprovalStaff.getPosition(), positionRepository.findByPositionName("과장"), "과장이 아닙니다.");
         assertEquals(secondApprovalStaff.getPosition(), positionRepository.findByPositionName("부장"), "부장이 아닙니다.");

@@ -44,19 +44,6 @@ public class WorkServiceForTest {
     @Autowired
     ApproverRepository approverRepository;
 
-    private final static String [][] STAFF_INFO = {
-            { "경영진", "사장", "경영진", "경영진" },
-            { "경영진", "부사장", "경영진", "경영진" },
-            { "인사", "상무이사", "경영진", "경영진" },
-            { "인사", "부장", "인사부", "미정" },
-            { "인사", "차장", "인사부", "미정" },
-            { "인사", "과장", "인사부", "인사 1과" },
-            { "인사", "대리", "인사부", "인사 1과" },
-            { "인사", "주임", "인사부", "인사 1과" },
-            { "인사", "사원", "인사부", "인사 1과" },
-            { "인사", "인턴", "인사부", "인사 1과" }
-    };
-
     private final Map<Integer, ApprovalPosition> APPROVAL_POSITION_MAP = Map.ofEntries(
             Map.entry(0, ApprovalPosition.NOT_POSITION),
             Map.entry(120, ApprovalPosition.PRESIDENT),
