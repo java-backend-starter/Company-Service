@@ -26,7 +26,6 @@ import com.company.www.repository.work.account.AdditionalBudgetRepository;
 import com.company.www.repository.work.account.BudgetItemRepository;
 import com.company.www.repository.work.account.BudgetPlanRepository;
 import com.company.www.repository.work.human_resource.*;
-import com.company.www.service.work.WorkServiceForTest;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -60,7 +59,7 @@ class CommonWorkControllerTest {
     @Autowired
     WorkRepository workRepository;
     @Autowired
-    WorkServiceForTest workServiceForTest;
+    WorkServiceTest workServiceForTest;
 
     @Autowired
     HolidayRepository holidayRepository;
@@ -182,7 +181,9 @@ class CommonWorkControllerTest {
         WorkType workType = workTypeRepository.findByWorkName("휴가");
         Staff staff = makeStaff("ascia33", "홍길동", Gender.MALE, STAFF_INFO[8]);
         Work work = workServiceForTest.createWork(workType, staff, "휴가 신청", "보존기간", "보안등급");
-        Holiday holiday = createHoliday(work, HOLIDAY_TYPES[0].getCode(),
+        Holiday holiday = createHoliday(
+                work,
+                HOLIDAY_TYPES[0].getCode(),
                 "사유",
                 LocalDate.of(2024, 10, 16),
                 LocalDate.of(2024, 10, 16)
@@ -191,11 +192,11 @@ class CommonWorkControllerTest {
         workServiceForTest.displayDraftWork(work);
         displayHoliday(holiday);
 
-        assertEquals(holiday.getHolidayType(), HOLIDAY_TYPES[0], "일치하지 않습니다.(휴가종류)");
-        assertEquals(holiday.getReason(), "사유", "일치하지 않습니다.(사유)");
-        assertEquals(holiday.getStartDate(), LocalDate.of(2024, 10, 16), "일치하지 않습니다.(시작일)");
-        assertEquals(holiday.getEndDate(), LocalDate.of(2024, 10, 16), "일치하지 않습니다.(종료일)");
-        assertEquals(holiday.getHalf(), "N", "일치하지 않습니다.(반차)");
+        assertEquals(HOLIDAY_TYPES[0].getCode(), holiday.getHolidayType().getCode(), "일치하지 않습니다.(휴가종류)");
+        assertEquals("사유", holiday.getReason(), "일치하지 않습니다.(사유)");
+        assertEquals(LocalDate.of(2024, 10, 16), holiday.getStartDate(), "일치하지 않습니다.(시작일)");
+        assertEquals(LocalDate.of(2024, 10, 16), holiday.getEndDate(), "일치하지 않습니다.(종료일)");
+        assertEquals("N", holiday.getHalf(), "일치하지 않습니다.(반차)");
     }
 
     @DisplayName("휴가 수정")
@@ -220,16 +221,16 @@ class CommonWorkControllerTest {
                 "사유 수정",
                 LocalDate.of(2024, 10, 18),
                 LocalDate.of(2024, 10, 18),
-                "N"
-                );
+                "Y"
+        );
         workServiceForTest.displayDraftWork(work);
         displayHoliday(holiday);
 
-        assertEquals(holiday.getHolidayType(), HOLIDAY_TYPES[7], "일치하지 않습니다.(휴가종류)");
-        assertEquals(holiday.getReason(), "사유 수정", "일치하지 않습니다.(사유)");
-        assertEquals(holiday.getStartDate(), LocalDate.of(2024, 10, 18), "일치하지 않습니다.(시작일)");
-        assertEquals(holiday.getEndDate(), LocalDate.of(2024, 10, 18), "일치하지 않습니다.(종료일)");
-        assertEquals(holiday.getHalf(), "N", "일치하지 않습니다.(반차)");
+        assertEquals(HOLIDAY_TYPES[7].getCode(), holiday.getHolidayType().getCode(), "일치하지 않습니다.(휴가종류)");
+        assertEquals("사유 수정", holiday.getReason(), "일치하지 않습니다.(사유)");
+        assertEquals(LocalDate.of(2024, 10, 18), holiday.getStartDate(), "일치하지 않습니다.(시작일)");
+        assertEquals(LocalDate.of(2024, 10, 18), holiday.getEndDate(), "일치하지 않습니다.(종료일)");
+        assertEquals("Y", holiday.getHalf(), "일치하지 않습니다.(반차)");
     }
 
     @DisplayName("휴가 결재")
@@ -245,7 +246,8 @@ class CommonWorkControllerTest {
         Staff draftStaff = makeStaff("asica3", "홍길동", Gender.MALE, STAFF_INFO[8]);
         Staff firstApprovalStaff = makeStaff("asica4", "홍길순", Gender.FEMALE, STAFF_INFO[5]);
         Staff secondApprovalStaff = makeStaff("asica5", "홍길강", Gender.MALE, STAFF_INFO[3]);
-        Staff finalApprovalStaff = makeStaff("asica6", "홍대장", Gender.MALE, STAFF_INFO[2]);
+        Staff thirdApprovalStaff = makeStaff("asica6", "홍대장", Gender.MALE, STAFF_INFO[2]);
+        Staff finalApprovalStaff = makeStaff("asica7", "홍사장", Gender.MALE, STAFF_INFO[0]);
 
         Work work = workServiceForTest.createWork(workType, draftStaff, "휴가 신청", "보존기간", "보안등급");
 
@@ -257,6 +259,7 @@ class CommonWorkControllerTest {
 
         work = workServiceForTest.approveWork(work, firstApprovalStaff);
         work = workServiceForTest.approveWork(work, secondApprovalStaff);
+        work = workServiceForTest.approveWork(work, thirdApprovalStaff);
         work = workServiceForTest.approveWork(work, finalApprovalStaff);
 
         workServiceForTest.displayApprovalWork(work);
@@ -264,7 +267,8 @@ class CommonWorkControllerTest {
         assertEquals(draftStaff.getPosition(), positionRepository.findByPositionName("사원"), "사원이 아닙니다.");
         assertEquals(firstApprovalStaff.getPosition(), positionRepository.findByPositionName("과장"), "과장이 아닙니다.");
         assertEquals(secondApprovalStaff.getPosition(), positionRepository.findByPositionName("부장"), "부장이 아닙니다.");
-        assertEquals(finalApprovalStaff.getPosition(), positionRepository.findByPositionName("상무이사"), "상무이사가 아닙니다.");
+        assertEquals(thirdApprovalStaff.getPosition(), positionRepository.findByPositionName("상무이사"), "상무이사가 아닙니다.");
+        assertEquals(finalApprovalStaff.getPosition(), positionRepository.findByPositionName("사장"), "상무이사가 아닙니다.");
         assertNotNull(work);
         assertNotNull(holiday);
     }
@@ -522,5 +526,16 @@ class CommonWorkControllerTest {
         resign.setResignState(ResignState.CANCELED);
         return resignRepository.save(resign);
     }
+    
+    /*
+     * 추가 기능
+     * 1. 예산 게획
+     * 2. 추가 예산
+     * 3. 급여 명세서 조회
+     * 4. 승진&직무이동 조회
+     * 5. 교육 프로그램 조회
+     * 6. 교육 대상자 조회
+     * 7. 교육 평가 조회
+     */
 
 }

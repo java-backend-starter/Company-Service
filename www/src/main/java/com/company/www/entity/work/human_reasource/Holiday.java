@@ -31,7 +31,7 @@ public class Holiday {
     private LocalDate endDate; // 휴가 종료
 
     @Column
-    private String half; // 반차 여부
+    private String half = "N"; // 반차 여부
 
     @Column
     private String reason; // 휴가 사유
